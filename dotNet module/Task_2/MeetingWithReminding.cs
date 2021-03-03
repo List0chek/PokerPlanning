@@ -16,9 +16,9 @@ namespace Task_2
         public DateTime RemindDate { get; set; }
 
         /// <summary>
-        /// aTimer - Экземпляр System.Timers.Timer.
+        /// timer - Экземпляр System.Timers.Timer.
         /// </summary>
-        private static Timer timer;        
+        private Timer timer;        
 
         /// <summary>
         /// Объявление делегата, принимает строку.

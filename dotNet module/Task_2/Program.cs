@@ -26,15 +26,15 @@ namespace Task_2
 
             MeetingWithReminding meetingWithReminding = new MeetingWithReminding(dateStart, dateEnd, remindDate);
             meetingWithReminding.Remind += DisplayMessage;      
-            Console.ReadKey();
+            Console.ReadKey();            
+        }
 
-            /// <summary>
-            /// Метод DisplayMessage - обработчик события Remind, принимает строку Remind?.Invoke("!!!!!!!!!!!!!!!!!!!").
-            /// </summary>
-            void DisplayMessage(string message)
-            {
-                Console.WriteLine(message);               
-            }
+        /// <summary>
+        /// Метод DisplayMessage - обработчик события Remind, принимает строку Remind?.Invoke("!!!!!!!!!!!!!!!!!!!").
+        /// </summary>
+        public static void DisplayMessage(string message)
+        {
+            Console.WriteLine(message);
         }
     }
 }

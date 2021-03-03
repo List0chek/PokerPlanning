@@ -15,15 +15,7 @@ namespace Task_2
         /// <summary>
         /// Время конца встречи.
         /// </summary>
-        public DateTime DateEnd { get; set; }
-
-        /// <summary>
-        /// Метод GetDuration. Производит расчет длительности встречи. 
-        /// </summary>
-        /*public TimeSpan GetDuration()
-        {
-            return this.DateEnd - this.DateStart;
-        }*/
+        public DateTime DateEnd { get; set; }        
 
         /// <summary>
         /// Производит расчет длительности встречи. 
