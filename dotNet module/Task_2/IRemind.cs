@@ -5,11 +5,11 @@ namespace Task_2
     /// <summary>
     /// Интерфейс IRemind. 
     /// </summary>
-    interface IRemind
+    public interface IRemind
     {
         /// <summary>
         /// Свойство RemindDate.
         /// </summary>
-        public TimeSpan RemindDate { get; set; }
+        public DateTime RemindDate { get; set; }
     }
 }

@@ -8,27 +8,23 @@ namespace Task_2
         {
             DateTime dateStart;
             DateTime dateEnd;
-            DateTime remindTime;
+            DateTime remindDate;
             
 
             Console.WriteLine("Введите дату начала встречи");
-            DateTime.TryParse("03.03.2021 11:00:00", out dateStart);
+            DateTime.TryParse("04.03.2021 11:00:00", out dateStart);
             Console.WriteLine(dateStart);
 
             Console.WriteLine("Введите дату окончания встречи");   
-            DateTime.TryParse("03.03.2021 12:00:00", out dateEnd);
+            DateTime.TryParse("04.03.2021 12:00:00", out dateEnd);
             Console.WriteLine(dateEnd);
 
             Console.WriteLine("Введите дату напоминания");
-            DateTime.TryParse("03.03.2021 10:30:00", out remindTime);
-            Console.WriteLine(remindTime);
+            remindDate = DateTime.Now.AddMinutes(1);
+            Console.WriteLine(remindDate);              
 
-            /*Meeting meeting = new Meeting();
-            meeting.SetDates(dateStart, dateEnd);
-            Console.WriteLine(meeting.DateStart);
-            Console.WriteLine(meeting.DateEnd);*/  
 
-            MeetingWithReminding meetingWithReminding = new MeetingWithReminding(dateStart, dateEnd, remindTime);
+            MeetingWithReminding meetingWithReminding = new MeetingWithReminding(dateStart, dateEnd, remindDate);
             meetingWithReminding.Remind += DisplayMessage;      
             Console.ReadKey();
 

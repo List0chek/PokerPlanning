@@ -3,18 +3,22 @@ using System.Timers;
 
 namespace Task_2
 {
-    class MeetingWithReminding : Meeting, IRemind
+    public class MeetingWithReminding : Meeting, IRemind
     {
+        /// <summary>
+        /// Константа TimerIntervalCheck. 
+        /// </summary>
+        private const int TimerIntervalCheck = 1000;
+
         /// <summary>
         /// Свойство RemindDate.
         /// </summary>
-        public TimeSpan RemindDate { get; set; }
+        public DateTime RemindDate { get; set; }
 
         /// <summary>
         /// aTimer - Экземпляр System.Timers.Timer.
         /// </summary>
-        private static Timer aTimer;
-        ////Timer aTimer = new Timer();
+        private static Timer timer;        
 
         /// <summary>
         /// Объявление делегата, принимает строку.
@@ -31,13 +35,16 @@ namespace Task_2
         /// Принимает на вход дату начала и окончания встречи, а также дату напоминания о встрече. 
         /// Вычисляет время до напоминания. Запускает таймер. Каждую минуту таймер обращается к методу Timer_Tick.
         /// </summary>
-        public MeetingWithReminding(DateTime dateStart, DateTime dateEnd, DateTime remindTime) 
-        {
-            RemindDate = remindTime - DateTime.Now;
-            aTimer = new Timer();
-            aTimer.Interval = 60000;
-            aTimer.Elapsed += Timer_Tick;
-            aTimer.Start();
+        public MeetingWithReminding(DateTime dateStart, DateTime dateEnd, DateTime remindDate) : base(dateStart, dateEnd)
+        {            
+            this.RemindDate = remindDate;
+            var timeBeforeMeeting = new TimeSpan();
+            timeBeforeMeeting = remindDate - DateTime.Now;
+            Console.WriteLine("Время до начала напоминания: {0}", timeBeforeMeeting);
+            timer = new Timer();
+            timer.Interval = TimerIntervalCheck;
+            timer.Elapsed += Timer_Tick;
+            timer.Start();
         }
 
         /// <summary>
@@ -47,16 +54,15 @@ namespace Task_2
         /// </summary>
         public void Timer_Tick(object source, ElapsedEventArgs e)
         {            
-            if (RemindDate <= TimeSpan.Zero)
+            if (RemindDate <= DateTime.Now)
             {
-                Console.WriteLine(RemindDate);
+                Console.WriteLine(RemindDate);                
                 Remind?.Invoke("!!!!!!!!!!!!!!!!!!!");
-                aTimer.Stop(); 
+                timer.Stop(); 
             }
-            else if (RemindDate > TimeSpan.Zero)
-            {
-                RemindDate = RemindDate - TimeSpan.Parse("00:01:00");
-                Console.WriteLine(RemindDate);
+            else if (RemindDate > DateTime.Now)
+            {                
+                Console.WriteLine(".");
             }            
         }
     }

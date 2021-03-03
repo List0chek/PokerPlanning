@@ -5,30 +5,41 @@ namespace Task_2
     /// <summary>
     /// Класс Meeting. Позволяет установить дату начала и дату окончания встречи, производит расчет длительности встречи. 
     /// </summary>
-    class Meeting
+    public class Meeting
     {
         /// <summary>
-        /// Свойство DateStart.
+        /// Время начала встречи.
         /// </summary>
         public DateTime DateStart { get; set; }
 
         /// <summary>
-        /// Свойство DateEnd.
+        /// Время конца встречи.
         /// </summary>
         public DateTime DateEnd { get; set; }
 
         /// <summary>
-        /// Метод MeetingDuration. Производит расчет длительности встречи. 
+        /// Метод GetDuration. Производит расчет длительности встречи. 
         /// </summary>
-        public TimeSpan MeetingDuration()
+        /*public TimeSpan GetDuration()
         {
             return this.DateEnd - this.DateStart;
+        }*/
+
+        /// <summary>
+        /// Производит расчет длительности встречи. 
+        /// </summary>
+        public TimeSpan Duration
+        {
+            get 
+            { 
+                return this.DateEnd - this.DateStart; 
+            }
         }
 
         /// <summary>
         /// Метод SetDates. Позволяет установить дату начала и окончания встречи.
         /// </summary>
-        public void SetDates(DateTime dateStart, DateTime dateEnd)
+        public Meeting(DateTime dateStart, DateTime dateEnd)
         {   
             this.DateStart = dateStart;
             this.DateEnd = dateEnd;
