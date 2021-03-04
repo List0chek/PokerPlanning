@@ -19,8 +19,8 @@ namespace Task_3
             foreach (Shape shape in shapes)
             {
                 Console.WriteLine(shape.GetType());
-                Console.WriteLine("Длина сторон фигуры: {0}", shape.SidesLength());                
-                Console.WriteLine("Площадь фигуры: {0}", shape.Area());
+                Console.WriteLine("Длина сторон фигуры: {0}", shape.GetSidesLength());                
+                Console.WriteLine("Площадь фигуры: {0}", shape.GetArea());
                 Console.WriteLine("-------------");
             }
         }

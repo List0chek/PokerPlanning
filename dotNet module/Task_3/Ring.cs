@@ -20,22 +20,14 @@ namespace Task_3
         }
 
         /// <summary>
-        /// Метод для нахождения длины внешней окружности. 
-        /// </summary>
-        public override double SidesLength()
-        {
-            return 2 * Math.PI * R;
-        }
-
-        /// <summary>
         /// Метод для нахождения длины внутренней окружности. 
         /// </summary>
-        public double InnerCircumference()
+        public double GetInnerCircumference()
         {
             return 2 * Math.PI * InnerR;
         }
 
-        public override double Area()
+        public override double GetArea()
         {            
             return Math.PI * (Math.Pow(R, 2) - Math.Pow(InnerR, 2));
         }

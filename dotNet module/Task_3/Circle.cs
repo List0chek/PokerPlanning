@@ -11,7 +11,7 @@ namespace Task_3
     {    
         public double R { get; set; }        
 
-        public override double SidesLength()
+        public override double GetSidesLength()
         {
             return 2 * Math.PI * R;
         }
@@ -19,9 +19,8 @@ namespace Task_3
         /// <summary>
         /// Метод для нахождения площади. Возвращает ноль, т.к. окружность не имеет площади. 
         /// </summary>
-        public override double Area()
-        {
-            Console.WriteLine("У окружности нет площади");
+        public override double GetArea()
+        {         
             return 0.0;
         }
 

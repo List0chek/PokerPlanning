@@ -10,31 +10,31 @@ namespace Task_3
     /// </summary>
     public class Triangle : Shape
     {
-        public double AB { get; set; }
+        public double SideA { get; set; }
 
-        public double BC { get; set; }
+        public double SideB { get; set; }
 
-        public double CA { get; set; }
+        public double SideC { get; set; }
 
-        public override double SidesLength()
+        public override double GetSidesLength()
         {
-            return AB + BC + CA;
+            return SideA + SideB + SideC;
         }
 
         /// <summary>
         /// Метод находит площадь с помощью формулы Герона.
         /// </summary>
-        public override double Area()
+        public override double GetArea()
         {
-            double halfPerimeter = (AB + BC + CA) * 0.5;            
-            return Math.Sqrt(halfPerimeter * (halfPerimeter - AB) * (halfPerimeter - BC) * (halfPerimeter - CA));            
+            double halfPerimeter = (SideA + SideB + SideC) * 0.5;            
+            return Math.Sqrt(halfPerimeter * (halfPerimeter - SideA) * (halfPerimeter - SideB) * (halfPerimeter - SideC));            
         }
 
-        public Triangle(int x, int y, double ab, double bc, double ca) : base(x, y)
+        public Triangle(int x, int y, double sideA, double sideB, double sideC) : base(x, y)
         {
-            this.AB = ab;
-            this.BC = bc;
-            this.CA = ca;
+            this.SideA = sideA;
+            this.SideB = sideB;
+            this.SideC = sideC;
         }
     }
 }

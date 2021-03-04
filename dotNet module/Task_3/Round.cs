@@ -9,14 +9,9 @@ namespace Task_3
     /// </summary>
     public class Round : Circle
     {
-        public Round(int x, int y, double r) : base(x, y, r) { }
+        public Round(int x, int y, double r) : base(x, y, r) { }       
 
-        public override double SidesLength()
-        {
-            return 2 * Math.PI * R;
-        }
-
-        public override double Area()
+        public override double GetArea()
         {            
             return Math.PI * R * R;
         }

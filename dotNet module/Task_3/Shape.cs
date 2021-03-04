@@ -16,12 +16,12 @@ namespace Task_3
         /// <summary>
         /// Метод для нахождения длин сторон.
         /// </summary>
-        public abstract double SidesLength();
+        public abstract double GetSidesLength();
 
         /// <summary>
         /// Метод для нахождения площади фигуры.
         /// </summary>
-        public abstract double Area();
+        public abstract double GetArea();
 
         public Shape(int x, int y)
         {

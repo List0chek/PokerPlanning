@@ -13,13 +13,13 @@ namespace Task_3
 
         public double Width { get; set; }        
 
-        public override double SidesLength()
+        public override double GetSidesLength()
         {
             return (Height + Width) * 2;
         }
 
-        public override double Area()
-        {
+        public override double GetArea()
+        {            
             return Height * Width;
         }
 

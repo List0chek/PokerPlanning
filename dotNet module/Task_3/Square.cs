@@ -7,23 +7,18 @@ namespace Task_3
     /// <summary>
     /// Класс квадрат.
     /// </summary>
-    public class Square : Shape
-    {
-        public double SideA { get; set; }
+    public class Square : Rectangle
+    {        
+        public double Side { get; set; }
 
-        public override double SidesLength()
+        public override double GetSidesLength()
         {
-            return SideA * 4;
-        }
+            return Side * 4;
+        }        
 
-        public override double Area()
+        public Square(int x, int y, double height) : base(x, y, height, height)
         {
-            return SideA * SideA;
-        }
-
-        public Square(int x, int y, double sideA) : base(x, y)
-        {
-            this.SideA = sideA;            
+            this.Side = height;            
         }
     }
 }
