@@ -16,9 +16,9 @@ namespace Task_3
             return Side * 4;
         }        
 
-        public Square(int x, int y, double height) : base(x, y, height, height)
+        public Square(int x, int y, double side) : base(x, y, side, side)
         {
-            this.Side = height;            
+            this.Side = side;            
         }
     }
 }
