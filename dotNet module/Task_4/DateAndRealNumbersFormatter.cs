@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace Task_4
 {
-    public class DateAndRealNumbersFormatting
+    public class DateAndRealNumbersFormatter
     {
         /// <summary>
         /// Примеры форматирования дат.

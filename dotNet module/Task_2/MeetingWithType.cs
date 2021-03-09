@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Task_2
 {
-    public class TypeOfMeeting : Meeting
+    public class MeetingWithType : Meeting
     {
         public enum MeetingType
         {
@@ -17,11 +17,11 @@ namespace Task_2
             BirthDay
         }
 
-        public MeetingType TypeMeeting { get; set; }
+        public MeetingType Type { get; }
 
-        public TypeOfMeeting(DateTime dateStart, DateTime dateEnd, MeetingType typeMeeting) : base(dateStart, dateEnd)
+        public MeetingWithType(DateTime dateStart, DateTime dateEnd, MeetingType typeMeeting) : base(dateStart, dateEnd)
         {
-            this.TypeMeeting = typeMeeting;
+            this.Type = typeMeeting;
         }
     }
 }

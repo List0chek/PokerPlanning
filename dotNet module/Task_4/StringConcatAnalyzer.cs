@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Task_4
 {
-    public class StringConcatAnalyze
+    public class StringConcatAnalyzer
     {
         public static void StringConcatAnalyzeExmaple()
         {

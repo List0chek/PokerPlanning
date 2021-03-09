@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Task_4
 {
@@ -6,27 +7,16 @@ namespace Task_4
     {
         public static void Main(string[] args)
         {
-            /// <summary>
-            /// Пример использования класса DataSetSeparation.
-            /// </summary>
+            
             DataSetSeparation.GetExampleOfDataSetSeparation();
-
-            /// <summary>
-            /// Пример использования класса AccessRightsClass.
-            /// </summary>
-            AccessRightsClass.ShowAccessRightsClassExample();
+            
+            ShowAccessRightsClassExample();
             Console.WriteLine();
-
-            /// <summary>
-            /// Пример использования класса DateAndRealNumbersFormatting.
-            /// </summary>
-            DateAndRealNumbersFormatting.GetExampleOfDateFormatting();
-            DateAndRealNumbersFormatting.GetExampleOfRealNumberFormatting();
-
-            /// <summary>
-            /// Пример использования класса Logger.
-            /// </summary>
-            using (var logger = new Logger(@"F:\Intel\1000nows.txt"))
+            
+            DateAndRealNumbersFormatter.GetExampleOfDateFormatting(); 
+            DateAndRealNumbersFormatter.GetExampleOfRealNumberFormatting();
+            
+            using (var logger = new Logger("1000nows.txt")) // Пример использования класса Logger.
             {
                 for (int i = 0; i < 1000; i++)
                 {
@@ -35,10 +25,12 @@ namespace Task_4
             }
             Console.WriteLine();
 
-            /// <summary>
-            /// Пример использования класса StringConcatAnalyze.
-            /// </summary>
-            StringConcatAnalyze.StringConcatAnalyzeExmaple();
+            StringConcatAnalyzer.StringConcatAnalyzeExmaple(); 
+        }
+        public static void ShowAccessRightsClassExample()
+        {
+            AccessRightsChecker.ShowAccessRights(AccessRightsChecker.AccessRights.AccessDenied | AccessRightsChecker.AccessRights.Add | AccessRightsChecker.AccessRights.Ratify);
+            AccessRightsChecker.ShowAccessRights(AccessRightsChecker.AccessRights.Add | AccessRightsChecker.AccessRights.Ratify);
         }
     }
 }
