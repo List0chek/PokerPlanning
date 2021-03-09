@@ -27,15 +27,13 @@ namespace Task_4
             dataTable.Rows.Add("Circle", "0", "62,83185307179586");
             dataTable.Rows.Add("Round", "314,1592653589793", "62,83185307179586");
             dataTable.Rows.Add("Rectangle", "50", "30");
-            stopwatch.Start();
-            stopwatch.Stop();
 
             Console.WriteLine("Сравнение операций сложения строк");
 
             /// <summary>
             /// Пример с использованием string.
             /// </summary> 
-            stopwatch.Restart();
+            stopwatch.Start();
             for (int i = 0; i < 1000; i++)
             {
                 GetDataSetSeparationWithoutStringBuilder(dataSet, "++", "++");
