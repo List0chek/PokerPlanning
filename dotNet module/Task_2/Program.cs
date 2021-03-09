@@ -19,13 +19,20 @@ namespace Task_2
             DateTime.TryParse("04.03.2021 12:00:00", out dateEnd);
             Console.WriteLine(dateEnd);
 
-            Console.WriteLine("Введите дату напоминания");
-            remindDate = DateTime.Now.AddMinutes(1);
-            Console.WriteLine(remindDate);              
+            ////Console.WriteLine("Введите дату напоминания");
+            ////remindDate = DateTime.Now.AddMinutes(1);
+            ////Console.WriteLine(remindDate);              
 
 
-            MeetingWithReminding meetingWithReminding = new MeetingWithReminding(dateStart, dateEnd, remindDate);
-            meetingWithReminding.Remind += DisplayMessage;      
+            ////MeetingWithReminding meetingWithReminding = new MeetingWithReminding(dateStart, dateEnd, remindDate);
+            ////meetingWithReminding.Remind += DisplayMessage;
+
+            EverlastingMeeting everlastingMeeting = new EverlastingMeeting(dateStart);
+            Console.WriteLine(everlastingMeeting.Duration);
+
+            var typeOfMeeting = new TypeOfMeeting(dateStart, dateEnd, TypeOfMeeting.MeetingType.BirthDay);
+            Console.WriteLine(typeOfMeeting.TypeMeeting);
+
             Console.ReadKey();            
         }
 
