@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
 namespace Task_5
 {
@@ -19,19 +16,7 @@ namespace Task_5
 
         public override bool Equals(object obj)
         {
-            if (obj is null)
-            {
-                return false;
-            }
-            StringValue stringValue = obj as StringValue;
-            if (stringValue is null)
-            {
-                return false;
-            }
-            else
-            {
-                return Equals(stringValue);
-            }
+            return Equals(obj as StringValue);
         }
 
         /// <summary>
@@ -39,7 +24,7 @@ namespace Task_5
         /// </summary> 
         public bool Equals(StringValue other)
         {
-            if (other is null || this.Value is null)
+            if (other == null)
             {
                 return false;
             }
@@ -58,7 +43,7 @@ namespace Task_5
         /// </summary> 
         public override int GetHashCode()
         {
-            if (this.Value is null)
+            if (this.Value == null)
             {
                 return base.GetHashCode();
             }
@@ -67,7 +52,7 @@ namespace Task_5
 
         public static bool operator ==(StringValue leftValue, StringValue rightValue)
         {
-            if (leftValue is null || rightValue is null)
+            if (leftValue == null || rightValue == null)
             {
                 return false;
             }
@@ -76,7 +61,7 @@ namespace Task_5
 
         public static bool operator !=(StringValue leftValue, StringValue rightValue)
         {
-            if (leftValue is null || rightValue is null)
+            if (leftValue == null || rightValue == null)
             {
                 return false;
             }
