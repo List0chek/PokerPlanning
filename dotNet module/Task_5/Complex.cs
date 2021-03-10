@@ -42,7 +42,7 @@ namespace Task_5
             {
                 return this.CompareTo(complex);
             }
-            throw new ArgumentException("Object is not a Temperature");
+            throw new ArgumentException("Object is not a complex number");
         }
     }
 }

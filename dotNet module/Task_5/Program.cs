@@ -8,7 +8,7 @@ namespace Task_5
     {
         public static void Main(string[] args)
         {
-            var stringValue1 = new StringValue("AAA");
+            var stringValue1 = new StringValue(null);
             var stringValue2 = new StringValue("AAA");
 
             Console.WriteLine(stringValue1.Equals(stringValue2));
@@ -16,7 +16,7 @@ namespace Task_5
 
             Console.WriteLine(stringValue1 == stringValue2);
             Console.WriteLine(new StringValue("AAA") == (new StringValue("AAA")));
-
+            
             Console.WriteLine();
             var twoComplexes = new ArrayList() { new Complex() { Re = 3, Im = 5 }, new Complex() { Re = 2, Im = 2 }, new Complex() };
             twoComplexes.Sort();

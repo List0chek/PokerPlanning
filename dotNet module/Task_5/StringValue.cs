@@ -19,7 +19,19 @@ namespace Task_5
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as StringValue);
+            if (obj is null)
+            {
+                return false;
+            }
+            StringValue stringValue = obj as StringValue;
+            if (stringValue is null)
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(stringValue);
+            }
         }
 
         /// <summary>
@@ -27,7 +39,11 @@ namespace Task_5
         /// </summary> 
         public bool Equals(StringValue other)
         {
-            if (other.GetHashCode() == this.GetHashCode())
+            if (other is null || this.Value is null)
+            {
+                return false;
+            }
+            if (this.Value.Equals(other.Value))
             {
                 return true;
             }
@@ -42,31 +58,29 @@ namespace Task_5
         /// </summary> 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Value);
+            if (this.Value is null)
+            {
+                return base.GetHashCode();
+            }
+            return this.Value.GetHashCode();
         }
 
         public static bool operator ==(StringValue leftValue, StringValue rightValue)
         {
-            if (leftValue.GetHashCode() == rightValue.GetHashCode())
-            {
-                return true;
-            }
-            else
+            if (leftValue is null || rightValue is null)
             {
                 return false;
             }
+            return Equals(rightValue, leftValue);
         }
 
         public static bool operator !=(StringValue leftValue, StringValue rightValue)
         {
-            if (leftValue.GetHashCode() == rightValue.GetHashCode())
-            {
-                return true;
-            }
-            else
+            if (leftValue is null || rightValue is null)
             {
                 return false;
             }
+            return !Equals(rightValue, leftValue);
         }
     }
 }
