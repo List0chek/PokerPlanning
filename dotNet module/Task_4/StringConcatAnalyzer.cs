@@ -29,39 +29,30 @@ namespace Task_4
             dataTable.Rows.Add("Rectangle", "50", "30");
 
             Console.WriteLine("Сравнение операций сложения строк");
-
-            /// <summary>
-            /// Пример с использованием string.
-            /// </summary> 
+            
             stopwatch.Start();
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 GetDataSetSeparationWithoutStringBuilder(dataSet, "++", "++");
             }
             stopwatch.Stop();
             duration = stopwatch.Elapsed;
-            ////Console.WriteLine(string.Format("{0:00}:{1:00}.{2:00}", duration.Minutes, duration.Seconds, duration.Milliseconds / 10));
+            Console.WriteLine(string.Format("{0:00}:{1:00}.{2:00}", duration.Minutes, duration.Seconds, duration.Milliseconds / 10));
             Console.WriteLine(duration);
 
-            /// <summary>
-            /// Пример с использованием StringBuilder.
-            /// </summary> 
             stopwatch.Restart();
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 GetDataSetSeparationWithStringBuilder(dataSet, "++", "++");
             }
             stopwatch.Stop();
             duration = stopwatch.Elapsed;
-            ////Console.WriteLine(string.Format("{0:00}:{1:00}.{2:00}", duration.Minutes, duration.Seconds, duration.Milliseconds / 10));
+            Console.WriteLine(string.Format("{0:00}:{1:00}.{2:00}", duration.Minutes, duration.Seconds, duration.Milliseconds / 10));
             Console.WriteLine(duration);
             Console.WriteLine();
 
             Console.WriteLine("Сравнение операций получения подстроки");
-
-            /// <summary>
-            /// Пример с использованием string.
-            /// </summary> 
+           
             stopwatch.Restart();
             for (int i = 0; i < 1000; i++)
             {
@@ -69,11 +60,7 @@ namespace Task_4
             }
             stopwatch.Stop();
             duration = stopwatch.Elapsed;
-            Console.WriteLine(duration);
-
-            /// <summary>
-            /// Пример с использованием StringBuilder.
-            /// </summary> 
+            Console.WriteLine(duration);            
             stopwatch.Restart();
             for (int i = 0; i < 1000; i++)
             {

@@ -6,13 +6,12 @@ namespace Task_4
 {
     public class AccessRightsChecker
     {
-
         public AccessRights AccessRight { get; set; }
 
         /// <summary>
         /// Метод для проверки прав.
-        /// Сначала проходит по всем правилам для поиска 64 правила, если оно есть, то флаг isUserAccess выставляется в false и метод останавливается при проверке флага.
-        /// Если 64 правила найдено не было, то isUserAccess остается true и выводятся все правила из листа с правилами.
+        /// Сначала проходит по всем правилам для поиска 64 правила, если оно есть, выводится AccessRights.AccessDenied.
+        /// Если 64 правила найдено не было, то выводятся все правила из листа с правилами.
         /// </summary>
         public static void ShowAccessRights(AccessRights accessRights)
         {

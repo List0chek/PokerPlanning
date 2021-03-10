@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Task_4
 {
-    public class DataSetSeparation
+    public class DataSetUtils
     {
-        public static void GetExampleOfDataSetSeparation()
+        public static void GetExampleDataSet()
         {
             var dataSet = new DataSet();
             var dataTable = new DataTable();
@@ -22,19 +22,19 @@ namespace Task_4
             dataTable.Rows.Add("Round", "314,1592653589793", "62,83185307179586");
             dataTable.Rows.Add("Rectangle", "50", "30");
 
-            Console.WriteLine(GetDataSetWithSeparation(dataSet, "-----", "-----"));
+            Console.WriteLine(ConvertToString(dataSet, "|", "|"));
         }
 
         /// <summary>
         /// Метод GetDataSetWithSeparation. Сначала находит самую длинну запись и длину сохраняет, затем расставляет сепараторы и делает табуляцию.
         /// </summary>
-        public static string GetDataSetWithSeparation(DataSet dataSet, string columnSeparator, string rowSeparator)
+        public static string ConvertToString(DataSet dataSet, string columnSeparator, string rowSeparator)
         {
             StringBuilder resultString = new StringBuilder();
             int maxRecordLength = 0;
 
             /// <summary>
-            /// Данный цикл находит самую длинну запись и длину сохраняет.
+            /// Данный цикл находит самую длинную запись и длину сохраняет.
             /// </summary>
             foreach (DataTable dataTable in dataSet.Tables)
             {

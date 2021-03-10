@@ -6,17 +6,17 @@ namespace Task_4
     public class Program
     {
         public static void Main(string[] args)
-        {
+        { 
+            DataSetUtils.GetExampleDataSet();
             
-            DataSetSeparation.GetExampleOfDataSetSeparation();
-            
-            ShowAccessRightsClassExample();
+            ShowAccessCheckerExample();
             Console.WriteLine();
             
             DateAndRealNumbersFormatter.GetExampleOfDateFormatting(); 
             DateAndRealNumbersFormatter.GetExampleOfRealNumberFormatting();
-            
-            using (var logger = new Logger("1000nows.txt")) // Пример использования класса Logger.
+
+            // Пример использования класса Logger.
+            using (var logger = new Logger("1000nows.txt"))
             {
                 for (int i = 0; i < 1000; i++)
                 {
@@ -27,7 +27,8 @@ namespace Task_4
 
             StringConcatAnalyzer.StringConcatAnalyzeExmaple(); 
         }
-        public static void ShowAccessRightsClassExample()
+
+        public static void ShowAccessCheckerExample()
         {
             AccessRightsChecker.ShowAccessRights(AccessRightsChecker.AccessRights.AccessDenied | AccessRightsChecker.AccessRights.Add | AccessRightsChecker.AccessRights.Ratify);
             AccessRightsChecker.ShowAccessRights(AccessRightsChecker.AccessRights.Add | AccessRightsChecker.AccessRights.Ratify);
