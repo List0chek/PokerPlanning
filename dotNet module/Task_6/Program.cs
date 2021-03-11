@@ -7,16 +7,15 @@ namespace Task_6
         public static void Main(string[] args)
         {
             string path = "ClientConnectionLog.log";
-            DateTime dateStart;
-            DateTime dateEnd;
 
-            DateTime.TryParse("12.12.2007	13:38:09", out dateStart);
+            var dateStart = new DateTime(2007, 12, 4, 10, 31, 14);
             Console.WriteLine("DateStart: {0}", dateStart);
-            DateTime.TryParse("13.12.2007 12:09:32", out dateEnd);
+
+            var dateEnd = new DateTime(2007, 12, 6, 14, 18, 36);
             Console.WriteLine("DateEnd:   {0}", dateEnd);
             Console.WriteLine();
 
-            Console.WriteLine(LogParser.GetRecordsQuantity(path, dateStart, dateEnd));
+            Console.WriteLine("Количество записей: {0}", LogParser.GetRecordsQuantity(path, dateStart, dateEnd));
             Console.WriteLine();
 
             LogParser logParser = new LogParser();
