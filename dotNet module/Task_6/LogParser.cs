@@ -21,7 +21,7 @@ namespace Task_6
                 {
                     if ((dateTime >= dateStart) && (dateEnd >= dateTime))
                     {
-                        i++;
+                        i+++;
                     }
                 }
             }
