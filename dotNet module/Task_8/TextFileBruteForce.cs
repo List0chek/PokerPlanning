@@ -2,25 +2,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Task_8
 {
-    class TextFileBruteForce : IEnumerable<string>
+    public class TextFileBruteForce : IEnumerable<string>, IDisposable
     {
-        public List<string> textList = new List<string>();
+        private List<string> textList = new List<string>();
+        private int counter = -1;
+
+        private StreamReader sr;
 
         public TextFileBruteForce(string path)
         {
-            using (StreamReader sr = new StreamReader(path))
-            {
-                while (!sr.EndOfStream)
-                {
-                    this.textList.Add(sr.ReadLine());
-                }
-            }
+            this.sr = new StreamReader(path);
         }
-        
+
+        public string GetString()
+        {
+            this.textList.Add(this.sr.ReadLine());
+            this.counter++;
+            return this.textList[this.counter];
+        }
+
         public IEnumerator<string> GetEnumerator()
         {
             return new TextFileBruteForceEnumerator(this.textList);
@@ -29,6 +32,28 @@ namespace Task_8
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.textList.GetEnumerator();
+        }
+
+
+        private bool disposedValue = false; // Для определения избыточных вызовов
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposedValue)
+            {
+                if (disposing)
+                {
+                    this.sr.Dispose();
+                }
+                this.disposedValue = true;
+            }
+        }
+
+        // Этот код добавлен для правильной реализации шаблона высвобождаемого класса.
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

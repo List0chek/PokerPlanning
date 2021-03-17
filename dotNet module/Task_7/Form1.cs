@@ -15,8 +15,15 @@ namespace Task_7
 
         private void GetTextButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog opfd = new OpenFileDialog();
-            GZIPTextReader.LoadGZippedText(defaultPath, richTextBox1);
+            var opfd = new OpenFileDialog();
+            if (File.Exists(defaultPath))
+            {
+                richTextBox1.Rtf = GZIPTextReader.LoadGZippedText(defaultPath);
+            }
+            else if (opfd.ShowDialog() == DialogResult.OK)
+            {
+                richTextBox1.Rtf = GZIPTextReader.LoadGZippedText(opfd.FileName);
+            }
         }
     }
 }

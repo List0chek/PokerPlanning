@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace Task_8
 {
@@ -10,9 +8,9 @@ namespace Task_8
     {
         private int curIndex = -1;
 
-        public List<string> collection = new List<string>();
+        private List<string> collection = new List<string>();
 
-        
+
         public TextFileBruteForceEnumerator(List<string> collection)
         {
             this.collection = collection;
@@ -38,7 +36,7 @@ namespace Task_8
 
         object IEnumerator.Current
         {
-            get { return Current; }
+            get { return this.Current; }
         }
 
         /// <summary>
@@ -47,7 +45,7 @@ namespace Task_8
         public bool MoveNext()
         {
             this.curIndex++;
-            if (this.curIndex >= collection.Count)
+            if (this.curIndex >= this.collection.Count)
             {
                 return false;
             }
@@ -57,9 +55,8 @@ namespace Task_8
         /// <summary>
         /// Сброс указателя.
         /// </summary>
-        public void Reset() { curIndex = -1; }
+        public void Reset() { this.curIndex = -1; }
 
         void IDisposable.Dispose() { }
     }
 }
-

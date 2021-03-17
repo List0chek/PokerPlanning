@@ -11,17 +11,27 @@ namespace Task_7
         /// <summary>
         /// Метод позволяет загрузить данные из текстового файла, сжатого по методу GZIP.
         /// </summary>
-        public static void LoadGZippedText(string filename, RichTextBox edit)
+        public static string LoadGZippedText(string filename)
         {
             try
             {
-            using (var sourceStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
-
-            using (var uncompressedStream = new GZipStream(sourceStream, CompressionMode.Decompress, true))
-
-            using (var textReader = new StreamReader(uncompressedStream, true))
-
-            edit.Rtf = textReader.ReadToEnd();
+                var richTextBox = new RichTextBox();
+                string str = string.Empty;
+                using (var sourceStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    using (var uncompressedStream = new GZipStream(sourceStream, CompressionMode.Decompress, true))
+                    {
+                        using (var textReader = new StreamReader(uncompressedStream, true))
+                        {
+                            while (!textReader.EndOfStream)
+                            {
+                                richTextBox.Rtf = textReader.ReadToEnd();
+                                str = richTextBox.Rtf;
+                            }
+                        }
+                    }
+                }
+                return str;
             }
             catch (FileNotFoundException e)
             {
@@ -30,6 +40,7 @@ namespace Task_7
                 {
                     logger.WriteString(ex.Message);
                 }
+                return ex.Message;
             }
             catch (UnauthorizedAccessException e)
             {
@@ -38,6 +49,7 @@ namespace Task_7
                 {
                     logger.WriteString(ex.Message);
                 }
+                return ex.Message;
             }
         }
     }
