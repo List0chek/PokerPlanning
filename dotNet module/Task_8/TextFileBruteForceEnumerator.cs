@@ -43,7 +43,7 @@ namespace Task_8
 
         void IDisposable.Dispose()
         {
-            ((IDisposable)streamReader).Dispose();
+            ((IDisposable)this.streamReader).Dispose();
         }
     }
 }
