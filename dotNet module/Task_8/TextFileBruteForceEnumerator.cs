@@ -5,12 +5,8 @@ using System.IO;
 
 namespace Task_8
 {
-    public class TextFileBruteForceEnumerator : IEnumerator<string>
+    public class TextFileBruteForceEnumerator : IEnumerator<string>, IDisposable
     {
-        private int curIndex = -1;
-
-        private string str;
-
         private StreamReader streamReader;
 
         public TextFileBruteForceEnumerator(string path)
@@ -21,29 +17,11 @@ namespace Task_8
         /// <summary>
         /// Возвращает текущий эелемент.
         /// </summary>
-        public string Current
-        {
-            get
-            {
-                try
-                {
-                    return this.str;
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    throw new InvalidOperationException();
-                }
-            }
-
-            set
-            {
-                this.str = value;
-            }
-        }
+        public string Current { get; set; }
 
         object IEnumerator.Current
         {
-            get { return this.str; }
+            get { return this.Current; }
         }
 
         /// <summary>
@@ -55,15 +33,17 @@ namespace Task_8
             {
                 return true;
             }
-            else
-                return false;
+            return false;
         }
 
         /// <summary>
         /// Сброс указателя.
         /// </summary>
-        public void Reset() { this.curIndex = -1; }
+        public void Reset() { }
 
-        void IDisposable.Dispose() { }
+        void IDisposable.Dispose()
+        {
+            ((IDisposable)streamReader).Dispose();
+        }
     }
 }
