@@ -2,7 +2,6 @@
 using System.IO;
 using System.IO.Compression;
 using System.Windows.Forms;
-using Task_4;
 
 namespace Task_7
 {
@@ -35,21 +34,11 @@ namespace Task_7
             }
             catch (FileNotFoundException e)
             {
-                var ex = new LoadFileException("Файл не был найден", e);
-                using (var logger = new Logger("log.log"))
-                {
-                    logger.WriteString(ex.Message);
-                }
-                return ex.Message;
+                throw new LoadFileException("Файл не был найден", e);
             }
             catch (UnauthorizedAccessException e)
             {
-                var ex = new LoadFileException("Недостаточно прав доступа", e);
-                using (var logger = new Logger("log.log"))
-                {
-                    logger.WriteString(ex.Message);
-                }
-                return ex.Message;
+                throw new LoadFileException("Недостаточно прав доступа", e);
             }
         }
     }

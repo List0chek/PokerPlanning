@@ -7,31 +7,24 @@ namespace Task_8
 {
     public class TextFileBruteForce : IEnumerable<string>, IDisposable
     {
-        private List<string> textList = new List<string>();
-        private int counter = -1;
+        private string path;
 
         private StreamReader sr;
 
         public TextFileBruteForce(string path)
         {
+            this.path = path;
             this.sr = new StreamReader(path);
-        }
-
-        public string GetString()
-        {
-            this.textList.Add(this.sr.ReadLine());
-            this.counter++;
-            return this.textList[this.counter];
         }
 
         public IEnumerator<string> GetEnumerator()
         {
-            return new TextFileBruteForceEnumerator(this.textList);
+            return new TextFileBruteForceEnumerator(this.path);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.textList.GetEnumerator();
+            return this.GetEnumerator();
         }
 
 

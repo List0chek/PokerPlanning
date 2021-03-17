@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Task_8
 {
@@ -8,12 +9,13 @@ namespace Task_8
     {
         private int curIndex = -1;
 
-        private List<string> collection = new List<string>();
+        private string str;
 
+        private StreamReader streamReader;
 
-        public TextFileBruteForceEnumerator(List<string> collection)
+        public TextFileBruteForceEnumerator(string path)
         {
-            this.collection = collection;
+            this.streamReader = new StreamReader(path);
         }
 
         /// <summary>
@@ -25,18 +27,23 @@ namespace Task_8
             {
                 try
                 {
-                    return this.collection[this.curIndex];
+                    return this.str;
                 }
                 catch (ArgumentOutOfRangeException)
                 {
                     throw new InvalidOperationException();
                 }
             }
+
+            set
+            {
+                this.str = value;
+            }
         }
 
         object IEnumerator.Current
         {
-            get { return this.Current; }
+            get { return this.str; }
         }
 
         /// <summary>
@@ -44,12 +51,12 @@ namespace Task_8
         /// </summary>
         public bool MoveNext()
         {
-            this.curIndex++;
-            if (this.curIndex >= this.collection.Count)
+            if ((this.Current = this.streamReader.ReadLine()) != null)
             {
-                return false;
+                return true;
             }
-            return true;
+            else
+                return false;
         }
 
         /// <summary>

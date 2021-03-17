@@ -31,11 +31,6 @@ namespace Task_8
 
             using (var textFileBruteForce = new TextFileBruteForce("1000nows.txt"))
             {
-                string line;
-                while ((line = textFileBruteForce.GetString()) != null)
-                {
-                    _ = line;
-                }
                 foreach (var item in textFileBruteForce)
                 {
                     Console.WriteLine(item);
