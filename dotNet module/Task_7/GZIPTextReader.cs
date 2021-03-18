@@ -22,11 +22,8 @@ namespace Task_7
                     {
                         using (var textReader = new StreamReader(uncompressedStream, true))
                         {
-                            while (!textReader.EndOfStream)
-                            {
-                                richTextBox.Rtf = textReader.ReadToEnd();
-                                str = richTextBox.Rtf;
-                            }
+                            richTextBox.Rtf = textReader.ReadToEnd();
+                            str = richTextBox.Rtf;
                         }
                     }
                 }
