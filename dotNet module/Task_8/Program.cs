@@ -30,7 +30,7 @@ namespace Task_8
             Console.WriteLine();
 
 
-            using (var textFileBruteForce = new TextFileBruteForce("1000nows.txt"))
+            using (var textFileBruteForce = new TextFileReader("1000nows.txt"))
             {
                 foreach (var item in textFileBruteForce)
                 {
