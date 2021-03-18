@@ -5,18 +5,10 @@ using System.IO;
 
 namespace Task_8
 {
-    public class TextFileBruteForceEnumerator : IEnumerator<string>, IDisposable
+    public class TextFileReader : IEnumerable<string>, IDisposable, IEnumerator<string>
     {
         private StreamReader streamReader;
 
-        public TextFileBruteForceEnumerator(string path)
-        {
-            this.streamReader = new StreamReader(path);
-        }
-
-        /// <summary>
-        /// Возвращает текущий эелемент.
-        /// </summary>
         public string Current { get; set; }
 
         object IEnumerator.Current
@@ -39,11 +31,29 @@ namespace Task_8
         /// <summary>
         /// Сброс указателя.
         /// </summary>
-        public void Reset() { }
-
-        void IDisposable.Dispose()
+        public void Reset()
         {
-            ((IDisposable)this.streamReader).Dispose();
+            this.streamReader.BaseStream.Position = 0;
+        }
+
+        public void Dispose()
+        {
+            this.streamReader.Dispose();
+        }
+
+        public TextFileReader(string path)
+        {
+            this.streamReader = new StreamReader(path);
+        }
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            return this;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }
