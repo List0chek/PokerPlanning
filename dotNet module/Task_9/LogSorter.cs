@@ -19,7 +19,8 @@ namespace Task_9
             DateTime dateTime;
 
             var resultQuery = textFileBruteForce
-                .Select(line => (line, isDateTime: DateTime.TryParseExact(line.Substring(0, dateLength), "dd.MM.yyyy\tHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime), dateTime))
+                .Select(line => (line, hasDateTime: DateTime.TryParseExact(line.Substring(0, dateLength), "dd.MM.yyyy\tHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime), dateTime))
+                .Where(tuple => tuple.hasDateTime == true)
                 .Where(tuple => tuple.dateTime.Date == date.Date)
                 .OrderBy(tuple => tuple.dateTime)
                 .Select(tuple => tuple.line);
