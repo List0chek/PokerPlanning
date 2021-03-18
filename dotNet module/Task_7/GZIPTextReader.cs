@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Windows.Forms;
@@ -12,23 +12,31 @@ namespace Task_7
         /// </summary>
         public static string LoadGZippedText(string filename)
         {
-            var richTextBox = new RichTextBox();
-            string str = "";
-            using (var sourceStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+            try
             {
-                using (var uncompressedStream = new GZipStream(sourceStream, CompressionMode.Decompress, true))
+                var richTextBox = new RichTextBox();
+                string str = string.Empty;
+                using (var sourceStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    using (var textReader = new StreamReader(uncompressedStream, true))
+                    using (var uncompressedStream = new GZipStream(sourceStream, CompressionMode.Decompress, true))
                     {
-                        while (!textReader.EndOfStream)
+                        using (var textReader = new StreamReader(uncompressedStream, true))
                         {
                             richTextBox.Rtf = textReader.ReadToEnd();
                             str = richTextBox.Rtf;
                         }
                     }
                 }
+                return str;
             }
-            return str;
+            catch (FileNotFoundException e)
+            {
+                throw new LoadFileException("Файл не был найден", e);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                throw new LoadFileException("Недостаточно прав доступа", e);
+            }
         }
     }
 }
