@@ -14,16 +14,16 @@ namespace Task_9
         public static List<string> GetRecordsSorted(string path, DateTime date)
         {
             var textFileBruteForce = new TextFileReader(path);
-            const string dateTimeFormat = "dd.MM.yyyy\tHH:mm:ss";
-            int dateLength = dateTimeFormat.Length;
+            const string DateTimeFormat = "dd.MM.yyyy\tHH:mm:ss";
+            int dateLength = DateTimeFormat.Length;
             DateTime dateTime;
 
             var resultQuery = textFileBruteForce
-                .Select(line => (line,  isDateTime : DateTime.TryParseExact(line.Substring(0, dateLength), "dd.MM.yyyy\tHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime), dateTime))
+                .Select(line => (line, isDateTime: DateTime.TryParseExact(line.Substring(0, dateLength), "dd.MM.yyyy\tHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime), dateTime))
                 .Where(tuple => tuple.dateTime.Date == date.Date)
                 .OrderBy(tuple => tuple.dateTime)
                 .Select(tuple => tuple.line);
-                                                
+
             return resultQuery.ToList();
         }
     }
