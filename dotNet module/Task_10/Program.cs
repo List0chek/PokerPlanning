@@ -5,9 +5,16 @@ using System.Diagnostics;
 
 namespace Task_10
 {
-    class Program
+    /// <summary>
+    /// Класс Program.        
+    /// </summary>
+    public class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// Метод Main. Точка входа в программу.        
+        /// </summary>
+        /// <param name="args">Аргументы метода Main.</param>
+        public static void Main(string[] args)
         {
             var list = new List<int>();
             var resultList = new ConcurrentBag<int>();
@@ -17,7 +24,7 @@ namespace Task_10
             }
 
             Predicate<int> predicate;
-            var fastSearcher = new FastSearcher(list, predicate = delegate (int x) { return x > 0; }, maxQuantityTasks: 10);
+            var fastSearcher = new FastSearcher(list, predicate = delegate(int x) { return x > 0; }, maxQuantityTasks: 10);
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();

@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Task_8
 {
-    public class TextFileBruteForce : IEnumerable<string>, IDisposable, IEnumerator<string>
+    public class TextFileReader : IEnumerable<string>, IDisposable, IEnumerator<string>
     {
         private StreamReader streamReader;
 
@@ -41,7 +41,7 @@ namespace Task_8
             this.streamReader.Dispose();
         }
 
-        public TextFileBruteForce(string path)
+        public TextFileReader(string path)
         {
             this.streamReader = new StreamReader(path);
         }
