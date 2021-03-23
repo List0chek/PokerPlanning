@@ -15,7 +15,7 @@ namespace Task_12
         {
             get
             {
-                return (int)base["IntSetting"];
+                return (int)this["IntSetting"];
             }
 
             set
@@ -32,7 +32,7 @@ namespace Task_12
         {
             get
             {
-                return (string)base["StrSetting"];
+                return (string)this["StrSetting"];
             }
 
             set
