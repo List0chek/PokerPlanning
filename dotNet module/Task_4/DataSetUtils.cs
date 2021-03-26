@@ -26,7 +26,7 @@ namespace Task_4
         }
 
         /// <summary>
-        /// Метод GetDataSetWithSeparation. Сначала находит самую длинну запись и длину сохраняет, затем расставляет сепараторы и делает табуляцию.
+        /// Метод ConvertToString. Сначала находит самую длинну запись и длину сохраняет, затем расставляет сепараторы и делает табуляцию.
         /// </summary>
         public static string ConvertToString(DataSet dataSet, string columnSeparator, string rowSeparator)
         {
