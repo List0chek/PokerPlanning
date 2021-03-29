@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task_12", "Task_12\Task_12.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task_13", "Task_13\Task_13.csproj", "{956F7A42-65CA-4F4A-A832-3E72BA376C9B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetModule.Tests", "DotNetModule.Tests\DotNetModule.Tests.csproj", "{200221BB-F781-4002-86F6-CA43F9CDEAD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{956F7A42-65CA-4F4A-A832-3E72BA376C9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{956F7A42-65CA-4F4A-A832-3E72BA376C9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{956F7A42-65CA-4F4A-A832-3E72BA376C9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{200221BB-F781-4002-86F6-CA43F9CDEAD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{200221BB-F781-4002-86F6-CA43F9CDEAD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{200221BB-F781-4002-86F6-CA43F9CDEAD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{200221BB-F781-4002-86F6-CA43F9CDEAD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
