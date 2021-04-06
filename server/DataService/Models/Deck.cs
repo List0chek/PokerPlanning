@@ -1,10 +1,9 @@
 ﻿using PlanPoker.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataService.Models
-{   
+{
     /// <summary>
     /// Класс колоды.
     /// </summary>
@@ -18,7 +17,7 @@ namespace DataService.Models
         /// <summary>
         /// Набор карт.
         /// </summary>
-        public List<Card> Cards { get; set; }
+        public ICollection<Card> Cards { get; set; }
 
         /// <summary>
         /// Конструктор класса Deck.

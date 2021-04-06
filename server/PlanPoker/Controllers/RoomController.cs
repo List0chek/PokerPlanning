@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataService;
+using Microsoft.AspNetCore.Mvc;
+using PlanPoker.DTO.Converters;
 using PlanPoker.Models;
 using PlanPoker.Services;
 using System;
@@ -29,9 +31,9 @@ namespace PlanPoker.Controllers
         /// <param name="ownerId">Id создателя.</param>
         /// <returns>Возвращает экземпляр Room.</returns>
         [HttpPost]
-        public object Create(string name, Guid ownerId)
+        public RoomDTO Create(string name, Guid ownerId, string ownerToken)
         {
-            return this.roomService.Create(name, ownerId);
+            return new RoomDTOConverter().Convert(this.roomService.Create(name, ownerId, ownerToken));
         }
 
         /// <summary>
@@ -41,9 +43,9 @@ namespace PlanPoker.Controllers
         /// <param name="newUserId">Id пользователя.</param>
         /// <returns>Возвращает экземпляр Room.</returns>
         [HttpPost]
-        public object AddMember(Guid roomId, Guid newUserId)
+        public RoomDTO AddMember(Guid roomId, Guid newUserId, Guid ownerId, string ownerToken)
         {
-            return this.roomService.AddMember(roomId, newUserId);
+            return new RoomDTOConverter().Convert(this.roomService.AddMember(roomId, newUserId, ownerId, ownerToken));
         }
 
         /// <summary>
@@ -52,9 +54,9 @@ namespace PlanPoker.Controllers
         /// <param name="roomId">Id комнаты.</param>
         /// <returns>Возвращает экземпляр Room.</returns>
         [HttpGet]
-        public object GetRoomInfo(Guid roomId)
+        public RoomDTO GetRoomInfo(Guid roomId)
         {
-            return this.roomService.GetRoomInfo(roomId);
+            return new RoomDTOConverter().Convert(this.roomService.GetRoomInfo(roomId));
         }
 
 
@@ -65,9 +67,9 @@ namespace PlanPoker.Controllers
         /// <param name="newHostId">Id пользователя.</param>
         /// <returns>Возвращает экземпляр Room.</returns>
         [HttpPost]
-        public object ChangeHost(Guid roomId, Guid newHostId)
+        public RoomDTO ChangeHost(Guid roomId, Guid newHostId, Guid ownerId, string ownerToken)
         {
-            return this.roomService.ChangeHost(roomId, newHostId);
+            return new RoomDTOConverter().Convert(this.roomService.ChangeHost(roomId, newHostId, ownerId, ownerToken));
         }
     }
 }

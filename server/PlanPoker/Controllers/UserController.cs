@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PlanPoker.DTO.Converters;
 using PlanPoker.Models;
 using PlanPoker.Services;
 
@@ -28,9 +29,9 @@ namespace PlanPoker.Controllers
         /// <param name="name">Имя пользователя.</param>
         /// <returns>Возвращает экземпляр User.</returns>
         [HttpPost]
-        public object Create(string name)
+        public UserDTO Create(string name)
         {
-            return this.userService.Create(name);
+            return new UserDTOConverter().Convert(this.userService.Create(name));
         }
 
         /// <summary>
@@ -40,9 +41,9 @@ namespace PlanPoker.Controllers
         /// <param name="id">Id пользователя.</param>
         /// <returns>Возвращает экземпляр User.</returns>
         [HttpPost]
-        public object ChangeName(string newName, Guid id)
+        public UserDTO ChangeName(Guid id, string token, string newName)
         {
-            return this.userService.ChangeName(id, newName);
+            return new UserDTOConverter().Convert(this.userService.ChangeName(id, token, newName));
         }
     }
 }

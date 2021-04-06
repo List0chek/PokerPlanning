@@ -1,5 +1,7 @@
 ﻿using DataService.Models;
 using Microsoft.AspNetCore.Mvc;
+using PlanPoker.DTO;
+using PlanPoker.DTO.Converters;
 using PlanPoker.Models;
 using PlanPoker.Services;
 using System;
@@ -37,9 +39,9 @@ namespace PlanPoker.Controllers
         /// <param name="name"></param>
         /// <returns>Возвращает Deck.</returns>
         [HttpPost]
-        public object Create(string name)
+        public DeckDTO Create(string name)
         {
-            return this.deckService.Create(name);
+            return new DeckDTOConverter().Convert(this.deckService.Create(name));
         }
 
         /// <summary>
@@ -47,10 +49,10 @@ namespace PlanPoker.Controllers
         /// </summary>
         /// <param name="deckId"></param>
         /// <returns>Возвращает лист карт.</returns>
-        [HttpPost]
-        public object AddCards(Guid deckId)
-        {
-            return this.deckService.AddDefaultCards(deckId);
-        }
+        //[HttpPost]
+        //public object AddCards(Guid deckId)
+        //{
+        //    return this.deckService.AddDefaultCards(deckId);
+        //}
     }
 }

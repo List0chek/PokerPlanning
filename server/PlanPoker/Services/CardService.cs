@@ -1,4 +1,5 @@
-﻿using DataService.Repositories;
+﻿using DataService;
+using DataService.Repositories;
 using PlanPoker.Models;
 using System;
 using System.Collections.Generic;
@@ -9,18 +10,11 @@ namespace PlanPoker.Services
 {
     public class CardService
     {
-        private InMemoryCardRepository cardRepository;
+        private IRepository<Card> cardRepository;
         
-        public CardService(InMemoryCardRepository cardRepository)
+        public CardService(IRepository<Card> cardRepository)
         {
             this.cardRepository = cardRepository;
         }
-
-        //public Card Create()
-        //{
-        //    var card = this.cardRepository.Create();
-        //    this.cardRepository.Save(card);
-        //    return card;
-        //}
     }
 }

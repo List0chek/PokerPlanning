@@ -1,4 +1,5 @@
-﻿using DataService.Models;
+﻿using DataService;
+using DataService.Models;
 using DataService.Repositories;
 using PlanPoker.Models;
 using System;
@@ -14,11 +15,11 @@ namespace PlanPoker.Services
     /// </summary>
     public class DeckService
     {
-        private InMemoryDeckRepository deckRepository;
-        private InMemoryCardRepository cardRepository;
+        private IRepository<Deck> deckRepository;
+        private IRepository<Card> cardRepository;
         private CardService cardService;
 
-        public DeckService(InMemoryDeckRepository deckRepository, InMemoryCardRepository cardRepository, CardService cardService)
+        public DeckService(IRepository<Deck> deckRepository, IRepository<Card> cardRepository, CardService cardService)
         {
             this.deckRepository = deckRepository;
             this.cardRepository = cardRepository;
@@ -34,38 +35,9 @@ namespace PlanPoker.Services
         {
             var deck = this.deckRepository.Create();
             deck.Name = name;
+            deck.Cards = this.cardRepository.GetAll().ToList();
             this.deckRepository.Save(deck);
             return deck;
-        }
-
-        /// Убрать метод из сервиса и зашить краты в репозитории.
-        public List<Card> AddDefaultCards(Guid deckId)
-        {
-            int sum = 0;
-            int first = 0;
-            int second = 1;
-            var deck = this.deckRepository.Get(deckId);
-            deck.Cards = new List<Card>();
-
-            var card = this.cardRepository.Create();
-            card.Name = sum.ToString();
-            card.Value = sum.ToString();
-            this.cardRepository.Save(card);
-            deck.Cards.Add(card);
-
-            for (int i = 0; i < 11; i++)
-            {
-                card = this.cardRepository.Create();
-                card.Name = sum.ToString();
-                card.Value = sum.ToString();
-                this.cardRepository.Save(card);
-                deck.Cards.Add(card);
-                sum = first + second;
-                first = second;
-                second = sum;
-            }
-            this.deckRepository.Save(deck);
-            return deck.Cards;
         }
     }
 }

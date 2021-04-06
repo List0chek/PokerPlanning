@@ -1,18 +1,13 @@
 ﻿using DataService.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PlanPoker.Models
 {
     /// <summary>
     /// Класс оценка.
     /// </summary>
-    public class Mark : Entity
+    public class Vote : Entity
     {
-        //public Guid Id { get; }
-
         /// <summary>
         /// Id сущности Card.
         /// </summary>
@@ -33,20 +28,13 @@ namespace PlanPoker.Models
         /// </summary>
         public Guid UserId { get; set; }
 
-        //public Mark(Guid cardId, Guid roomId, Guid discussionId, Guid userId)
-        //{
-        //    this.Id = Guid.NewGuid();
-        //    this.CardId = cardId;
-        //    this.RoomId = roomId;
-        //    this.DiscussionId = discussionId;
-        //    this.UserId = userId;
-        //}
+        public Card Card { get; set; }
 
         /// <summary>
-        /// Конструктор класса Mark.
+        /// Конструктор класса Vote.
         /// </summary>
-        /// <param name="id">Id сущности Mark.</param>
-        public Mark(Guid id) : base(id)
+        /// <param name="id">Id сущности Vote.</param>
+        public Vote(Guid id) : base(id)
         {
         }
     }

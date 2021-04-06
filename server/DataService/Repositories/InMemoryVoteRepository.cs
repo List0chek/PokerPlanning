@@ -3,9 +3,9 @@
 namespace DataService.Repositories
 {
     /// <summary>
-    /// CardRepository. 
+    /// VoteRepository. 
     /// </summary>
-    public class InMemoryCardRepository : InMemoryRepository<Card>
+    public class InMemoryVoteRepository : InMemoryRepository<Vote>
     {
     }
 }

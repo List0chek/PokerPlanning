@@ -1,6 +1,6 @@
-﻿using System;
+﻿using DataService.Models;
+using System;
 using System.Linq;
-using DataService.Models;
 
 namespace DataService
 {
@@ -36,7 +36,7 @@ namespace DataService
         /// </summary>
         /// <param name="entity">Экземпляр сущности.</param>
         /// <returns>Возвращает экземпляр сущности.</returns>
-        T Delete(T entity);
+        T Delete(Guid id);
 
         /// <summary>
         /// Метод создает экземпляр сущности.

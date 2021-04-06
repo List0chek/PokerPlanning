@@ -1,4 +1,5 @@
-﻿using DataService.Repositories;
+﻿using DataService;
+using DataService.Repositories;
 using PlanPoker.Models;
 using System;
 using System.Collections.Generic;
@@ -9,13 +10,15 @@ namespace PlanPoker.Services
 {
     public class RoomService
     {
-        private InMemoryRoomRepository roomRepository;
-        private InMemoryUserRepository userRepository;
+        private IRepository<Room> roomRepository;
+        private IRepository<User> userRepository;
+        private IRepository<Discussion> discussionRepository;
 
-        public RoomService(InMemoryRoomRepository roomRepository, InMemoryUserRepository userRepository)
+        public RoomService(IRepository<Room> roomRepository, IRepository<User> userRepository, IRepository<Discussion> discussionRepository)
         {
             this.roomRepository = roomRepository;
             this.userRepository = userRepository;
+            this.discussionRepository = discussionRepository;
         }
 
         /// <summary>
@@ -24,15 +27,23 @@ namespace PlanPoker.Services
         /// <param name="name">Имя комнаты.</param>
         /// <param name="ownerId">Id владельца.</param>
         /// <returns>Возвращает экземпляр Room.</returns>
-        public Room Create(string name, Guid ownerId)
+        public Room Create(string name, Guid ownerId, string ownerToken)
         {
             var newRoom = this.roomRepository.Create();
-            var owner = this.userRepository.Get(ownerId);
+
+            var owner = this.userRepository.Get(ownerId) ?? throw new UnauthorizedAccessException("User not found");
+            if (name is null || name == "")
+            {
+                throw new UnauthorizedAccessException("Room name is not valid");
+            }
+            if (!owner.Token.Equals(ownerToken) || ownerToken is null)
+            {
+                throw new UnauthorizedAccessException("Token is not valid");
+            }
+
             newRoom.Name = name;
             newRoom.OwnerId = owner.Id;
             newRoom.HostId = owner.Id;
-            newRoom.Members = new List<User>();
-
             if (!newRoom.Members.Contains(owner))
             {
                 newRoom.Members.Add(owner);
@@ -48,15 +59,26 @@ namespace PlanPoker.Services
         /// <param name="roomId">Id комнаты.</param>
         /// <param name="newUserId">Id пользователя.</param>
         /// <returns>Возвращает экземпляр Room.</returns>
-        public Room AddMember(Guid roomId, Guid newUserId) // сделать проверку на хозяина комнаты
+        public Room AddMember(Guid roomId, Guid newUserId, Guid ownerId, string ownerToken) // сделать проверку на хозяина комнаты
         {
-            var newUser = this.userRepository.Get(newUserId);
-            var room = this.roomRepository.Get(roomId);
+            var newUser = this.userRepository.Get(newUserId) ?? throw new UnauthorizedAccessException("User not found");
+            var owner = this.userRepository.Get(ownerId) ?? throw new UnauthorizedAccessException("User not found");
+            var room = this.roomRepository.Get(roomId) ?? throw new UnauthorizedAccessException("Room not found");
+            if (!owner.Token.Equals(ownerToken) || ownerToken is null)
+            {
+                throw new UnauthorizedAccessException("Token is not valid");
+            }
+            if (!room.OwnerId.Equals(owner.Id))
+            {
+                throw new UnauthorizedAccessException("Owner is not valid");
+            }
+
             if (!room.Members.Contains(newUser))
             {
                 room.Members.Add(newUser);
+                this.roomRepository.Save(room);
             }
-            this.roomRepository.Save(room);
+            
             return room;
         }
 
@@ -66,12 +88,21 @@ namespace PlanPoker.Services
         /// <param name="roomId">Id комнаты.</param>
         /// <param name="newHostId">Id пользователя, который будет новым ведущим.</param>
         /// <returns>Возвращает экземпляр Room.</returns>
-        public Room ChangeHost(Guid roomId, Guid newHostId) // сделать проверку на хозяина комнаты
+        public Room ChangeHost(Guid roomId, Guid newHostId, Guid ownerId, string ownerToken)
         {
-            var updatingRoom = this.roomRepository.Get(roomId);
-            var newHost = this.userRepository.Get(newHostId);
-            updatingRoom.HostId = newHost.Id;
+            var updatingRoom = this.roomRepository.Get(roomId) ?? throw new UnauthorizedAccessException("Room not found");
+            var newHost = this.userRepository.Get(newHostId) ?? throw new UnauthorizedAccessException("User not found");
+            var owner = this.userRepository.Get(ownerId) ?? throw new UnauthorizedAccessException("User not found");
+            if (!owner.Token.Equals(ownerToken) || ownerToken is null)
+            {
+                throw new UnauthorizedAccessException("Token is not valid");
+            }
+            if (!updatingRoom.OwnerId.Equals(owner.Id))
+            {
+                throw new UnauthorizedAccessException("Owner is not valid");
+            }
 
+            updatingRoom.HostId = newHost.Id;
             if (!updatingRoom.Members.Contains(newHost))
             {
                 updatingRoom.Members.Add(newHost);
@@ -89,12 +120,8 @@ namespace PlanPoker.Services
         public Room GetRoomInfo(Guid roomId)
         {
             var room = this.roomRepository.Get(roomId);
+            room.Discussions = this.discussionRepository.GetAll().Where(item => item.RoomId.Equals(room.Id)).ToList<Discussion>();
             return room;
-        } 
-
-        //public List<Discussion> GetStory(Guid roomId)
-        //{
-        //    var room = this.roomRepository.Get(roomId);
-        //}
+        }
     }
 }

@@ -1,7 +1,9 @@
 using DataService;
+using DataService.Models;
 using DataService.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,25 +23,32 @@ namespace PlanPoker
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var mvcBuilder = services.AddControllers();
+
             services.AddControllers();
 
             services.AddTransient<RoomService>();
-            services.AddSingleton<InMemoryRoomRepository>();
+            services.AddSingleton<IRepository<Room>, InMemoryRoomRepository>();
 
             services.AddTransient<UserService>();
-            services.AddSingleton<InMemoryUserRepository>();
+            services.AddSingleton<IRepository<User>, InMemoryUserRepository>();
 
-            services.AddTransient<MarkService>();
-            services.AddSingleton<InMemoryMarkRepository>();
+            services.AddTransient<VoteService>();
+            services.AddSingleton<IRepository<Vote>, InMemoryVoteRepository>();
 
             services.AddTransient<DiscussionService>();
-            services.AddSingleton<InMemoryDiscussionRepository>();
+            services.AddSingleton<IRepository<Discussion>, InMemoryDiscussionRepository>();
 
             services.AddTransient<DeckService>();
-            services.AddSingleton<InMemoryDeckRepository>();
+            services.AddSingleton<IRepository<Deck>, InMemoryDeckRepository>();
 
             services.AddTransient<CardService>();
-            services.AddSingleton<InMemoryCardRepository>();
+            services.AddSingleton<IRepository<Card>, InMemoryCardRepository>();
+
+            mvcBuilder.Services.Configure((MvcOptions options) =>
+            {
+                options.Filters.Add<CustomExceptionFilter>();
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

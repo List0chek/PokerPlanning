@@ -1,10 +1,7 @@
 ﻿using DataService.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 
 namespace DataService.Repositories
 {
@@ -63,9 +60,11 @@ namespace DataService.Repositories
         /// </summary>
         /// <param name="entity">Экземпляр сущности.</param>
         /// <returns>Возвращает экземпляр сущности.</returns>
-        public virtual T Delete(T entity)
+        public virtual T Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = this.InMemoryStorage.Find(item => item.Id.Equals(id));
+            this.InMemoryStorage.Remove(entity);
+            return entity;
         }
 
         /// <summary>

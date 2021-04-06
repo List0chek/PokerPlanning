@@ -1,14 +1,18 @@
 ﻿using DataService.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PlanPoker.Models
 {
-    /// <summary>
-    /// Класс обсуждения.
-    /// </summary>
-    public class Discussion : Entity
+    public class DiscussionDTO
     {
+        /// <summary>
+        /// Id обсуждения.
+        /// </summary>
+        public Guid Id { get; set; }
+
         /// <summary>
         /// Id сущности Room.
         /// </summary>
@@ -30,16 +34,18 @@ namespace PlanPoker.Models
         public DateTime? DateEnd { get; set; } = null;
 
         /// <summary>
-        /// Среднее значение всех оценок.
+        /// Лист оценок.
         /// </summary>
-        ///public double? AverageResult { get; set; }
+        public IEnumerable<VoteDTO> Votes { get; set; }
 
         /// <summary>
-        /// Конструктор класса Discussion.
+        /// Среднее значение всех оценок.
         /// </summary>
-        /// <param name="id">Id сущности Discussion.</param>
-        public Discussion(Guid id) : base(id)
-        {
-        }
+        public double? AverageResult { get; set; }
+
+        /// <summary>
+        /// Длительность обсуждения.
+        /// </summary>
+        public TimeSpan? Duration { get; set; }
     }
 }
