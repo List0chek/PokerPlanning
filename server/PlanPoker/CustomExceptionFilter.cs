@@ -5,8 +5,15 @@ using PlanPoker.DTO;
 
 namespace PlanPoker
 {
+    /// <summary>
+    /// Класс CustomExceptionFilter.
+    /// </summary>
     public class CustomExceptionFilter : IExceptionFilter
     {
+        /// <summary>
+        /// Метод OnException.
+        /// </summary>
+        /// <param name="context">Экземпляр ExceptionContext.</param>
         public void OnException(ExceptionContext context)
         {
             var dto = new ExceptionDTO()

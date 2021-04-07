@@ -2,6 +2,9 @@
 
 namespace PlanPoker.Models
 {
+    /// <summary>
+    /// Класс UserDTO.
+    /// </summary>
     public class UserDTO
     {
         /// <summary>

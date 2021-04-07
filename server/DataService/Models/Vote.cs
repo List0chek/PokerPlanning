@@ -28,6 +28,9 @@ namespace PlanPoker.Models
         /// </summary>
         public Guid UserId { get; set; }
 
+        /// <summary>
+        /// Карта.
+        /// </summary>
         public Card Card { get; set; }
 
         /// <summary>

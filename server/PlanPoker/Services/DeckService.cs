@@ -1,12 +1,6 @@
 ﻿using DataService;
 using DataService.Models;
-using DataService.Repositories;
-using PlanPoker.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 
 namespace PlanPoker.Services
 {
@@ -15,15 +9,18 @@ namespace PlanPoker.Services
     /// </summary>
     public class DeckService
     {
+        /// <summary>
+        /// Экземпляр InMemoryDeckRepository.
+        /// </summary>
         private IRepository<Deck> deckRepository;
-        private IRepository<Card> cardRepository;
-        private CardService cardService;
 
-        public DeckService(IRepository<Deck> deckRepository, IRepository<Card> cardRepository, CardService cardService)
+        /// <summary>
+        /// Конструктор класса DeckService.
+        /// </summary>
+        /// <param name="deckRepository">Экземпляр InMemoryDeckRepository.</param>
+        public DeckService(IRepository<Deck> deckRepository)
         {
             this.deckRepository = deckRepository;
-            this.cardRepository = cardRepository;
-            this.cardService = cardService;
         }
 
         /// <summary>
@@ -34,8 +31,13 @@ namespace PlanPoker.Services
         public Deck Create(string name)
         {
             var deck = this.deckRepository.Create();
+
+            if (name is null || name == string.Empty)
+            {
+                throw new UnauthorizedAccessException("Wrong deck name");
+            }
+
             deck.Name = name;
-            deck.Cards = this.cardRepository.GetAll().ToList();
             this.deckRepository.Save(deck);
             return deck;
         }

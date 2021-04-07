@@ -1,20 +1,23 @@
 ﻿using DataService;
-using DataService.Repositories;
 using PlanPoker.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PlanPoker.Services
 {
     /// <summary>
     /// Класс UserService.
     /// </summary>
-    public class UserService 
+    public class UserService
     {
+        /// <summary>
+        /// Экземпляр InMemoryUserRepository.
+        /// </summary>
         private IRepository<User> userRepository;
 
+        /// <summary>
+        /// Конструктор класса UserService.
+        /// </summary>
+        /// <param name="userRepository">Экземпляр InMemoryUserRepository.</param>
         public UserService(IRepository<User> userRepository)
         {
             this.userRepository = userRepository;
@@ -30,7 +33,7 @@ namespace PlanPoker.Services
             var newUser = this.userRepository.Create();
             var token = Convert.ToBase64String(newUser.Id.ToByteArray());
 
-            if (name is null || name == "")
+            if (name is null || name == string.Empty)
             {
                 throw new UnauthorizedAccessException("Wrong username");
             }
@@ -45,13 +48,14 @@ namespace PlanPoker.Services
         /// Меняет имя пользователя.
         /// </summary>
         /// <param name="id">Id пользователя.</param>
+        /// <param name="token">Token пользователя.</param>
         /// <param name="newName">Новое имя пользоваетля.</param>
         /// <returns>Возвращает экземпляр User.</returns>
         public User ChangeName(Guid id, string token, string newName)
         {
-            var user = userRepository.Get(id) ?? throw new UnauthorizedAccessException("User not found");
+            var user = this.userRepository.Get(id) ?? throw new UnauthorizedAccessException("User not found");
 
-            if (newName is null || newName == "")
+            if (newName is null || newName == string.Empty)
             {
                 throw new UnauthorizedAccessException("Wrong username");
             }

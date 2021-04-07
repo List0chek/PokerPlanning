@@ -1,12 +1,11 @@
-﻿using DataService.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace PlanPoker.Models
 {
-    public class CardDTO 
+    /// <summary>
+    /// Класс CardDTO.
+    /// </summary>
+    public class CardDTO
     {
         /// <summary>
         /// Id карты.

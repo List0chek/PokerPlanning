@@ -1,11 +1,10 @@
-﻿using DataService.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace PlanPoker.Models
 {
+    /// <summary>
+    /// Класс VoteDTO.
+    /// </summary>
     public class VoteDTO
     {
         /// <summary>
@@ -33,6 +32,9 @@ namespace PlanPoker.Models
         /// </summary>
         public Guid UserId { get; set; }
 
+        /// <summary>
+        /// Карта.
+        /// </summary>
         public CardDTO Card { get; set; }
     }
 }

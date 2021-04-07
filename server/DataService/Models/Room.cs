@@ -30,15 +30,9 @@ namespace PlanPoker.Models
         public ICollection<User> Members { get; } = new List<User>();
 
         /// <summary>
-        /// Список всех обсуждений комнаты.
-        /// </summary>
-        public ICollection<Discussion> Discussions { get; set; } 
-
-
-        /// <summary>
         /// Хеш код для URL.
         /// </summary>
-        public HashCode HashCode { get; set; }
+        public string HashCode { get; set; }
 
         /// <summary>
         /// Конструктор класса Room.

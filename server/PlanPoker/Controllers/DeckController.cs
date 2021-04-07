@@ -1,13 +1,9 @@
-﻿using DataService.Models;
+﻿using DataService;
 using Microsoft.AspNetCore.Mvc;
 using PlanPoker.DTO;
 using PlanPoker.DTO.Converters;
 using PlanPoker.Models;
 using PlanPoker.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PlanPoker.Controllers
 {
@@ -18,6 +14,10 @@ namespace PlanPoker.Controllers
     [ApiController]
     public class DeckController : ControllerBase
     {
+        /// <summary>
+        /// Экземпляр InMemoryCardRepository.
+        /// </summary>
+        private IRepository<Card> cardRepository;
 
         /// <summary>
         /// Экземпляр DeckService.
@@ -28,31 +28,23 @@ namespace PlanPoker.Controllers
         /// Конструктор класса DeckController.
         /// </summary>
         /// <param name="deckService">Экземпляр DeckService.</param>
-        public DeckController(DeckService deckService)
+        /// <param name="cardRepository">Экземпляр InMemoryCardRepository.</param>
+        public DeckController(DeckService deckService, IRepository<Card> cardRepository)
         {
             this.deckService = deckService;
+            this.cardRepository = cardRepository;
         }
 
         /// <summary>
         /// Создает экземпляр Deck.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns>Возвращает Deck.</returns>
+        /// <param name="name">Имя колоды.</param>
+        /// <returns>Возвращает DeckDTO.</returns>
         [HttpPost]
         public DeckDTO Create(string name)
         {
-            return new DeckDTOConverter().Convert(this.deckService.Create(name));
+            var deck = this.deckService.Create(name);
+            return new DeckDTOConverter(this.cardRepository).Convert(deck);
         }
-
-        /// <summary>
-        /// Добавляет карты в колоду по Id колоды.
-        /// </summary>
-        /// <param name="deckId"></param>
-        /// <returns>Возвращает лист карт.</returns>
-        //[HttpPost]
-        //public object AddCards(Guid deckId)
-        //{
-        //    return this.deckService.AddDefaultCards(deckId);
-        //}
     }
 }

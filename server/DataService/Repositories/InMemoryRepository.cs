@@ -58,7 +58,7 @@ namespace DataService.Repositories
         /// <summary>
         /// Метод удаляет экземпляр сущности.
         /// </summary>
-        /// <param name="entity">Экземпляр сущности.</param>
+        /// <param name="id">Id сущности.</param>
         /// <returns>Возвращает экземпляр сущности.</returns>
         public virtual T Delete(Guid id)
         {

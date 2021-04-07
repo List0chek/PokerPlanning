@@ -1,17 +1,22 @@
 ﻿using DataService;
-using DataService.Repositories;
 using PlanPoker.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PlanPoker.Services
 {
+    /// <summary>
+    /// Класс CardService.
+    /// </summary>
     public class CardService
     {
+        /// <summary>
+        /// Экземпляр InMemoryCardRepository.
+        /// </summary>
         private IRepository<Card> cardRepository;
-        
+
+        /// <summary>
+        /// Конструктор класса CardService.
+        /// </summary>
+        /// <param name="cardRepository">Экземпляр InMemoryCardRepository.</param>
         public CardService(IRepository<Card> cardRepository)
         {
             this.cardRepository = cardRepository;

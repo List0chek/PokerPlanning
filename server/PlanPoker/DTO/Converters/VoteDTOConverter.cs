@@ -1,13 +1,17 @@
 ﻿using PlanPoker.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PlanPoker.DTO.Converters
 {
+    /// <summary>
+    /// Класс VoteDTOConverter.
+    /// </summary>
     public class VoteDTOConverter
     {
+        /// <summary>
+        /// Метод конвертации Vote в VoteDTO.
+        /// </summary>
+        /// <param name="vote">Экземпляр Vote.</param>
+        /// <returns>Экземпляр VoteDTO.</returns>
         public VoteDTO Convert(Vote vote)
         {
             return new VoteDTO()

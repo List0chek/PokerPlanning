@@ -1,11 +1,12 @@
 ﻿using PlanPoker.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PlanPoker.DTO
 {
+    /// <summary>
+    /// Класс DeckDTO.
+    /// </summary>
     public class DeckDTO
     {
         /// <summary>

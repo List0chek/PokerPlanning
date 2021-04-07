@@ -1,6 +1,4 @@
-﻿using PlanPoker.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace DataService.Models
 {
@@ -13,11 +11,6 @@ namespace DataService.Models
         /// Имя сущности Deck.
         /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        /// Набор карт.
-        /// </summary>
-        public ICollection<Card> Cards { get; set; }
 
         /// <summary>
         /// Конструктор класса Deck.

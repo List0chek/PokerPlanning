@@ -8,10 +8,20 @@ namespace DataService.Repositories
     /// </summary>
     public class InMemoryDeckRepository : InMemoryRepository<Deck>
     {
+        /// <summary>
+        /// Экземпляр InMemoryCardRepository.
+        /// </summary>
         private IRepository<Card> cardRepository;
 
+        /// <summary>
+        /// Карта.
+        /// </summary>
         public Card Card { get; set; }
 
+        /// <summary>
+        /// Конструктор InMemoryDeckRepository.
+        /// </summary>
+        /// <param name="cardRepository">Экземпляр InMemoryCardRepository.</param>
         public InMemoryDeckRepository(IRepository<Card> cardRepository)
         {
             this.cardRepository = cardRepository;

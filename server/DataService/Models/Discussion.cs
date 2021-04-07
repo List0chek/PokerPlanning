@@ -1,6 +1,5 @@
 ﻿using DataService.Models;
 using System;
-using System.Collections.Generic;
 
 namespace PlanPoker.Models
 {
@@ -32,7 +31,7 @@ namespace PlanPoker.Models
         /// <summary>
         /// Среднее значение всех оценок.
         /// </summary>
-        ///public double? AverageResult { get; set; }
+        public double? AverageResult { get; set; }
 
         /// <summary>
         /// Конструктор класса Discussion.

@@ -1,12 +1,11 @@
-﻿using DataService.Models;
-using PlanPoker.DTO.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PlanPoker.Models
 {
+    /// <summary>
+    /// Класс RoomDTO.
+    /// </summary>
     public class RoomDTO
     {
         /// <summary>
@@ -38,12 +37,12 @@ namespace PlanPoker.Models
         /// <summary>
         /// Список всех обсуждений комнаты.
         /// </summary>
-        public IEnumerable<DiscussionDTO> Discussions { get; set; } 
+        public IEnumerable<DiscussionDTO> Discussions { get; set; }
 
 
         /// <summary>
         /// Хеш код для URL.
         /// </summary>
-        public HashCode HashCode { get; set; }
+        public string HashCode { get; set; }
     }
 }

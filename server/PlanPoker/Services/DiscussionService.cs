@@ -1,13 +1,7 @@
 ﻿using DataService;
 using DataService.Models;
-using DataService.Repositories;
 using PlanPoker.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 
 namespace PlanPoker.Services
 {
@@ -16,25 +10,52 @@ namespace PlanPoker.Services
     /// </summary>
     public class DiscussionService
     {
+        /// <summary>
+        /// Экземпляр InMemoryDiscussionRepository.
+        /// </summary>
         private IRepository<Discussion> discussionRepository;
+
+        /// <summary>
+        /// Экземпляр InMemoryRoomRepository.
+        /// </summary>
         private IRepository<Room> roomRepository;
+
+        /// <summary>
+        /// Экземпляр InMemoryVoteRepository.
+        /// </summary>
         private IRepository<Vote> voteRepository;
+
+        /// <summary>
+        /// Экземпляр InMemoryUserRepository.
+        /// </summary>
         private IRepository<User> userRepository;
+
+        /// <summary>
+        /// Экземпляр InMemoryDeckRepository.
+        /// </summary>
         private IRepository<Deck> deckRepository;
+
+        /// <summary>
+        /// Экземпляр InMemoryCardRepository.
+        /// </summary>
         private IRepository<Card> cardRepository;
+
+        /// <summary>
+        /// Экземпляр VoteService.
+        /// </summary>
         private VoteService voteService;
 
 
         /// <summary>
         /// Конструктор класса DiscussionService.
         /// </summary>
-        /// <param name="discussionRepository"></param>
-        /// <param name="roomRepository"></param>
-        /// <param name="voteRepository"></param>
-        /// <param name="userRepository"></param>
-        /// <param name="voteService"></param>
-        /// <param name="deckRepository"></param>
-        /// <param name="cardRepository"></param>
+        /// <param name="discussionRepository">Экземпляр InMemoryDiscussionRepository.</param>
+        /// <param name="roomRepository">Экземпляр InMemoryRoomRepository.</param>
+        /// <param name="voteRepository">Экземпляр InMemoryVoteRepository.</param>
+        /// <param name="userRepository">Экземпляр InMemoryUserRepository.</param>
+        /// <param name="voteService">Экземпляр VoteService.</param>
+        /// <param name="deckRepository">Экземпляр InMemoryDeckRepository.</param>
+        /// <param name="cardRepository">Экземпляр InMemoryCardRepository.</param>
         public DiscussionService(
             IRepository<Discussion> discussionRepository,
             IRepository<Room> roomRepository,
@@ -56,13 +77,31 @@ namespace PlanPoker.Services
         /// <summary>
         /// Создает новое обсуждение.
         /// </summary>
-        /// <param name="roomId">Id комнаты.</param>
-        /// <param name="topic">Имя обсуждения.</param>
+        /// <param name="roomId">Id комнаты, в которой создается новое обсуждение.</param>
+        /// <param name="topic">Название темы обсуждения.</param>
+        /// <param name="hostId">Id ведущего.</param>
+        /// <param name="hostToken">Token ведущего.</param>
         /// <returns>Возвращает экземпляр Discussion.</returns>
-        public Discussion Create(Guid roomId, string topic)                     // Сделать проверку на хоста
+        public Discussion Create(Guid roomId, string topic, Guid hostId, string hostToken)
         {
             var discussion = this.discussionRepository.Create();
-            var room = this.roomRepository.Get(roomId);
+            var room = this.roomRepository.Get(roomId) ?? throw new UnauthorizedAccessException("Room not found");
+            var host = this.userRepository.Get(hostId) ?? throw new UnauthorizedAccessException("User not found"); // возможно стоит получать хоста из рума и hostId не запрашивать.
+            if (topic is null || topic == string.Empty)
+            {
+                throw new UnauthorizedAccessException("Discussion topic name is not valid");
+            }
+
+            if (!host.Token.Equals(hostToken) || hostToken is null)
+            {
+                throw new UnauthorizedAccessException("Token is not valid");
+            }
+
+            if (!room.HostId.Equals(host.Id))
+            {
+                throw new UnauthorizedAccessException("Host is not valid");
+            }
+
             discussion.RoomId = room.Id;
             discussion.Topic = topic;
             discussion.DateStart = DateTime.Now;
@@ -76,28 +115,30 @@ namespace PlanPoker.Services
         /// </summary>
         /// <param name="discussionId">Id обсуждения.</param>
         /// <param name="userId">Id пользователя.</param>
-        /// <param name="deckId">Id колоды.</param>
         /// <param name="cardId">Id выбранной карты.</param>
-        /// <returns>Возвращает лист оценок.</returns>
-        public List<Vote> SetVote(Guid discussionId, Guid userId, Guid deckId, Guid cardId) // сделать проверку на принадлежность обсуждения к руму
+        public void SetVote(Guid discussionId, Guid userId, Guid cardId)
         {
-            var discussion = this.discussionRepository.Get(discussionId);
-            var room = this.roomRepository.Get(discussion.RoomId);
-            var votesList = this.voteRepository.GetAll().Where(item => item.DiscussionId.Equals(discussion.Id)).ToList<Vote>();
-            if (discussion.DateEnd == null)
+            var discussion = this.discussionRepository.Get(discussionId) ?? throw new UnauthorizedAccessException("Discussion not found");
+            var room = this.roomRepository.Get(discussion.RoomId) ?? throw new UnauthorizedAccessException("Room not found");
+            var card = this.cardRepository.Get(cardId) ?? throw new UnauthorizedAccessException("Card not found");
+            if (!discussion.RoomId.Equals(room.Id))
             {
-                var user = this.userRepository.Get(userId);
-                var deck = this.deckRepository.Get(deckId);
-                var card = deck.Cards.FirstOrDefault(item => item.Id.Equals(cardId));
-                
-                if (!votesList.Any(item => item.UserId.Equals(user.Id)) && room.Members.Contains(user))
-                {
-                    var vote = this.voteService.Create(card.Id, discussion.Id, user.Id);
-                    votesList.Add(vote);
-                }
+                throw new UnauthorizedAccessException("Discussion is not containing in Room");
             }
 
-            return votesList;
+            if (discussion.DateEnd == null)
+            {
+                var user = this.userRepository.Get(userId) ?? throw new UnauthorizedAccessException("User not found");
+
+                if (room.Members.Contains(user))
+                {
+                    this.voteService.Create(card.Id, discussion.Id, user.Id);
+                }
+                else if (!room.Members.Contains(user))
+                {
+                    throw new UnauthorizedAccessException("User is not valid");
+                }
+            }
         }
 
         /// <summary>
@@ -105,18 +146,30 @@ namespace PlanPoker.Services
         /// </summary>
         /// <param name="voteId">Id оценки, которую нужно изменить.</param>
         /// <param name="newCardId">Id новой карты.</param>
-        /// <returns>Возвращает лист оценок.</returns>
-        public List<Vote> ChangeVote(Guid voteId, Guid newCardId) // Добавить проверку на юзера, который сделал оценку
+        /// <param name="userId">Id пользователя.</param>
+        public void ChangeVote(Guid voteId, Guid newCardId, Guid userId)
         {
-            var vote = this.voteRepository.Get(voteId);
-            var newCard = this.cardRepository.Get(newCardId);
-            var discussion = this.discussionRepository.Get(vote.DiscussionId);
-            var votesList = this.voteRepository.GetAll().Where(item => item.DiscussionId.Equals(discussion.Id)).ToList<Vote>();
+            var vote = this.voteRepository.Get(voteId) ?? throw new UnauthorizedAccessException("Vote not found");
+            var newCard = this.cardRepository.Get(newCardId) ?? throw new UnauthorizedAccessException("Card not found");
+            var discussion = this.discussionRepository.Get(vote.DiscussionId) ?? throw new UnauthorizedAccessException("Discussion not found");
+            var room = this.roomRepository.Get(discussion.RoomId) ?? throw new UnauthorizedAccessException("Room not found");
+            var user = this.userRepository.Get(userId) ?? throw new UnauthorizedAccessException("User not found");
+            if (!discussion.RoomId.Equals(room.Id))
+            {
+                throw new UnauthorizedAccessException("Discussion is not containing in Room");
+            }
+
             if (discussion.DateEnd == null)
             {
-                vote = this.voteService.Change(voteId, newCardId);
+                if (room.Members.Contains(user))
+                {
+                    this.voteService.Change(vote.Id, newCard.Id, user.Id);
+                }
+                else if (!room.Members.Contains(user))
+                {
+                    throw new UnauthorizedAccessException("User is not valid");
+                }
             }
-            return votesList;
         }
 
         /// <summary>
@@ -124,12 +177,24 @@ namespace PlanPoker.Services
         /// </summary>
         /// <param name="roomId">Id комнаты.</param>
         /// <param name="discussionId">Id обсуждения.</param>
+        /// <param name="hostId">Id пользователя.</param>
         /// <returns>Возвращает экземпляр Discussion.</returns>
-        public Discussion Close(Guid roomId, Guid discussionId) // сделать проверку на принадлежность обсуждения к руму и сделать проверку на хоста
+        public Discussion Close(Guid roomId, Guid discussionId, Guid hostId)
         {
-            var discussion = this.discussionRepository.Get(discussionId);
-            var room = this.roomRepository.Get(roomId);
-            if (discussion.DateEnd == null && discussion.RoomId == room.Id)
+            var discussion = this.discussionRepository.Get(discussionId) ?? throw new UnauthorizedAccessException("Discussion not found");
+            var room = this.roomRepository.Get(roomId) ?? throw new UnauthorizedAccessException("Room not found");
+            var host = this.userRepository.Get(hostId) ?? throw new UnauthorizedAccessException("User not found");
+            if (!discussion.RoomId.Equals(room.Id))
+            {
+                throw new UnauthorizedAccessException("Discussion is not containing in Room");
+            }
+
+            if (!room.HostId.Equals(host.Id))
+            {
+                throw new UnauthorizedAccessException("Host is not valid");
+            }
+
+            if (discussion.DateEnd == null)
             {
                 discussion.DateEnd = DateTime.Now;
                 this.discussionRepository.Save(discussion);
@@ -142,17 +207,19 @@ namespace PlanPoker.Services
         /// Возвращает оценки участников обсуждения и итоговую среднюю оценку.
         /// </summary>
         /// <param name="discussionId">Id обсуждения.</param>
+        /// <param name="userId">Id пользователя.</param>
         /// <returns>Возвращает экземпляр Discussion.</returns>
         public Discussion GetResults(Guid discussionId, Guid userId)
         {
-            var discussion = this.discussionRepository.Get(discussionId);
-            var room = this.roomRepository.Get(discussion.RoomId);
-            var user = this.userRepository.Get(userId);
-            if (room.Members.Contains(user))
+            var discussion = this.discussionRepository.Get(discussionId) ?? throw new UnauthorizedAccessException("Discussion not found");
+            var room = this.roomRepository.Get(discussion.RoomId) ?? throw new UnauthorizedAccessException("Room not found");
+            var user = this.userRepository.Get(userId) ?? throw new UnauthorizedAccessException("User not found");
+            if (!room.Members.Contains(user))
             {
-                return discussion;
+                throw new UnauthorizedAccessException("User is not valid");
             }
-            throw new UnauthorizedAccessException("Wrong userId");
+
+            return discussion;
         }
     }
 }

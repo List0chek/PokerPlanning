@@ -1,11 +1,11 @@
-﻿using DataService.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PlanPoker.Models
 {
+    /// <summary>
+    /// Класс DiscussionDTO.
+    /// </summary>
     public class DiscussionDTO
     {
         /// <summary>

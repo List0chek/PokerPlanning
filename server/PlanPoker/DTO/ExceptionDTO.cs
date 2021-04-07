@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace PlanPoker.DTO
+﻿namespace PlanPoker.DTO
 {
+    /// <summary>
+    /// Класс ExceptionDTO.
+    /// </summary>
     public class ExceptionDTO
     {
+        /// <summary>
+        /// Сообщение из исключения.
+        /// </summary>
         public string Message { get; set; }
     }
 }

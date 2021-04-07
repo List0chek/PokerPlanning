@@ -1,19 +1,35 @@
 ﻿using DataService;
-using DataService.Repositories;
 using PlanPoker.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PlanPoker.Services
 {
+    /// <summary>
+    /// Класс RoomService.
+    /// </summary>
     public class RoomService
     {
+        /// <summary>
+        /// Экземпляр InMemoryRoomRepository.
+        /// </summary>
         private IRepository<Room> roomRepository;
+
+        /// <summary>
+        /// Экземпляр InMemoryUserRepository.
+        /// </summary>
         private IRepository<User> userRepository;
+
+        /// <summary>
+        /// Экземпляр InMemoryDiscussionRepository.
+        /// </summary>
         private IRepository<Discussion> discussionRepository;
 
+        /// <summary>
+        /// Конструктор класса RoomService.
+        /// </summary>
+        /// <param name="roomRepository">Экземпляр InMemoryRoomRepository.</param>
+        /// <param name="userRepository">Экземпляр InMemoryUserRepository.</param>
+        /// <param name="discussionRepository">Экземпляр InMemoryDiscussionRepository.</param>
         public RoomService(IRepository<Room> roomRepository, IRepository<User> userRepository, IRepository<Discussion> discussionRepository)
         {
             this.roomRepository = roomRepository;
@@ -25,17 +41,19 @@ namespace PlanPoker.Services
         /// Создает новую комнату.
         /// </summary>
         /// <param name="name">Имя комнаты.</param>
-        /// <param name="ownerId">Id владельца.</param>
+        /// <param name="ownerId">Id создателя.</param>
+        /// <param name="ownerToken">Token создателя.</param>
         /// <returns>Возвращает экземпляр Room.</returns>
         public Room Create(string name, Guid ownerId, string ownerToken)
         {
             var newRoom = this.roomRepository.Create();
 
             var owner = this.userRepository.Get(ownerId) ?? throw new UnauthorizedAccessException("User not found");
-            if (name is null || name == "")
+            if (name is null || name == string.Empty)
             {
                 throw new UnauthorizedAccessException("Room name is not valid");
             }
+
             if (!owner.Token.Equals(ownerToken) || ownerToken is null)
             {
                 throw new UnauthorizedAccessException("Token is not valid");
@@ -57,17 +75,14 @@ namespace PlanPoker.Services
         /// Добавляет пользователя в комнату.
         /// </summary>
         /// <param name="roomId">Id комнаты.</param>
-        /// <param name="newUserId">Id пользователя.</param>
+        /// <param name="newUserId">Id пользователя, которого нужно добавить в комнату.</param>
+        /// <param name="ownerId">Id пользователя, который является владельцем комнаты.</param>
         /// <returns>Возвращает экземпляр Room.</returns>
-        public Room AddMember(Guid roomId, Guid newUserId, Guid ownerId, string ownerToken) // сделать проверку на хозяина комнаты
+        public Room AddMember(Guid roomId, Guid newUserId, Guid ownerId)
         {
             var newUser = this.userRepository.Get(newUserId) ?? throw new UnauthorizedAccessException("User not found");
             var owner = this.userRepository.Get(ownerId) ?? throw new UnauthorizedAccessException("User not found");
             var room = this.roomRepository.Get(roomId) ?? throw new UnauthorizedAccessException("Room not found");
-            if (!owner.Token.Equals(ownerToken) || ownerToken is null)
-            {
-                throw new UnauthorizedAccessException("Token is not valid");
-            }
             if (!room.OwnerId.Equals(owner.Id))
             {
                 throw new UnauthorizedAccessException("Owner is not valid");
@@ -78,7 +93,7 @@ namespace PlanPoker.Services
                 room.Members.Add(newUser);
                 this.roomRepository.Save(room);
             }
-            
+
             return room;
         }
 
@@ -87,6 +102,8 @@ namespace PlanPoker.Services
         /// </summary>
         /// <param name="roomId">Id комнаты.</param>
         /// <param name="newHostId">Id пользователя, который будет новым ведущим.</param>
+        /// <param name="ownerId">Id пользователя, который является владельцем комнаты.</param>
+        /// <param name="ownerToken">Токен владельца комнаты.</param>
         /// <returns>Возвращает экземпляр Room.</returns>
         public Room ChangeHost(Guid roomId, Guid newHostId, Guid ownerId, string ownerToken)
         {
@@ -97,6 +114,7 @@ namespace PlanPoker.Services
             {
                 throw new UnauthorizedAccessException("Token is not valid");
             }
+
             if (!updatingRoom.OwnerId.Equals(owner.Id))
             {
                 throw new UnauthorizedAccessException("Owner is not valid");
@@ -106,9 +124,9 @@ namespace PlanPoker.Services
             if (!updatingRoom.Members.Contains(newHost))
             {
                 updatingRoom.Members.Add(newHost);
-            }            
+            }
 
-            roomRepository.Save(updatingRoom);
+            this.roomRepository.Save(updatingRoom);
             return updatingRoom;
         }
 
@@ -116,11 +134,17 @@ namespace PlanPoker.Services
         /// Возвращает информацию о комнате.
         /// </summary>
         /// <param name="roomId">Id комнаты.</param>
+        /// <param name="userId">Id пользователя.</param>
         /// <returns>Возвращает экземпляр Room.</returns>
-        public Room GetRoomInfo(Guid roomId)
+        public Room GetRoomInfo(Guid roomId, Guid userId)
         {
-            var room = this.roomRepository.Get(roomId);
-            room.Discussions = this.discussionRepository.GetAll().Where(item => item.RoomId.Equals(room.Id)).ToList<Discussion>();
+            var room = this.roomRepository.Get(roomId) ?? throw new UnauthorizedAccessException("Room not found");
+            var user = this.userRepository.Get(userId) ?? throw new UnauthorizedAccessException("User not found");
+            if (!room.Members.Contains(user))
+            {
+                throw new UnauthorizedAccessException("User does not belong to this room");
+            }
+
             return room;
         }
     }

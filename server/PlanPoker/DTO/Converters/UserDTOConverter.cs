@@ -1,13 +1,17 @@
 ﻿using PlanPoker.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PlanPoker.DTO.Converters
 {
+    /// <summary>
+    /// Класс UserDTOConverter.
+    /// </summary>
     public class UserDTOConverter
     {
+        /// <summary>
+        /// Метод конвертации User в UserDTO.
+        /// </summary>
+        /// <param name="user">Экземпляр User.</param>
+        /// <returns>Экземпляр UserDTO.</returns>
         public UserDTO Convert(User user)
         {
             return new UserDTO()

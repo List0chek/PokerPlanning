@@ -4,9 +4,6 @@ using PlanPoker.DTO.Converters;
 using PlanPoker.Models;
 using PlanPoker.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PlanPoker.Controllers
 {
@@ -17,7 +14,11 @@ namespace PlanPoker.Controllers
     [ApiController]
     public class DiscussionController : ControllerBase
     {
+        /// <summary>
+        /// Экземпляр InMemoryVoteRepository.
+        /// </summary>
         private IRepository<Vote> voteRepository;
+
         /// <summary>
         /// Экземпляр DiscussionService.
         /// </summary>
@@ -26,7 +27,8 @@ namespace PlanPoker.Controllers
         /// <summary>
         /// Конструктор класса DiscussionController.
         /// </summary>
-        /// <param name="discussionService">Экземпляр discussionService.</param>
+        /// <param name="discussionService">Экземпляр DiscussionService.</param>
+        /// <param name="voteRepository">Экземпляр InMemoryVoteRepository.</param>
         public DiscussionController(DiscussionService discussionService, IRepository<Vote> voteRepository)
         {
             this.discussionService = discussionService;
@@ -38,11 +40,14 @@ namespace PlanPoker.Controllers
         /// </summary>
         /// <param name="roomId">Id комнаты, в которой создается новое обсуждение.</param>
         /// <param name="topic">Название темы обсуждения.</param>
+        /// <param name="hostId">Id ведущего.</param>
+        /// <param name="hostToken">Token ведущего.</param>
         /// <returns>Возвращает экземпляр DiscussionDTO.</returns>
         [HttpPost]
-        public DiscussionDTO Create(Guid roomId, string topic)
+        public DiscussionDTO Create(Guid roomId, string topic, Guid hostId, string hostToken)
         {
-            return new DiscussionDTOConverter(voteRepository).Convert(this.discussionService.Create(roomId, topic), voteRepository);
+            var discussion = this.discussionService.Create(roomId, topic, hostId, hostToken);
+            return new DiscussionDTOConverter(this.voteRepository).Convert(discussion);
         }
 
         /// <summary>
@@ -50,12 +55,11 @@ namespace PlanPoker.Controllers
         /// </summary>
         /// <param name="discussionId">Id обсуждения.</param>
         /// <param name="userId">Id пользователя.</param>
-        /// <param name="deckId">Id колоды.</param>
         /// <param name="cardId">Id карты.</param>
         [HttpPost]
-        public void SetVote(Guid discussionId, Guid userId, Guid deckId, Guid cardId)
+        public void SetVote(Guid discussionId, Guid userId, Guid cardId)
         {
-            this.discussionService.SetVote(discussionId, userId, deckId, cardId);
+            this.discussionService.SetVote(discussionId, userId, cardId);
         }
 
         /// <summary>
@@ -63,10 +67,11 @@ namespace PlanPoker.Controllers
         /// </summary>
         /// <param name="voteId">Id оценки, которую нужно изменить.</param>
         /// <param name="newCardId">Id новой карты.</param>
+        /// <param name="userId">Id пользователя.</param>
         [HttpPost]
-        public void ChangeVote(Guid voteId, Guid newCardId)
+        public void ChangeVote(Guid voteId, Guid newCardId, Guid userId)
         {
-            this.discussionService.ChangeVote(voteId, newCardId);
+            this.discussionService.ChangeVote(voteId, newCardId, userId);
         }
 
         /// <summary>
@@ -74,23 +79,26 @@ namespace PlanPoker.Controllers
         /// </summary>
         /// <param name="roomId">Id комнаты, в которой нужно закрыть обсуждение.</param>
         /// <param name="discussionId">Id обсуждения.</param>
+        /// <param name="hostId">Id пользователя.</param>
         /// <returns>Возвращает экземпляр DiscussionDTO.</returns>
         [HttpPost]
-        public DiscussionDTO Close(Guid roomId, Guid discussionId)
+        public DiscussionDTO Close(Guid roomId, Guid discussionId, Guid hostId)
         {
-            return new DiscussionDTOConverter(voteRepository).Convert(this.discussionService.Close(roomId, discussionId), voteRepository);
+            var discussion = this.discussionService.Close(roomId, discussionId, hostId);
+            return new DiscussionDTOConverter(this.voteRepository).Convert(discussion);
         }
 
         /// <summary>
         /// Возвращает оценки участников обсуждения и итоговую среднюю оценку.
         /// </summary>
-        /// <param name="discussionId"></param>
-        /// <param name="userId"></param>
+        /// <param name="discussionId">Id обсуждения.</param>
+        /// <param name="userId">Id пользователя.</param>
         /// <returns>Возвращает экземпляр DiscussionDTO.</returns>
         [HttpGet]
         public DiscussionDTO GetResults(Guid discussionId, Guid userId)
         {
-            return new DiscussionDTOConverter(voteRepository).Convert(this.discussionService.GetResults(discussionId, userId), voteRepository);
+            var discussion = this.discussionService.GetResults(discussionId, userId);
+            return new DiscussionDTOConverter(this.voteRepository).Convert(discussion);
         }
     }
 }
