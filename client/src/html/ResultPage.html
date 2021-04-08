@@ -9,17 +9,16 @@
 <header>
   <a href="http://localhost:63342/client/src/html/FirstPage.html">
     <img src="../images/pie_chart_24px.svg" alt="logo" width="58" height="58">
-    PlanPoker
+    <h1>PlanPoker</h1>
   </a>
   <label for="user_icon">
     test
-    <img id="user_icon" src="../images/User%20Icon.jpg" alt="userIcon" width="59" height="59">
+    <input type="image" id="user_icon" src="../images/User%20Icon.svg" alt="userIcon" width="59" height="59">
   </label>
 </header>
 <main>
-  <label for="storyForm">Story:</label>
-  <div id="storyForm">
-
+  <h4>Story:</h4>
+  <div>
     <svg width="310" height="310" viewBox="0 0 310 310" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="155" cy="155" r="149" stroke="#4B9AE8" stroke-width="12"/>
       <text x="107" y="167" font-family="Roboto" font-size="26" fill="black">2 Players</text>
@@ -27,20 +26,23 @@
       <text x="120" y="113" font-family="Roboto" font-size="26" fill="black">Avg: 4</text>
     </svg>
   <ul>
-    <li>3</li>
-    <text>50% (1 player)</text>
-    <li>5</li>
-    <text>50% (1 player)</text>
+    <li>
+      3
+      <span>50% (1 player)</span>
+    </li>
+    <li>
+      5
+      <span>50% (1 player)</span>
+    </li>
   </ul>
-
   </div>
 
-  <div id="voteStory">
+  <div>
     <header>
       Story vote completed
     </header>
-    <label for="players">Players:</label>
-    <div id="players">
+    <span>Players:</span>
+    <div>
       <table>
         <tbody>
         <tr>
@@ -64,44 +66,43 @@
     <footer>
       <label>
         Invite friend
-        <input type="url" name="url" value="http://localhost:63342/client/src/html/InvitePage.html">
+        <input type="url" name="url" value="http://localhost:63342/client/src/html/InvitePage.html" readonly>
       </label>
     </footer>
   </div>
 <div>
+  <header>Completed Stories
+  <svg width="25" height="20" viewBox="0 0 25 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="25" height="20" rx="10" fill="#C9CFD6"/>
+    <text x="9" y="12" font-family="Roboto" font-size="13" fill="white">5</text>
+  </svg>
+  <input type="image" id="download_stories_icon" src="../images/download_24px.svg" alt="downloadStoriesIcon" width="14" height="17">
+  </header>
+  <div>
   <table>
-    <thead>
-    <tr>
-      <td>Completed Stories</td>
-      <td><svg width="25" height="20" viewBox="0 0 25 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="25" height="20" rx="10" fill="#C9CFD6"/>
-        <text x="9" y="12" font-family="Roboto" font-size="13" fill="white">5</text>
-      </svg></td>
-      <td><img id="download_stories_icon" src="../images/download_24px.svg" alt="downloadStoriesIcon" width="14" height="17"></td>
-    </tr>
-    </thead>
     <tbody>
     <tr>
       <td>Story</td>
       <td>14</td>
-      <td><img src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></td>
+      <td><input type="image" src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></td>
     </tr>
     <tr>
       <td>Story</td>
       <td>14</td>
-      <td><img src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></td>
+      <td><input type="image" src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></td>
     </tr>
     <tr>
       <td>Story</td>
       <td>14</td>
-      <td><img src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></td>
+      <td><input type="image" src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></td>
     </tr>
     </tbody>
   </table>
+  </div>
 </div>
 </main>
 <footer>
-  Copyright 2021 <a href="http://localhost:63342/client/src/html/FirstPage.html">PlanPoker</a>
+  <p>Copyright 2021 <a href="http://localhost:63342/client/src/html/FirstPage.html">PlanPoker</a></p>
 </footer>
 </body>
 </html>

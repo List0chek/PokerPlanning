@@ -2,25 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" href="public/favicon.ico">
+  <link rel="icon" href="/public/favicon.ico">
   <title>Title</title>
 </head>
 <body>
 <header>
   <a href="http://localhost:63342/client/src/html/FirstPage.html">
     <img src="../images/pie_chart_24px.svg" alt="logo" width="58" height="58">
-    PlanPoker
+    <h1>PlanPoker</h1>
   </a>
 </header>
 <main>
-  <h1>Let's start!</h1>
-  <label for="create_room_form">Create the room:</label>
-  <form id="create_room_form" action="/api/room/create/" method="post">
+  <form action="/api/room/create/" method="post">
+  <h2>Let's start!</h2>
+  <h4>Create the room:</h4>
     <div>
       <label for="user_name">
         Username
-        <input id="user_name" type="text" name="username" placeholder="Enter your name" required>
       </label>
+        <input id="user_name" type="text" name="username" placeholder="Enter your name" required>
     </div>
     <div>
       <label for="room_name">
@@ -29,12 +29,12 @@
       <input id="room_name" type="text" name="roomName" placeholder="Enter room name" required>
     </div>
     <div>
-      <button type="button">Enter</button>
+      <button type="submit">Enter</button>
     </div>
   </form>
 </main>
 <footer>
-  Copyright 2021 <a href="http://localhost:63342/client/src/html/FirstPage.html">PlanPoker</a>
+  <p>Copyright 2021 <a href="http://localhost:63342/client/src/html/FirstPage.html">PlanPoker</a></p>
 </footer>
 </body>
 </html>
