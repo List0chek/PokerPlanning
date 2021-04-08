@@ -12,7 +12,7 @@ namespace PlanPoker.Services
         /// <summary>
         /// Экземпляр InMemoryDeckRepository.
         /// </summary>
-        private IRepository<Deck> deckRepository;
+        private readonly IRepository<Deck> deckRepository;
 
         /// <summary>
         /// Конструктор класса DeckService.

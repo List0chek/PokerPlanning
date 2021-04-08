@@ -13,7 +13,7 @@ namespace PlanPoker.DTO.Converters
         /// <summary>
         /// Экземпляр InMemoryCardRepository.
         /// </summary>
-        private IRepository<Card> cardRepository;
+        private readonly IRepository<Card> cardRepository;
 
         /// <summary>
         /// Конструктор класса DeckDTOConverter.

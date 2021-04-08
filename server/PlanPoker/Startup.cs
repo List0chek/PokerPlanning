@@ -42,7 +42,6 @@ namespace PlanPoker
             services.AddTransient<DeckService>();
             services.AddSingleton<IRepository<Deck>, InMemoryDeckRepository>();
 
-            services.AddTransient<CardService>();
             services.AddSingleton<IRepository<Card>, InMemoryCardRepository>();
 
             mvcBuilder.Services.Configure((MvcOptions options) =>

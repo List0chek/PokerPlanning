@@ -13,37 +13,37 @@ namespace PlanPoker.Services
         /// <summary>
         /// Экземпляр InMemoryDiscussionRepository.
         /// </summary>
-        private IRepository<Discussion> discussionRepository;
+        private readonly IRepository<Discussion> discussionRepository;
 
         /// <summary>
         /// Экземпляр InMemoryRoomRepository.
         /// </summary>
-        private IRepository<Room> roomRepository;
+        private readonly IRepository<Room> roomRepository;
 
         /// <summary>
         /// Экземпляр InMemoryVoteRepository.
         /// </summary>
-        private IRepository<Vote> voteRepository;
+        private readonly IRepository<Vote> voteRepository;
 
         /// <summary>
         /// Экземпляр InMemoryUserRepository.
         /// </summary>
-        private IRepository<User> userRepository;
+        private readonly IRepository<User> userRepository;
 
         /// <summary>
         /// Экземпляр InMemoryDeckRepository.
         /// </summary>
-        private IRepository<Deck> deckRepository;
+        private readonly IRepository<Deck> deckRepository;
 
         /// <summary>
         /// Экземпляр InMemoryCardRepository.
         /// </summary>
-        private IRepository<Card> cardRepository;
+        private readonly IRepository<Card> cardRepository;
 
         /// <summary>
         /// Экземпляр VoteService.
         /// </summary>
-        private VoteService voteService;
+        private readonly VoteService voteService;
 
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace PlanPoker.Services
                 throw new UnauthorizedAccessException("Discussion topic name is not valid");
             }
 
-            if (!host.Token.Equals(hostToken) || hostToken is null)
+            if (hostToken is null || !host.Token.Equals(hostToken))
             {
                 throw new UnauthorizedAccessException("Token is not valid");
             }

@@ -12,17 +12,17 @@ namespace PlanPoker.Services
         /// <summary>
         /// Экземпляр InMemoryRoomRepository.
         /// </summary>
-        private IRepository<Room> roomRepository;
+        private readonly IRepository<Room> roomRepository;
 
         /// <summary>
         /// Экземпляр InMemoryUserRepository.
         /// </summary>
-        private IRepository<User> userRepository;
+        private readonly IRepository<User> userRepository;
 
         /// <summary>
         /// Экземпляр InMemoryDiscussionRepository.
         /// </summary>
-        private IRepository<Discussion> discussionRepository;
+        private readonly IRepository<Discussion> discussionRepository;
 
         /// <summary>
         /// Конструктор класса RoomService.
@@ -54,7 +54,7 @@ namespace PlanPoker.Services
                 throw new UnauthorizedAccessException("Room name is not valid");
             }
 
-            if (!owner.Token.Equals(ownerToken) || ownerToken is null)
+            if (ownerToken is null || !owner.Token.Equals(ownerToken))
             {
                 throw new UnauthorizedAccessException("Token is not valid");
             }
@@ -110,7 +110,7 @@ namespace PlanPoker.Services
             var updatingRoom = this.roomRepository.Get(roomId) ?? throw new UnauthorizedAccessException("Room not found");
             var newHost = this.userRepository.Get(newHostId) ?? throw new UnauthorizedAccessException("User not found");
             var owner = this.userRepository.Get(ownerId) ?? throw new UnauthorizedAccessException("User not found");
-            if (!owner.Token.Equals(ownerToken) || ownerToken is null)
+            if (ownerToken is null || !owner.Token.Equals(ownerToken))
             {
                 throw new UnauthorizedAccessException("Token is not valid");
             }

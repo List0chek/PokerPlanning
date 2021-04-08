@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DataService.Models
 {
@@ -11,6 +12,11 @@ namespace DataService.Models
         /// Имя сущности Deck.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Лист ID карт, которые есть в колоде.
+        /// </summary>
+        public ICollection<Guid> Cards { get; } = new List<Guid>();
 
         /// <summary>
         /// Конструктор класса Deck.

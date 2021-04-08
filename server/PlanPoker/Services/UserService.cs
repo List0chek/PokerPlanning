@@ -12,7 +12,7 @@ namespace PlanPoker.Services
         /// <summary>
         /// Экземпляр InMemoryUserRepository.
         /// </summary>
-        private IRepository<User> userRepository;
+        private readonly IRepository<User> userRepository;
 
         /// <summary>
         /// Конструктор класса UserService.
@@ -60,7 +60,7 @@ namespace PlanPoker.Services
                 throw new UnauthorizedAccessException("Wrong username");
             }
 
-            if (!user.Token.Equals(token) || token is null)
+            if (token is null || !user.Token.Equals(token))
             {
                 throw new UnauthorizedAccessException("Wrong token");
             }

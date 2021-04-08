@@ -13,7 +13,7 @@ namespace PlanPoker.DTO.Converters
         /// <summary>
         /// Экземпляр InMemoryVoteRepository.
         /// </summary>
-        private IRepository<Vote> voteRepository;
+        private readonly IRepository<Vote> voteRepository;
 
         /// <summary>
         /// Конструктор класса DiscussionDTOConverter.

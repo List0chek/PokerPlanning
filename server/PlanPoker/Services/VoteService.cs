@@ -13,22 +13,22 @@ namespace PlanPoker.Services
         /// <summary>
         /// Экземпляр InMemoryVoteRepository.
         /// </summary>
-        private IRepository<Vote> voteRepository;
+        private readonly IRepository<Vote> voteRepository;
 
         /// <summary>
         /// Экземпляр InMemoryUserRepository.
         /// </summary>
-        private IRepository<User> userRepository;
+        private readonly IRepository<User> userRepository;
 
         /// <summary>
         /// Экземпляр InMemoryCardRepository.
         /// </summary>
-        private IRepository<Card> cardRepository;
+        private readonly IRepository<Card> cardRepository;
 
         /// <summary>
         /// Экземпляр InMemoryDiscussionRepository.
         /// </summary>
-        private IRepository<Discussion> discussionRepository;
+        private readonly IRepository<Discussion> discussionRepository;
 
         /// <summary>
         /// Конструктор класса VoteService.

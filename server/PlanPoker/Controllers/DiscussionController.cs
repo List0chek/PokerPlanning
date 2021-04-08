@@ -17,7 +17,7 @@ namespace PlanPoker.Controllers
         /// <summary>
         /// Экземпляр InMemoryVoteRepository.
         /// </summary>
-        private IRepository<Vote> voteRepository;
+        private readonly IRepository<Vote> voteRepository;
 
         /// <summary>
         /// Экземпляр DiscussionService.

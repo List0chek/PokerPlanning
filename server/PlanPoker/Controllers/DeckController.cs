@@ -17,7 +17,7 @@ namespace PlanPoker.Controllers
         /// <summary>
         /// Экземпляр InMemoryCardRepository.
         /// </summary>
-        private IRepository<Card> cardRepository;
+        private readonly IRepository<Card> cardRepository;
 
         /// <summary>
         /// Экземпляр DeckService.
