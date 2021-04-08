@@ -20,6 +20,11 @@ namespace PlanPoker.DTO
         public string Name { get; set; }
 
         /// <summary>
+        /// Лист ID карт, которые есть в колоде.
+        /// </summary>
+        public ICollection<Guid> CardsIDs { get; set; } = new List<Guid>();
+
+        /// <summary>
         /// Набор карт.
         /// </summary>
         public IEnumerable<CardDTO> Cards { get; set; }

@@ -36,6 +36,8 @@ namespace PlanPoker.DTO.Converters
             {
                 Id = deck.Id,
                 Name = deck.Name,
+
+                // CardsIDs = deck.CardsIDs, // В ДТО можно не выводить, т.к. cardsList выводит CardDTO, в которых уже есть cardID.
                 Cards = cardsList
             };
         }

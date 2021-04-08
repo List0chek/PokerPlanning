@@ -16,7 +16,7 @@ namespace DataService.Models
         /// <summary>
         /// Лист ID карт, которые есть в колоде.
         /// </summary>
-        public ICollection<Guid> Cards { get; } = new List<Guid>();
+        public ICollection<Guid> CardsIDs { get; } = new List<Guid>();
 
         /// <summary>
         /// Конструктор класса Deck.

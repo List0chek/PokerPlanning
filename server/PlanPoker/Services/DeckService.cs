@@ -1,6 +1,8 @@
 ﻿using DataService;
 using DataService.Models;
+using PlanPoker.Models;
 using System;
+using System.Linq;
 
 namespace PlanPoker.Services
 {
@@ -15,12 +17,20 @@ namespace PlanPoker.Services
         private readonly IRepository<Deck> deckRepository;
 
         /// <summary>
+        /// Экземпляр InMemoryCardRepository.
+        /// </summary>
+        private readonly IRepository<Card> cardRepository;
+
+
+        /// <summary>
         /// Конструктор класса DeckService.
         /// </summary>
         /// <param name="deckRepository">Экземпляр InMemoryDeckRepository.</param>
-        public DeckService(IRepository<Deck> deckRepository)
+        /// <param name="cardRepository">Экземпляр InMemoryCardRepository.</param>
+        public DeckService(IRepository<Deck> deckRepository, IRepository<Card> cardRepository)
         {
             this.deckRepository = deckRepository;
+            this.cardRepository = cardRepository;
         }
 
         /// <summary>
@@ -35,6 +45,12 @@ namespace PlanPoker.Services
             if (name is null || name == string.Empty)
             {
                 throw new UnauthorizedAccessException("Wrong deck name");
+            }
+
+            var cardIDsList = this.cardRepository.GetAll().Select(item => item.Id).ToList();
+            foreach (var cardID in cardIDsList)
+            {
+                deck.CardsIDs.Add(cardID);
             }
 
             deck.Name = name;
