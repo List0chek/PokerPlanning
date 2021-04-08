@@ -32,7 +32,7 @@ namespace PlanPoker.Services
         /// <param name="name">Название колоды.</param>
         /// <param name="cardIds">Id карт.</param>
         /// <returns>Возвращает экземпляр Deck.</returns>
-        public Deck Create(string name, List<Guid> cardIds)
+        public Deck Create(string name, IEnumerable<Guid> cardIds)
         {
             var deck = this.deckRepository.Create();
             if (this.deckRepository.GetAll().Select(item => item.Name).Equals(name))

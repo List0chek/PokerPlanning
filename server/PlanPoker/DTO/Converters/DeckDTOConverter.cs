@@ -35,7 +35,7 @@ namespace PlanPoker.DTO.Converters
             {
                 Id = deck.Id,
                 Name = deck.Name,
-                Cards = deck.CardsIds.Select(item => new CardDTOConverter().Convert(this.cardRepository.Get(item)))
+                Cards = deck.CardsIds.Select(item => new CardDTOConverter().Convert(this.cardRepository.Get(item))).ToList()
             };
         }
     }

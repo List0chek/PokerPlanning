@@ -41,9 +41,10 @@ namespace PlanPoker.Controllers
         /// Создает экземпляр Deck.
         /// </summary>
         /// <param name="name">Имя колоды.</param>
+        /// <param name="cardIds">Id карт.</param>
         /// <returns>Возвращает DeckDTO.</returns>
         [HttpPost]
-        public DeckDTO Create(string name, List<Guid> cardIds)
+        public DeckDTO Create(string name, IEnumerable<Guid> cardIds)
         {
             var deck = this.deckService.Create(name, cardIds);
             return new DeckDTOConverter(this.cardRepository).Convert(deck);
@@ -52,7 +53,6 @@ namespace PlanPoker.Controllers
         /// <summary>
         /// Получить стандартную колоду.
         /// </summary>
-        /// <param name="name">Имя колоды.</param>
         /// <returns>Возвращает DeckDTO.</returns>
         [HttpGet]
         public DeckDTO GetDefaultDeck()
