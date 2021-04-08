@@ -35,10 +35,10 @@ namespace PlanPoker.DTO.Converters
             int votesCounter = 0;
             double numerableVotesSum = 0;
             double averageResult = 0;
-            var votesList = this.voteRepository?.GetAll()
+            var votesList = this.voteRepository.GetAll()
                 .Select(item => new VoteDTOConverter().Convert(item))
                 .Where(item => item.DiscussionId.Equals(discussion.Id))
-                .ToList<VoteDTO>();
+                .ToList();
             if (votesList?.Count > 0)
             {
                 foreach (var vote in votesList)

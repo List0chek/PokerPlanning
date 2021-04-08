@@ -4,6 +4,8 @@ using PlanPoker.DTO;
 using PlanPoker.DTO.Converters;
 using PlanPoker.Models;
 using PlanPoker.Services;
+using System;
+using System.Collections.Generic;
 
 namespace PlanPoker.Controllers
 {
@@ -41,9 +43,21 @@ namespace PlanPoker.Controllers
         /// <param name="name">Имя колоды.</param>
         /// <returns>Возвращает DeckDTO.</returns>
         [HttpPost]
-        public DeckDTO Create(string name)
+        public DeckDTO Create(string name, List<Guid> cardIds)
         {
-            var deck = this.deckService.Create(name);
+            var deck = this.deckService.Create(name, cardIds);
+            return new DeckDTOConverter(this.cardRepository).Convert(deck);
+        }
+
+        /// <summary>
+        /// Получить стандартную колоду.
+        /// </summary>
+        /// <param name="name">Имя колоды.</param>
+        /// <returns>Возвращает DeckDTO.</returns>
+        [HttpGet]
+        public DeckDTO GetDefaultDeck()
+        {
+            var deck = this.deckService.GetDefaultDeck();
             return new DeckDTOConverter(this.cardRepository).Convert(deck);
         }
     }

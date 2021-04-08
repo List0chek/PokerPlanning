@@ -2,6 +2,7 @@
 using DataService.Models;
 using PlanPoker.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PlanPoker.Services
@@ -17,44 +18,54 @@ namespace PlanPoker.Services
         private readonly IRepository<Deck> deckRepository;
 
         /// <summary>
-        /// Экземпляр InMemoryCardRepository.
-        /// </summary>
-        private readonly IRepository<Card> cardRepository;
-
-
-        /// <summary>
         /// Конструктор класса DeckService.
         /// </summary>
         /// <param name="deckRepository">Экземпляр InMemoryDeckRepository.</param>
-        /// <param name="cardRepository">Экземпляр InMemoryCardRepository.</param>
-        public DeckService(IRepository<Deck> deckRepository, IRepository<Card> cardRepository)
+        public DeckService(IRepository<Deck> deckRepository)
         {
             this.deckRepository = deckRepository;
-            this.cardRepository = cardRepository;
         }
 
         /// <summary>
         /// Создает новую колоду.
         /// </summary>
         /// <param name="name">Название колоды.</param>
+        /// <param name="cardIds">Id карт.</param>
         /// <returns>Возвращает экземпляр Deck.</returns>
-        public Deck Create(string name)
+        public Deck Create(string name, List<Guid> cardIds)
         {
             var deck = this.deckRepository.Create();
+            if (this.deckRepository.GetAll().Select(item => item.Name).Equals(name))
+            {
+                throw new ArgumentException("Wrong deck name");
+            }
 
             if (name is null || name == string.Empty)
             {
-                throw new UnauthorizedAccessException("Wrong deck name");
+                throw new ArgumentException("Wrong deck name");
             }
 
-            var cardIDsList = this.cardRepository.GetAll().Select(item => item.Id).ToList();
+            var cardIDsList = cardIds ?? throw new ArgumentException("Wrong cardIds");
             foreach (var cardID in cardIDsList)
             {
-                deck.CardsIDs.Add(cardID);
+                deck.CardsIds.Add(cardID);
             }
 
             deck.Name = name;
             this.deckRepository.Save(deck);
+            return deck;
+        }
+
+        /// <summary>
+        /// Создает новую колоду.
+        /// </summary>
+        /// <returns>Возвращает экземпляр Deck.</returns>
+        public Deck GetDefaultDeck()
+        {
+            var deck = this.deckRepository
+                .GetAll()
+                .Where(item => item.Name.Contains("defaultDeck"))
+                .FirstOrDefault();
             return deck;
         }
     }

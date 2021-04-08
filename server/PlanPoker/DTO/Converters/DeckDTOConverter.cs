@@ -31,14 +31,11 @@ namespace PlanPoker.DTO.Converters
         /// <returns>Экземпляр DeckDTO.</returns>
         public DeckDTO Convert(Deck deck)
         {
-            var cardsList = this.cardRepository?.GetAll().Select(item => new CardDTOConverter().Convert(item)).ToList<CardDTO>();
             return new DeckDTO()
             {
                 Id = deck.Id,
                 Name = deck.Name,
-
-                // CardsIDs = deck.CardsIDs, // В ДТО можно не выводить, т.к. cardsList выводит CardDTO, в которых уже есть cardID.
-                Cards = cardsList
+                Cards = deck.CardsIds.Select(item => new CardDTOConverter().Convert(this.cardRepository.Get(item)))
             };
         }
     }

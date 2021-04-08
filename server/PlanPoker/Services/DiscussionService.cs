@@ -31,11 +31,6 @@ namespace PlanPoker.Services
         private readonly IRepository<User> userRepository;
 
         /// <summary>
-        /// Экземпляр InMemoryDeckRepository.
-        /// </summary>
-        private readonly IRepository<Deck> deckRepository;
-
-        /// <summary>
         /// Экземпляр InMemoryCardRepository.
         /// </summary>
         private readonly IRepository<Card> cardRepository;
@@ -54,7 +49,6 @@ namespace PlanPoker.Services
         /// <param name="voteRepository">Экземпляр InMemoryVoteRepository.</param>
         /// <param name="userRepository">Экземпляр InMemoryUserRepository.</param>
         /// <param name="voteService">Экземпляр VoteService.</param>
-        /// <param name="deckRepository">Экземпляр InMemoryDeckRepository.</param>
         /// <param name="cardRepository">Экземпляр InMemoryCardRepository.</param>
         public DiscussionService(
             IRepository<Discussion> discussionRepository,
@@ -62,7 +56,6 @@ namespace PlanPoker.Services
             IRepository<Vote> voteRepository,
             IRepository<User> userRepository,
             VoteService voteService,
-            IRepository<Deck> deckRepository,
             IRepository<Card> cardRepository)
         {
             this.discussionRepository = discussionRepository;
@@ -70,7 +63,6 @@ namespace PlanPoker.Services
             this.voteRepository = voteRepository;
             this.userRepository = userRepository;
             this.voteService = voteService;
-            this.deckRepository = deckRepository;
             this.cardRepository = cardRepository;
         }
 
