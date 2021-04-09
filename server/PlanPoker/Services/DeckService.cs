@@ -18,12 +18,19 @@ namespace PlanPoker.Services
         private readonly IRepository<Deck> deckRepository;
 
         /// <summary>
+        /// Экземпляр InMemoryCardRepository.
+        /// </summary>
+        private readonly IRepository<Card> cardRepository;
+
+        /// <summary>
         /// Конструктор класса DeckService.
         /// </summary>
         /// <param name="deckRepository">Экземпляр InMemoryDeckRepository.</param>
-        public DeckService(IRepository<Deck> deckRepository)
+        /// <param name="cardRepository">Экземпляр InMemoryCardRepository.</param>
+        public DeckService(IRepository<Deck> deckRepository, IRepository<Card> cardRepository)
         {
             this.deckRepository = deckRepository;
+            this.cardRepository = cardRepository;
         }
 
         /// <summary>
@@ -35,7 +42,7 @@ namespace PlanPoker.Services
         public Deck Create(string name, IEnumerable<Guid> cardIds)
         {
             var deck = this.deckRepository.Create();
-            if (this.deckRepository.GetAll().Select(item => item.Name).Equals(name))
+            if (this.deckRepository.GetAll().Select(item => item.Name).Contains(name))
             {
                 throw new ArgumentException("Wrong deck name");
             }
@@ -48,7 +55,8 @@ namespace PlanPoker.Services
             var cardIDsList = cardIds ?? throw new ArgumentException("Wrong cardIds");
             foreach (var cardID in cardIDsList)
             {
-                deck.CardsIds.Add(cardID);
+                var card = this.cardRepository.Get(cardID) ?? throw new ArgumentException("Card by this Id is not found", cardID.ToString());
+                deck.CardsIds.Add(card.Id);
             }
 
             deck.Name = name;
@@ -65,7 +73,7 @@ namespace PlanPoker.Services
             var deck = this.deckRepository
                 .GetAll()
                 .Where(item => item.Name.Contains("defaultDeck"))
-                .FirstOrDefault();
+                .FirstOrDefault() ?? throw new ArgumentException("Something went wrong, so we can't find the default deck"); ;
             return deck;
         }
     }

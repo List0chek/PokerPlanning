@@ -108,8 +108,8 @@ namespace DataService.Repositories
 
             cardRepository.Create();
             var card14 = cardRepository.Create();
-            card14.Name = "☕";
-            card14.Value = "☕";
+            card14.Name = "&#9749";
+            card14.Value = "&#9749";
             cardRepository.Save(card14);
             defaultDeck.CardsIds.Add(card14.Id);
             this.Save(defaultDeck);
