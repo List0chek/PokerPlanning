@@ -13,18 +13,22 @@
   </a>
   <label for="user_icon">
     test
-    <input type="image" id="user_icon" src="../images/User%20Icon.svg" alt="userIcon" width="59" height="59">
+    <button>
+      <img id="user_icon" src="../images/User%20Icon.svg" alt="userIcon" width="59" height="59">
+    </button>
   </label>
 </header>
 <main>
-  <h4>Story:</h4>
+  <h2>Story:</h2>
   <div>
-    <svg width="310" height="310" viewBox="0 0 310 310" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="155" cy="155" r="149" stroke="#4B9AE8" stroke-width="12"/>
-      <text x="107" y="167" font-family="Roboto" font-size="26" fill="black">2 Players</text>
-      <text x="138" y="147" font-family="Roboto" font-size="14" fill="black">voted</text>
-      <text x="120" y="113" font-family="Roboto" font-size="26" fill="black">Avg: 4</text>
-    </svg>
+    <div style="border: 10px solid cornflowerblue;        /* TODO Пока сделал style тут, потом перенести все в css и сделать класс*/
+          border-radius: 50px 50px 50px 50px;
+          padding: 15px;
+          margin-bottom: 10px;">
+      <div>2 Players</div>
+      <div>voted</div>
+      <div>Avg: 4</div>
+    </div>
   <ul>
     <li>
       3
@@ -72,11 +76,17 @@
   </div>
 <div>
   <header>Completed Stories
-  <svg width="25" height="20" viewBox="0 0 25 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="25" height="20" rx="10" fill="#C9CFD6"/>
-    <text x="9" y="12" font-family="Roboto" font-size="13" fill="white">5</text>
-  </svg>
-  <input type="image" id="download_stories_icon" src="../images/download_24px.svg" alt="downloadStoriesIcon" width="14" height="17">
+    <div style="
+          border: 1px solid gray;
+          background: lightgray;
+          border-radius: 50px 50px 50px 50px;
+          padding: 15px;
+          margin-bottom: 10px;">      <!--TODO Пока сделал style тут, потом перенести все в css и сделать класс-->
+    5
+    </div>
+    <button>
+      <img id="download_stories_icon" src="../images/download_24px.svg" alt="downloadStoriesIcon" width="14" height="17">
+    </button>
   </header>
   <div>
   <table>
@@ -84,17 +94,17 @@
     <tr>
       <td>Story</td>
       <td>14</td>
-      <td><input type="image" src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></td>
+      <td><button><img src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></button></td>
     </tr>
     <tr>
       <td>Story</td>
       <td>14</td>
-      <td><input type="image" src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></td>
+      <td><button><img src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></button></td>
     </tr>
     <tr>
       <td>Story</td>
       <td>14</td>
-      <td><input type="image" src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></td>
+      <td><button><img src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></button></td>
     </tr>
     </tbody>
   </table>
