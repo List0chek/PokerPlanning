@@ -58,9 +58,9 @@ namespace PlanPoker.Services
         /// <returns>Возвращает экземпляр Vote.</returns>
         public Vote Create(Guid cardId, Guid discussionId, Guid userId)
         {
-            var card = this.cardRepository.Get(cardId) ?? throw new UnauthorizedAccessException("Card not found");
-            var discussion = this.discussionRepository.Get(discussionId) ?? throw new UnauthorizedAccessException("Discussion not found");
-            var user = this.userRepository.Get(userId) ?? throw new UnauthorizedAccessException("User not found");
+            var card = this.cardRepository.Get(cardId) ?? throw new ArgumentException("Card not found");
+            var discussion = this.discussionRepository.Get(discussionId) ?? throw new ArgumentException("Discussion not found");
+            var user = this.userRepository.Get(userId) ?? throw new ArgumentException("User not found");
             if (this.voteRepository.GetAll().Where(item => item.UserId.Equals(user.Id)).Count() == 0)
             {
                 var vote = this.voteRepository.Create();
@@ -72,7 +72,7 @@ namespace PlanPoker.Services
                 this.voteRepository.Save(vote);
                 return vote;
             }
-            else throw new UnauthorizedAccessException("User already did a vote");
+            else throw new ArgumentException("User already did a vote");
         }
 
         /// <summary>
@@ -84,12 +84,12 @@ namespace PlanPoker.Services
         /// <returns>Возвращает экземпляр Vote.</returns>
         public Vote Change(Guid voteId, Guid newCardId, Guid userId)
         {
-            var vote = this.voteRepository.Get(voteId) ?? throw new UnauthorizedAccessException("Vote not found");
-            var newCard = this.cardRepository.Get(newCardId) ?? throw new UnauthorizedAccessException("Card not found");
-            var user = this.userRepository.Get(userId) ?? throw new UnauthorizedAccessException("User not found");
+            var vote = this.voteRepository.Get(voteId) ?? throw new ArgumentException("Vote not found");
+            var newCard = this.cardRepository.Get(newCardId) ?? throw new ArgumentException("Card not found");
+            var user = this.userRepository.Get(userId) ?? throw new ArgumentException("User not found");
             if (!vote.UserId.Equals(user.Id))
             {
-                throw new UnauthorizedAccessException("User is not valid");
+                throw new ArgumentException("User is not valid");
             }
 
             vote.CardId = newCard.Id;

@@ -54,7 +54,7 @@ namespace Tests
         }
 
         [Test]
-        public void IsThrowExceptionOnInvalidNameTest()
+        public void IsThrowExceptionOnInvalidValueTest()
         {
             var exampleCardIdsListWithInvalidCardId = new List<Guid>() { this.card1.Id, this.card2.Id, Guid.NewGuid() };
             Assert.Throws<ArgumentException>(() => this.deckService.Create(null, this.cardIdsList), "Wrong deck name");
