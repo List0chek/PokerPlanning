@@ -21,11 +21,18 @@ namespace Task_2
 
             Console.WriteLine("Введите дату напоминания");
             remindDate = DateTime.Now.AddMinutes(1);
-            Console.WriteLine(remindDate);              
+            Console.WriteLine(remindDate);
 
 
             MeetingWithReminding meetingWithReminding = new MeetingWithReminding(dateStart, dateEnd, remindDate);
-            meetingWithReminding.Remind += DisplayMessage;      
+            meetingWithReminding.Remind += DisplayMessage;
+
+            MeetingWithoutEndTime everlastingMeeting = new MeetingWithoutEndTime(dateStart);
+            Console.WriteLine(everlastingMeeting.Duration);
+
+            var typeOfMeeting = new MeetingWithType(dateStart, dateEnd, MeetingWithType.MeetingType.BirthDay);
+            Console.WriteLine(typeOfMeeting.Type);
+
             Console.ReadKey();            
         }
 
