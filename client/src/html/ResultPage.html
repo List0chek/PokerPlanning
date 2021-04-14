@@ -2,114 +2,120 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" href="/public/favicon.ico"/>
+  <link rel="icon" href="../../public/favicon.ico">
   <title>Title</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <a href="http://localhost:63342/client/src/html/FirstPage.html">
-    <img src="../images/pie_chart_24px.svg" alt="logo" width="58" height="58">
-    <h1>PlanPoker</h1>
+<header class="main_header">
+  <a class="main_page_url" href="http://localhost:63342/client/src/html/FirstPage.html">
+    <img class="main_page_url_logo" src="../images/pie_chart_24px.svg" alt="logo" width="58" height="58">
+    <h1 class="main_page_url_name">PlanPoker</h1>
   </a>
-  <button id="user_button">
-    test
+  <button class="user_btn" id="user_button">
+    <span>testtesttesttesttesttesttesttesttesttesttesttesttesttest 1</span>
     <img src="../images/User%20Icon.svg" alt="userIcon" width="59" height="59">
   </button>
 </header>
-<main>
-  <h2>Story:</h2>
-  <div>
-    <div style="border: 10px solid cornflowerblue;        /* TODO Пока сделал style тут, потом перенести все в css и сделать класс*/
-          border-radius: 50px 50px 50px 50px;
-          padding: 15px;
-          margin-bottom: 10px;">
-      <div>2 Players</div>
-      <div>voted</div>
-      <div>Avg: 4</div>
+<main class="main_main">
+  <h2 class="main_block_name">Story:</h2>
+  <div class="main_block">
+    <div class="story_vote_result">
+      <div class="story_vote_result_circle">
+        <div class="line_1">2 Players</div>
+        <div class="line_2">voted</div>
+        <div class="line_3">Avg: 4</div>
+      </div>
+      <ul class="story_vote_result_info">
+        <li class="vote_value_dot_1">
+          <span class="vote_value_mark">3</span>
+          <span class="vote_value_info">50% (1 player)</span>
+        </li>
+        <li class="vote_value_dot_2">
+          <span class="vote_value_mark">5</span>
+          <span class="vote_value_info">50% (1 player)</span>
+        </li>
+      </ul>
     </div>
-  <ul>
-    <li>
-      3
-      <span>50% (1 player)</span>
-    </li>
-    <li>
-      5
-      <span>50% (1 player)</span>
-    </li>
-  </ul>
+
+    <div class="story_vote">
+      <header>
+        Story vote completed
+      </header>
+      <div class="players_name_row">
+        <span class="players_name_text">Players:</span>
+      </div>
+      <div>
+        <table class="players_table">
+          <tbody>
+          <tr class="row row_border">
+            <td class="cell_1"><img src="../images/User%20Icon.jpg" alt="userIcon" width="42" height="42"></td>
+            <td class="cell_2">testtesttesttesttesttesttesttesttesttesttesttesttesttest 1</td>
+            <td class="cell_3"><img src="../images/check_circle_24px.png" alt="check_circle_icon" width="24"
+                                    height="24"></td>
+          </tr>
+          <tr class="row row_border">
+            <td class="cell_1"><img src="../images/User%20Icon.jpg" alt="userIcon" width="42" height="42"></td>
+            <td class="cell_2">test 2</td>
+            <td class="cell_3"></td>
+          </tr>
+          </tbody>
+        </table>
+        <button class="story_vote_button" type="button">Next</button>
+      </div>
+      <div class="story_vote_invite_friend">
+        <label>
+          Invite friend
+          <input class="story_vote_invite_friend_url" type="url" name="url"
+                 value="http://localhost:63342/client/src/html/InvitePage.html" readonly>
+        </label>
+      </div>
+    </div>
   </div>
 
-  <div>
+  <div class="completed_stories">
     <header>
-      Story vote completed
+      <div class="completed_stories_text_and_amount_icon">
+        Completed Stories
+        <div class="completed_stories_amount_icon">
+          <span>5</span>
+        </div>
+      </div>
+      <button class="completed_stories_download_btn">
+        <img id="download_stories_icon" src="../images/download_24px.svg" alt="downloadStoriesIcon" width="14"
+             height="17">
+      </button>
     </header>
-    <span>Players:</span>
     <div>
-      <table>
+      <table class="players_table">
         <tbody>
-        <tr>
-          <td><img src="../images/User%20Icon.jpg" alt="userIcon" width="42" height="42"></td>
-          <td>test 1</td>
-          <td>3</td>
+        <tr class="row row_border">
+          <td class="completed_stories_cell_1">Very long storyname</td>
+          <td class="completed_stories_cell_2">14446165616</td>
+          <td class="completed_stories_cell_3">
+            <button class="completed_stories_delete_btn"><img src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></button>
+          </td>
         </tr>
-        <tr>
-          <td><img src="../images/User%20Icon.jpg" alt="userIcon" width="42" height="42"></td>
-          <td>test 2</td>
-          <td>5</td>
+        <tr class="row row_border">
+          <td class="completed_stories_cell_1">Story</td>
+          <td class="completed_stories_cell_2">14</td>
+          <td class="completed_stories_cell_3">
+            <button class="completed_stories_delete_btn"><img src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></button>
+          </td>
         </tr>
-        <tr>
-          <td><button type="button">Next</button></td>
-          <td></td>
-          <td></td>
+        <tr class="row row_border">
+          <td class="completed_stories_cell_1">Story</td>
+          <td class="completed_stories_cell_2">14</td>
+          <td class="completed_stories_cell_3">
+            <button class="completed_stories_delete_btn"><img src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></button>
+          </td>
         </tr>
         </tbody>
       </table>
     </div>
-    <footer>
-      <label>
-        Invite friend
-        <input type="url" name="url" value="http://localhost:63342/client/src/html/InvitePage.html" readonly>
-      </label>
-    </footer>
   </div>
-<div>
-  <header>Completed Stories
-    <div style="
-          border: 1px solid gray;
-          background: lightgray;
-          border-radius: 50px 50px 50px 50px;
-          padding: 15px;
-          margin-bottom: 10px;">      <!--TODO Пока сделал style тут, потом перенести все в css и сделать класс-->
-    5
-    </div>
-    <button>
-      <img id="download_stories_icon" src="../images/download_24px.svg" alt="downloadStoriesIcon" width="14" height="17">
-    </button>
-  </header>
-  <div>
-  <table>
-    <tbody>
-    <tr>
-      <td>Story</td>
-      <td>14</td>
-      <td><button><img src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></button></td>
-    </tr>
-    <tr>
-      <td>Story</td>
-      <td>14</td>
-      <td><button><img src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></button></td>
-    </tr>
-    <tr>
-      <td>Story</td>
-      <td>14</td>
-      <td><button><img src="../images/delete_24px.svg" alt="deleteStoryIcon" width="14" height="18"></button></td>
-    </tr>
-    </tbody>
-  </table>
-  </div>
-</div>
 </main>
-<footer>
+<footer class="main_footer">
   <p>Copyright 2021 <a href="http://localhost:63342/client/src/html/FirstPage.html">PlanPoker</a></p>
 </footer>
 </body>

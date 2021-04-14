@@ -2,32 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" href="/public/favicon.ico"/>
+  <link rel="icon" href="../../public/favicon.ico">
   <title>Title</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <a href="http://localhost:63342/client/src/html/FirstPage.html">
-    <img src="../images/pie_chart_24px.svg" alt="logo" width="58" height="58">
-    <h1>PlanPoker</h1>
+<header class="main_header">
+  <a class="main_page_url" href="http://localhost:63342/client/src/html/FirstPage.html">
+    <img class="main_page_url_logo" src="../images/pie_chart_24px.svg" alt="logo" width="58" height="58">
+    <h1 class="main_page_url_name">PlanPoker</h1>
   </a>
 </header>
-<main>
-  <form action="/api/room/addMember/" method="post">
-    <h2>Let's start!</h2>
-    <p>Join the room:</p>
-    <div>
-      <label for="user_name">
-        Username
-        <input id="user_name" type="text" name="username" placeholder="Enter your name" required>
-      </label>
-    </div>
-    <div>
-      <button type="submit">Enter</button>
-    </div>
-  </form>
+<main class="main_main">
+  <div class="main_block">
+    <form class="login_form" action="/api/room/create/" method="post">
+      <h2 class="login_form_h2">Let's start!</h2>
+      <p>Join the room:</p>
+      <div class="input_username">
+        <label for="user_name">
+          Username
+        </label>
+        <input class="textarea_name" id="user_name" type="text" name="username" placeholder="Enter your name" required>
+      </div>
+      <div class="input_enter_btn">
+        <button class="enter_btn" type="submit">Enter</button>
+      </div>
+    </form>
+  </div>
 </main>
-<footer>
+<footer class="main_footer">
   <p>Copyright 2021 <a href="http://localhost:63342/client/src/html/FirstPage.html">PlanPoker</a></p>
 </footer>
 </body>
