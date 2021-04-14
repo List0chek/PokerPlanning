@@ -1,14 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
-@import "../normalize.css";
+/*@import "../normalize.css";*/
 
 body {
   display: flex;
   flex-direction: column;
-  min-width: 1280px;
   min-height: 100vh;
   margin: 0 auto;
 
-  font-family: Roboto;
+  font-family: "Roboto";
 
   background: #edf2f7;
 }
@@ -39,6 +38,7 @@ button {
   flex-wrap: nowrap;
   justify-content: space-between;
   width: 100%;
+  height: 90px;
 
   background: #ffffff;
 }
@@ -47,9 +47,10 @@ button {
   /*display: flex;
   flex-direction: column;*/
   flex-grow: 1;
+  /*margin-bottom: 52px;*/
 }
 
-.main_header .main_page_url_name {
+.main_page_url_name {
   color: #131b23;
   font-weight: normal;
   font-size: 48px;
@@ -58,7 +59,7 @@ button {
   line-height: 56px;
 }
 
-.main_header .main_page_url_logo {
+.main_page_url_logo {
   width: 48.33px;
   height: 48.33px;
   /*margin-top: 17px;*/
@@ -70,30 +71,40 @@ button {
   align-items: center;
   justify-content: space-between;
   /*margin-left: 9%;*/
-  margin-left: 120px;
+  /*margin-left: 120px;*/
 
   text-decoration: none;
 }
 
-.main_header .user_btn {
+.user_btn {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  margin-right: 125px;
+  /*margin-right: 125px;*/
 
   color: #131b23;
   font-weight: normal;
   font-size: 18px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 21px;
 
   background: transparent;
-  border: none !important;
+  border: none;
 }
 
-.user_btn span {
+.main_header_content_block {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1032px;
+  margin: 0 auto;
+}
+
+.user_btn_username {
   width: 250px;
   overflow: hidden;
 
@@ -110,9 +121,9 @@ button {
   margin-bottom: 13px;
 
   font-size: 46px;
-  font-family: Roboto;
+  font-family: "Roboto";
 
-  background: ghostwhite;
+  background: #ffffff;
   border: 1px solid whitesmoke;
   border-radius: 4px;
   box-shadow: 0 0 6px 1px rgba(1, 1, 1, 0.05);
@@ -153,7 +164,7 @@ button {
   color: #ffffff;
   font-weight: normal;
   font-size: 14px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 16px;
   text-align: center;
@@ -178,21 +189,21 @@ button {
   align-items: center;
   justify-content: center;
   margin-top: 31px;
-  margin-bottom: 43px;
-  /*margin-left: 125px;
+  /*margin-bottom: 43px;
+  margin-left: 125px;
   margin-right: 23px;*/
 }
 
 .main_block_name {
   margin-top: 54px;
   margin-bottom: 31px;
-  margin-left: 125px;
+  /*margin-left: 125px;*/
 
   color: #131b23;
   font-weight: normal;
   font-size: 26px;
   /* margin-left: 125px;*/
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 30px;
 }
@@ -202,7 +213,8 @@ button {
   /*flex-wrap: nowrap;
   align-items: baseline;*/
   justify-content: space-between;
-  margin-left: 125px;
+  /*margin-left: 125px;*/
+  max-width: 1032px;
 }
 
 .story_vote {
@@ -213,7 +225,7 @@ button {
   /*margin-left: 23px;*/
   width: 295px;
   margin-top: 31px;
-  margin-right: 126px;
+  /*margin-right: 126px;*/
   margin-bottom: auto;
   margin-left: 20px;
 
@@ -225,7 +237,7 @@ button {
   border-radius: 4px;
 }
 
-.story_vote header {
+.story_vote_header {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -235,7 +247,7 @@ button {
   color: #ffffff;
   font-weight: normal;
   font-size: 18px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
 
   background: #4b9ae8;
@@ -257,7 +269,7 @@ button {
   color: #000000;
   font-weight: normal;
   font-size: 18px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 21px;
 }
@@ -277,11 +289,11 @@ button {
   border-bottom: 1px solid #f2f3f4;
 }
 
-.cell_1 {
+.cell_user_icon {
   padding: 0 0 0 24px;
 }
 
-.cell_2 {
+.cell_username {
   width: 50px;
   padding: 0 0 0 16px;
   overflow: hidden;
@@ -290,7 +302,7 @@ button {
   text-overflow: ellipsis;
 }
 
-.cell_3 {
+.cell_voted_icon {
   margin-right: 27px;
   margin-left: auto;
   /*padding: 0 0 0 120px;*/
@@ -306,7 +318,7 @@ button {
   color: #4b9ae8;
   font-weight: normal;
   font-size: 14px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 16px;
   text-align: center;
@@ -335,7 +347,7 @@ button {
 
   font-weight: normal;
   font-size: 20px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 23px;
 }
@@ -344,11 +356,13 @@ button {
   box-sizing: border-box;
   width: 252px;
   height: 39px;
+  margin-top: 10px;
+  padding-left: 14px;
 
   color: #131b23;
   font-weight: normal;
   font-size: 14px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 16px;
 
@@ -365,33 +379,37 @@ button {
   background: #ffffff;
 }
 
-.main_footer p {
-  margin-top: 28px;
-  margin-left: 50%;
+.main_footer_content_block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1032px;
+  margin: 0 auto;
+}
 
+.main_footer_copyright {
   color: #808284;
   font-weight: normal;
   font-size: 12px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 14px;
 }
 
-.main_footer a {
+.main_footer_url {
   color: #4b9ae8;
   font-weight: normal;
   font-size: 12px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 14px;
-  text-align: center;
 }
 
 .story_vote_result {
   display: flex;
   flex-wrap: nowrap;
-  justify-content: space-between;
-  max-width: 715px;
+  width: 715px;
   margin-top: 31px;
   margin-bottom: 43px;
 
@@ -416,44 +434,48 @@ button {
   border-radius: 55% 55% 55% 55%;
 }
 
-.line_1 {
+.line_players_count {
   margin-top: 100px;
 
   color: #131b23;
   font-weight: normal;
   font-size: 26px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 30px;
 }
 
-.line_2 {
+.line_voted_caption {
   margin-top: 4px;
 
   color: #808284;
   font-weight: normal;
   font-size: 14px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 16px;
 }
 
-.line_3 {
+.line_vote_avg_vote {
   margin-top: 4px;
+  overflow: hidden;
 
   color: #131b23;
   font-weight: normal;
   font-size: 26px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 30px;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .story_vote_result_info {
   display: flex;
   flex-direction: column;
   margin-top: 36px;
-  margin-right: 146px;
+  /*margin-right: 146px;*/
   margin-left: 126px;
 }
 
@@ -471,7 +493,7 @@ button {
   color: #131b23;
   font-weight: normal;
   font-size: 20px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 23px;
 }
@@ -486,18 +508,19 @@ button {
   color: #131b23;
   font-weight: normal;
   font-size: 14px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-
 .completed_stories {
+  display: flex;
+  flex-direction: column;
   width: 715px;
   margin-top: 5px;
   margin-bottom: 52px;
-  margin-left: 125px;
+  /*margin-left: 125px;*/
 
   background: #ffffff;
 
@@ -525,7 +548,7 @@ button {
   border-radius: 50% 50% 50% 50%;
 }
 
-.completed_stories_amount_icon span {
+.completed_stories_amount_icon_stories_count {
   margin-top: auto;
   margin-right: auto;
   margin-bottom: auto;
@@ -534,12 +557,12 @@ button {
   color: #ffffff;
   font-weight: normal;
   font-size: 15px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 12px;
 }
 
-.completed_stories header {
+.completed_stories_header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -549,7 +572,7 @@ button {
   color: #ffffff;
   font-weight: normal;
   font-size: 18px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
 
   background: #4b9ae8;
@@ -565,7 +588,7 @@ button {
   margin-right: 21px;
 
   background: transparent;
-  border: none !important;
+  border: none;
 }
 
 .completed_stories_delete_btn {
@@ -577,10 +600,10 @@ button {
   margin-right: 21px;
 
   background: transparent;
-  border: none !important;
+  border: none;
 }
 
-.completed_stories_cell_1 {
+.completed_stories_cell_storyname {
   width: 130px;
   margin-left: 21px;
   overflow: hidden;
@@ -589,7 +612,7 @@ button {
   text-overflow: ellipsis;
 }
 
-.completed_stories_cell_2 {
+.completed_stories_cell_avg_vote {
   width: 30px;
   margin-left: auto;
   overflow: hidden;
@@ -598,7 +621,7 @@ button {
   text-overflow: ellipsis;
 }
 
-.completed_stories_cell_3 {
+.completed_stories_cell_delete_story_button {
   margin-left: auto;
 }
 
@@ -616,7 +639,7 @@ button {
   color: #ffffff;
   font-weight: normal;
   font-size: 14px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 16px;
   text-align: center;
@@ -629,11 +652,12 @@ button {
   box-sizing: border-box;
   width: 184px;
   height: 39px;
+  padding-left: 14px;
 
   color: #131b23;
   font-weight: normal;
   font-size: 14px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 16px;
 
@@ -652,14 +676,13 @@ button {
 }
 
 .login_form {
-  display: block;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: 610px;
-  margin-top: 76px;
-  margin-right: auto;
-  margin-bottom: 144px;
-  margin-left: auto;
+  margin-top: 25%;
+
+  padding: 55px 105px 63px 105px;
 
   text-align: center;
 
@@ -669,47 +692,46 @@ button {
 }
 
 .login_form_h2 {
-  margin-top: 55px;
   margin-bottom: 14px;
 
   color: #131b23;
   font-weight: normal;
   font-size: 30px;
   /*margin-top: 55px;*/
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 35px;
 }
 
-.login_form p {
+.login_form_action_name {
   margin-bottom: 20px;
 
   color: #808284;
   font-weight: normal;
   font-size: 14px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 16px;
   text-align: center;
 }
 
-.login_form label {
+.login_form_label {
   display: block;
+
+  margin-bottom: 9px;
 
   color: #808284;
   font-weight: normal;
   font-size: 14px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 16px;
   text-align: left;
 }
 
-.login_form button {
+.login_form_button {
   width: 400px;
   height: 39px;
-  margin-top: 36px;
-  margin-bottom: 63px;
 
   background: #4b9ae8;
   border-radius: 4px;
@@ -719,27 +741,26 @@ button {
   box-sizing: border-box;
   width: 400px;
   height: 39px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding-left: 18px;
 
   border: 1px solid #d5d9de;
   border-radius: 4px;
 }
 
 .input_username {
-  margin-left: 105px;
+  margin-bottom: 10px;
 
   text-align: left;
 }
 
 .input_roomname {
-  margin-left: 105px;
 
   text-align: left;
 }
 
 .input_enter_btn {
-  margin-left: auto;
+  margin-top: 36px;
+  /*margin-bottom: 63px;*/
 }
 
 .story_details {
@@ -757,7 +778,7 @@ button {
   border-radius: 4px;
 }
 
-.story_details header {
+.story_details_header {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -767,7 +788,7 @@ button {
   color: #ffffff;
   font-weight: normal;
   font-size: 18px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
 
   background: #4b9ae8;
@@ -786,7 +807,7 @@ button {
   color: #4b9ae8;
   font-weight: normal;
   font-size: 14px;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: normal;
   line-height: 16px;
   text-align: center;
