@@ -1,28 +1,41 @@
 @import "normalize.css";
 
 body {
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0 auto;
 
-  font-family: -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    "Roboto",
-    "Oxygen",
-    "Ubuntu",
-    "Cantarell",
-    "Fira Sans",
-    "Droid Sans",
-    "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Roboto";
+
+  background: #edf2f7;
 }
 
-code {
-  font-family: "source-code-pro",
-    "Menlo",
-    "Monaco",
-    "Consolas",
-    "Courier New",
-    monospace;
+* {
+  margin: 0;
+  padding: 0;
+}
+
+button,
+label {
+  cursor: pointer;
+}
+
+button {
+  border: none;
+}
+
+.main_block {
+  display: flex;
+  /*flex-wrap: nowrap;
+  align-items: baseline;*/
+  justify-content: space-between;
+  /*margin-left: 125px;*/
+  max-width: 1032px;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }

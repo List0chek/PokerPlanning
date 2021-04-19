@@ -1,0 +1,34 @@
+.login_form_label {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #808284;
+  font-weight: normal;
+  font-size: 14px;
+  /*font-family: "Roboto";*/
+  font-style: normal;
+  line-height: 16px;
+  text-align: left;
+}
+
+.textarea_name {
+  box-sizing: border-box;
+  width: 400px;
+  height: 39px;
+  padding-left: 18px;
+
+  border: 1px solid #d5d9de;
+  border-radius: 4px;
+}
+
+.input_username {
+  margin-bottom: 10px;
+
+  text-align: left;
+}
+
+.input_roomname {
+
+  text-align: left;
+}
