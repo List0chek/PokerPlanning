@@ -1,7 +1,7 @@
 import React from "react";
 import "./loginForm.css";
 import EnterButton from "../EnterButton/enterButton";
-import InputAnyName from "../InputAnyName/inputAnyName";
+import Input from "../InputAnyName/input";
 import ActionName from "../ActionName/actionName";
 
 interface IProps {
@@ -16,19 +16,19 @@ const LoginForm: React.FunctionComponent<IProps> = (props) => {
       <h2 className="login_form_h2">{'Let\'s start!'}</h2>
       <ActionName actionName={props.title}/>
       {props.values.map((array) => {
-        return <InputAnyName key={array.key}
-                             className={array.className}
-                             labelName={array.labelName}
-                             input={array.input}
-                             inputName={array.inputName} />;
+        return <Input key={array.key}
+                      className={array.className}
+                      labelName={array.labelName}
+                      placeholderText={array.input}
+                      inputName={array.inputName} />;
 
       })}
-      {/*<InputAnyName key={"username"}
+      {/*<Input key={"username"}
                     className={"input_username"}
                     labelName={"Username"}
                     input={"Enter your name"}
                     inputName={"username"}/>
-      <InputAnyName key={"roomname"}
+      <Input key={"roomname"}
                     className={"input_roomname"}
                     labelName={"Room name"}
                     input={"Enter room name"}

@@ -1,23 +1,23 @@
 import React from "react";
-import "./inputAnyName.css";
+import "./input.css";
 
 interface IProps {
   className: string;
   labelName: string;
-  input?: string;
+  placeholderText?: string;
   inputName?: string;
 }
 
-const InputAnyName: React.FunctionComponent<IProps> = (props) => {
+const Input: React.FunctionComponent<IProps> = (props) => {
   return (
       <div className={props.className}>
         <label className="login_form_label" htmlFor={props.labelName}>
           {props.labelName}
         </label>
-        <input className="textarea_name" id={props.labelName} type="text" name={props.inputName} placeholder={props.input}
+        <input className="textarea_name" id={props.labelName} type="text" name={props.inputName} placeholder={props.placeholderText}
                required/>
       </div>
   );
 };
 
-export default InputAnyName;
+export default Input;
