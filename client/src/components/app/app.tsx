@@ -4,7 +4,7 @@ import FirstPage from "../FirstPage/firstPage";
 import InvitePage from "../InvitePage/invitePage";
 
 function App() {
-  return (<InvitePage />);
+  return (<FirstPage />);
 }
 
 export default App;
