@@ -1,19 +1,16 @@
 import React from "react";
-import MainHeader from "../MainHeader/mainHeader";
-import Footer from "../Footer/footer";
-import LoginForm from "../LoginForm/loginForm";
-import "../../html/style.css";
+import MainHeader from "../../MainHeader/mainHeader";
+import Footer from "../../Footer/footer";
+import LoginForm from "../../LoginForm/loginForm";
 
 const data = [
   {
-    key: "username",
     className: "input_username",
     labelName: "Username",
     input: "Enter your name",
     inputName: "username"
   },
   {
-    key: "roomname",
     className: "input_roomname",
     labelName: "Room name",
     input: "Enter room name",
