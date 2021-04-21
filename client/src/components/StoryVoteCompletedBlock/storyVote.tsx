@@ -27,6 +27,7 @@ const StoryVote: React.FunctionComponent<IProps> = (props) => {
           {props.playersList.map((array) => {
             return <PlayerRow key={array.username}
                               username={array.username}
+                              value={array.value}
                               isChecked={array.isChecked}/>;
           })}
           </tbody>

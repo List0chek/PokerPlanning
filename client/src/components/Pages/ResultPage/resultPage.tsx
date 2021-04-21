@@ -10,15 +10,15 @@ const cardData = ["0", "1", "2", "3", "5", "8", "13", "21", "34", "55", "89", "?
 const usersData = [
   {
     username: "testtesttesttesttesttest 1",
-    isChecked: true
+    value: "3"
   },
   {
     username: "test 2",
-    isChecked: false
+    value: "3"
   },
   {
     username: "test 3",
-    isChecked: true
+    value: "5"
   }
 ];
 
