@@ -21,10 +21,10 @@ const Modal: React.FunctionComponent<IProps> = (props) => {
             </div>
             <table className="players_table">
               <tbody>
-              {props.playersList.map((array) => {
-                return <PlayerRow key={array.username}
-                                  username={array.username}
-                                  value={array.value}/>;
+              {props.playersList.map((item) => {
+                return <PlayerRow key={item.username}
+                                  username={item.username}
+                                  value={item.value}/>;
               })}
               </tbody>
             </table>
