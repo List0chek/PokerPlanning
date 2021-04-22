@@ -8,13 +8,19 @@ interface IProps {
   completedStoriesCount: string;
   completedStoriesList: Array<any>;
 
+  onCompletedStoryClick(storyName: string): void;
+
   onDownload(value: number): void;
 }
 
 const CompletedStories: React.FunctionComponent<IProps> = (props) => {
 
+  const handleCompletedStoryClick = (storyName: string) => {
+    props.onCompletedStoryClick(storyName);
+  };
+
   const handleDownload = () => {
-    props.onDownload(+ 1);
+    props.onDownload(+1);
   };
 
   return (
@@ -37,10 +43,11 @@ const CompletedStories: React.FunctionComponent<IProps> = (props) => {
       <div>
         <table className="players_table">
           <tbody>
-          {props.completedStoriesList.map((array) => {
-            return <CompletedStoryRow key={array.storyName}
-                                      storyName={array.storyName}
-                                      avgVote={array.avgVote}
+          {props.completedStoriesList.map((item) => {
+            return <CompletedStoryRow key={item.storyName}
+                                      storyName={item.storyName}
+                                      avgVote={item.avgVote}
+                                      onClick={(storyName) => handleCompletedStoryClick(storyName)}
                                       onDelete={handleDownload}/>;
           })}
           </tbody>

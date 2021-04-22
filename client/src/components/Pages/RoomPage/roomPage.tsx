@@ -7,6 +7,7 @@ import CompletedStories from "../../CompletedStories/completedStories";
 import Modal from "../Modal/modal";
 import StoryVoteResult from "../../StoryVoteResult/storyVoteResult";
 import CreateNewDiscussion from "../../StoryVoteCompletedBlock/CreateNewDiscussion/createNewDiscussionBlock";
+import "../Modal/modal.css";
 
 const cardData = ["0", "1", "2", "3", "5", "8", "13", "21", "34", "55", "89", "?", "∞", "coffee"];
 const usersData = [
@@ -77,6 +78,8 @@ interface IState {
   discussionState: number;
   discussionName: string;
   downloadStories: number;
+  isModalOpen: boolean;
+  openedStory: string;
 }
 
 class RoomPage extends React.Component<IProps, IState> {
@@ -86,11 +89,14 @@ class RoomPage extends React.Component<IProps, IState> {
     this.state = {
       discussionState: 0,
       discussionName: "Story",
-      downloadStories: 0
+      downloadStories: 0,
+      isModalOpen: false,
+      openedStory: ""
     };
     this.handleEnterButtonClick = this.handleEnterButtonClick.bind(this);
     this.handleGoButtonClick = this.handleGoButtonClick.bind(this);
     this.handleDownloadButtonClick = this.handleDownloadButtonClick.bind(this);
+    this.handleStoryDetailsCloseButtonClick = this.handleStoryDetailsCloseButtonClick.bind(this);
   }
 
   public handleEnterButtonClick(value: number) {
@@ -106,6 +112,20 @@ class RoomPage extends React.Component<IProps, IState> {
     })
   }
 
+  public handleCompletedStoryClick(storyName: string) {
+    this.setState({
+      isModalOpen: true,
+      openedStory: storyName
+    })
+  }
+
+  public handleStoryDetailsCloseButtonClick() {
+    this.setState({
+      isModalOpen: false,
+      openedStory: ""
+    })
+  }
+
   public handleDownloadButtonClick(value: number) {
     this.setState({
       downloadStories: value
@@ -115,28 +135,33 @@ class RoomPage extends React.Component<IProps, IState> {
   public render() {
     const {discussionState} = this.state;
     const {discussionName} = this.state;
+    const {isModalOpen} = this.state;
     return (
       <>
-        <MainHeader isAuth={true}/>
-        <main className="main_main">
-          <p className="main_block_name">{discussionName}</p>
-          <div className="main_block">
-            {discussionState == 0 ?
-              <Board cardValues={cardData}/> : <StoryVoteResult playersCount={"3"}
-                                                                avgVote={"4"}
-                                                                storyVoteResultInfoValues={storyVoteResultInfoData}/>}
+        {/*<div className={isModalOpen == false ? "modal_block" : "modal_block_isOpened"}>*/}
+          <MainHeader isAuth={true}/>
+          <main className="main_main">
+            <p className="main_block_name">{discussionName}</p>
+            <div className="main_block">
+              {discussionState == 0 ?
+                <Board cardValues={cardData}/> : <StoryVoteResult playersCount={"3"}
+                                                                  avgVote={"4"}
+                                                                  storyVoteResultInfoValues={storyVoteResultInfoData}/>}
 
-            <StoryVote playersList={usersData}
-                       url={"http://localhost:63342/client/src/html/InvitePage.html"}
-                       onStoryVoteButtonClick={discussionState <= 1 ? this.handleEnterButtonClick : this.handleGoButtonClick}
-                       discussionState={discussionState}
-                       discussionName={discussionName}/>
-          </div>
-          <CompletedStories completedStoriesCount={"5"} completedStoriesList={completedStoriesData}
-                            onDownload={this.handleDownloadButtonClick}/>
-        </main>
-        {/* <Modal playersList={storyDetailsData}/>*/}
-        <Footer/>
+              <StoryVote playersList={usersData}
+                         url={"http://localhost:63342/client/src/html/InvitePage.html"}
+                         onStoryVoteButtonClick={discussionState <= 1 ? this.handleEnterButtonClick : this.handleGoButtonClick}
+                         discussionState={discussionState}
+                         discussionName={discussionName}/>
+            </div>
+            <CompletedStories completedStoriesCount={"5"} completedStoriesList={completedStoriesData}
+                              onCompletedStoryClick={(storyName) => this.handleCompletedStoryClick(storyName)}
+                              onDownload={this.handleDownloadButtonClick}/>
+          </main>
+          <Footer/>
+          {isModalOpen && <Modal playersList={storyDetailsData}
+                                            onStoryDetailsCloseButtonClick={this.handleStoryDetailsCloseButtonClick}/>}
+        {/*</div>*/}
       </>
     );
   }

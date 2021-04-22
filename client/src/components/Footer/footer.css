@@ -2,10 +2,12 @@
   display: flex;
   width: 100%;
   height: 70px;
-  margin-top: 10px;
-  font-family: "Roboto";
-  background: #ffffff;
   margin: 0 auto;
+  margin-top: 10px;
+
+  font-family: "Roboto";
+
+  background: #ffffff;
 }
 
 .main_footer_content_block {
