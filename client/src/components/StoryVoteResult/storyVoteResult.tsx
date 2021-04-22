@@ -1,7 +1,6 @@
 import React from "react";
-import "./storyVoteResult.css";
 import StoryVoteResultInfoRow from "./VoteValueResultInfo/storyVoteResultInfo";
-import PlayerRow from "../StoryVoteCompletedBlock/PlayersRow/playerRow";
+import "./storyVoteResult.css";
 
 interface IProps {
   playersCount: string;
@@ -19,7 +18,7 @@ const StoryVoteResult: React.FunctionComponent<IProps> = (props) => {
       </div>
       <ul className="story_vote_result_info">
         {props.storyVoteResultInfoValues.map((array) => {
-          return <StoryVoteResultInfoRow key={array.username}
+          return <StoryVoteResultInfoRow key={array.voteValueMark}
                                          className={array.className}
                                          voteValueMark={array.voteValueMark}
                                          playersCount={array.playersCount}

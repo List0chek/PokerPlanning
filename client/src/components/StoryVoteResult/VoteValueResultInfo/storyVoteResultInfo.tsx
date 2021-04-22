@@ -8,7 +8,7 @@ interface IProps {
   playersPercentage: string;
 }
 
-const StoryVoteResultInfo: React.FunctionComponent<IProps> = (props) => {
+const StoryVoteResultInfoRow: React.FunctionComponent<IProps> = (props) => {
   return (
         <li className={props.className}>
           <span className="vote_value_mark">{props.voteValueMark}</span>
@@ -17,4 +17,4 @@ const StoryVoteResultInfo: React.FunctionComponent<IProps> = (props) => {
   );
 };
 
-export default StoryVoteResultInfo;
+export default StoryVoteResultInfoRow;

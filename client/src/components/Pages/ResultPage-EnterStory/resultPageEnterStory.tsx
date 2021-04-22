@@ -60,9 +60,10 @@ const ResultPageEnterStory = () => {
         <p className="main_block_name">Choose card:</p>
         <div className="main_block">
           <StoryVoteResult playersCount={"3"} avgVote={"4"} storyVoteResultInfoValues={storyVoteResultInfoData}/>
-          <StoryVote playersList={usersData} url={"http://localhost:63342/client/src/html/InvitePage.html"}/>
+        {/*  <StoryVote playersList={usersData}
+                     url={"http://localhost:63342/client/src/html/InvitePage.html"}/>*/}
         </div>
-        <CompletedStories completedStoriesCount={"5"} completedStoriesList={completedStoriesData} />
+        {/*<CompletedStories completedStoriesCount={"5"} completedStoriesList={completedStoriesData}/>*/}
       </main>
       <Footer/>
     </>

@@ -1,7 +1,7 @@
 import React from "react";
-import "./mainHeader.css";
 import MainLogoWithURL from "../MainLogoWithURL/mainLogoWithURL";
 import UserButton from "../UserButton/userButton";
+import "./mainHeader.css";
 
 interface IProps {
   isAuth: boolean;

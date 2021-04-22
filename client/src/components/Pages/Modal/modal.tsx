@@ -1,7 +1,7 @@
 import React from "react";
-import "./modal.css";
 import "../../StoryVoteCompletedBlock/storyVote.css";
 import PlayerRow from "../../StoryVoteCompletedBlock/PlayersRow/playerRow";
+import "./modal.css";
 
 interface IProps {
   playersList: Array<any>;

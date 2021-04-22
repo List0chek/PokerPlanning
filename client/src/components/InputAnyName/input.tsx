@@ -1,14 +1,14 @@
 import React from "react";
 import "./input.css";
 
-interface IProps {
+export interface IInputProps {
   className: string;
   labelName: string;
   placeholderText?: string;
   inputName?: string;
 }
 
-const Input: React.FunctionComponent<IProps> = (props) => {
+const Input: React.FunctionComponent<IInputProps> = (props) => {
   return (
       <div className={props.className}>
         <label className="login_form_label" htmlFor={props.labelName}>

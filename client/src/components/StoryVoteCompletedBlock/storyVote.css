@@ -3,10 +3,8 @@
   flex-basis: auto;
   flex-direction: column;
   flex-shrink: 0;
-  /*margin-left: 23px;*/
   width: 295px;
   margin-top: 31px;
-  /*margin-right: 126px;*/
   margin-bottom: auto;
   margin-left: 20px;
 
@@ -28,7 +26,6 @@
   color: #ffffff;
   font-weight: normal;
   font-size: 18px;
-  /*font-family: "Roboto";*/
   font-style: normal;
 
   background: #4b9ae8;
@@ -50,7 +47,6 @@
   color: #000000;
   font-weight: normal;
   font-size: 18px;
-  /*font-family: "Roboto";*/
   font-style: normal;
   line-height: 21px;
 }

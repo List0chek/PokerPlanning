@@ -6,7 +6,6 @@
   margin-bottom: 13px;
 
   font-size: 46px;
-  /*font-family: "Roboto";*/
 
   background: #ffffff;
   border: 1px solid whitesmoke;
@@ -37,7 +36,6 @@
 }
 
 .radio {
-  /*display: none;*/
   position: absolute;
   top: 0;
   z-index: -1;

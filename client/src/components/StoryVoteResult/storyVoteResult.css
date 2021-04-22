@@ -18,10 +18,7 @@
   flex-direction: column;
   flex-shrink: 0;
   width: 260px;
-  height: 260px;/*
-  margin-top: 62px;
-  margin-bottom: 10px;
-  margin-left: 89px;*/
+  height: 260px;
   padding: 15px;
 
   text-align: center;
@@ -36,7 +33,6 @@
   color: #131b23;
   font-weight: normal;
   font-size: 26px;
-  /*font-family: "Roboto";*/
   font-style: normal;
   line-height: 30px;
 }
@@ -47,7 +43,6 @@
   color: #808284;
   font-weight: normal;
   font-size: 14px;
-  /*font-family: "Roboto";*/
   font-style: normal;
   line-height: 16px;
 }
@@ -59,7 +54,6 @@
   color: #131b23;
   font-weight: normal;
   font-size: 26px;
-  /*font-family: "Roboto";*/
   font-style: normal;
   line-height: 30px;
 

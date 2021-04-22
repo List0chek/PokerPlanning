@@ -1,6 +1,6 @@
 import React from "react";
-import "./board.css";
 import Card from "../Card/card";
+import "./board.css";
 
 interface IProps {
   cardValues: Array<string>;
@@ -30,7 +30,7 @@ class Board extends React.Component<IProps, IState> {
     const {selectedCard} = this.state;
     return (
       <div className="board">
-        {this.props.cardValues.map((item) => {
+        {cardValues.map((item) => {
           return <Card key={item}
                        value={item}
                        onChange={this.handleCardChange}

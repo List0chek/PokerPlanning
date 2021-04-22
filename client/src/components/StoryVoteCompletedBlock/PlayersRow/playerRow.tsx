@@ -1,7 +1,7 @@
 import React from "react";
-import "./playerRow.css";
 import cellUserIcon from "../../../images/User Icon.svg";
 import checkCircle from "../../../images/check_circle_24px.png";
+import "./playerRow.css";
 
 interface IProps {
   username?: string;

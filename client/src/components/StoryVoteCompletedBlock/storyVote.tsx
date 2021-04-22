@@ -1,45 +1,66 @@
 import React from "react";
-import "./storyVote.css";
 import PlayerRow from "./PlayersRow/playerRow";
 import StoryVoteButton from "../StoryVoteButton/storyVoteButton";
 import InviteFriend from "./InviteFriend/inviteFriend";
-import StoryVoteSearchBlock from "./SearchBlock/searchBlock";
+import CreateNewDiscussion from "./CreateNewDiscussion/createNewDiscussionBlock";
+import "./storyVote.css";
 
 interface IProps {
   buttonText?: string;
   playersList: Array<any>;
   url: string;
   buttonClass?: string;
+
+  onStoryVoteButtonClick(discussionState: number, discussionName: string): void;
+
+  discussionState: number;
+  discussionName: string;
 }
 
-const StoryVote: React.FunctionComponent<IProps> = (props) => {
-  return (
-    <div className="story_vote">
-      <header className="story_vote_header">
-        Story vote completed
-      </header>
-      <div className="players_name_row">
-        <span className="players_name_text">Players:</span>
+class StoryVote extends React.Component<IProps> {
+  constructor(props: IProps) {
+    super(props);
+    this.handleStoryVoteButtonClick = this.handleStoryVoteButtonClick.bind(this);
+  }
+
+  public handleStoryVoteButtonClick = (discussionState: number, discussionName: string) => {
+    this.props.onStoryVoteButtonClick(discussionState, discussionName);
+  }
+
+  public render() {
+    const {playersList} = this.props;
+    const {url} = this.props;
+    const {discussionState} = this.props;
+    const {discussionName} = this.props;
+    return (
+      <div className="story_vote">
+        <header className="story_vote_header">
+          Story vote completed
+        </header>
+        <div className="players_name_row">
+          <span className="players_name_text">Players:</span>
+        </div>
+        <div>
+          <table className={"players_table"}>
+            <tbody>
+            {playersList.map((array) => {
+              return <PlayerRow key={array.username}
+                                username={array.username}
+                                value={array.value}
+                                isChecked={array.isChecked}/>;
+            })}
+            </tbody>
+          </table>
+          {discussionState == 0 || discussionState == 1
+            ? <StoryVoteButton className="story_vote_button"
+                               buttonText={discussionState == 0 ? "Finish voting" : "Next"}
+                               onClick={()=>this.handleStoryVoteButtonClick(discussionState, discussionName)}/>
+            : <CreateNewDiscussion onGoButtonClick={(discussionState, discussionName)=>this.handleStoryVoteButtonClick(discussionState, discussionName)} />}
+        </div>
+        <InviteFriend url={url}/>
       </div>
-      <div>
-        <table className={"players_table"}>
-          <tbody>
-          {props.playersList.map((array) => {
-            return <PlayerRow key={array.username}
-                              username={array.username}
-                              value={array.value}
-                              isChecked={array.isChecked}/>;
-          })}
-          </tbody>
-        </table>
-        {props.buttonClass == "story_vote_button" ? <StoryVoteButton className={props.buttonClass} buttonText={props.buttonText} /> : <StoryVoteSearchBlock />}
-        {/*<StoryVoteButton className={"story_vote_button"} buttonText={props.buttonText} />*/}
-      </div>
-      <InviteFriend url={props.url}/>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default StoryVote;
-
-
