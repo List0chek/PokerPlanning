@@ -1,13 +1,12 @@
 import React from "react";
 import EnterButton from "../EnterButton/enterButton";
-import Input from "../InputAnyName/input";
 import ActionName from "../ActionName/actionName";
-import IInputProps from "../InputAnyName/input";
+import Input, { IInputProps } from "../InputAnyName/input";
 import "./loginForm.css";
 
 interface IProps {
   title: string;
-  values: Array<any>;
+  values: Array<IInputProps>;
 }
 
 const LoginForm: React.FunctionComponent<IProps> = (props) => {
@@ -19,7 +18,7 @@ const LoginForm: React.FunctionComponent<IProps> = (props) => {
         return <Input key={item.inputName}
                       className={item.className}
                       labelName={item.labelName}
-                      placeholderText={item.input}
+                      placeholderText={item.placeholderText}
                       inputName={item.inputName} />;
 
       })}

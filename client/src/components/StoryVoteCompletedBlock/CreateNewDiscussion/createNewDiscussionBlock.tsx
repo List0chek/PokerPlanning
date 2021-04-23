@@ -4,10 +4,10 @@ import "./createNewDiscussionBlock.css";
 
 interface IProps {
 
-  onGoButtonClick(isClicked: number, textValue: string): void;
+  onGoButtonClick(textValue: string): void;
 }
 
-class CreateNewDiscussion extends React.Component<IProps> {
+class CreateNewDiscussionControl extends React.Component<IProps> {
 
   private inputRef: React.RefObject<HTMLInputElement>;
 
@@ -24,7 +24,7 @@ class CreateNewDiscussion extends React.Component<IProps> {
       textValue = current.value;
     }
     console.log(textValue);
-    this.props.onGoButtonClick(-2, textValue);
+    this.props.onGoButtonClick(textValue);
   };
 
   public render() {
@@ -38,4 +38,4 @@ class CreateNewDiscussion extends React.Component<IProps> {
   }
 }
 
-export default CreateNewDiscussion;
+export default CreateNewDiscussionControl;

@@ -7,7 +7,7 @@ interface IProps {
   storyName: string;
   avgVote: string;
   onClick(storyName: string): void;
-  onDelete(): void;
+  onDelete(storyName: string): void;
 }
 
 const CompletedStoryRow: React.FunctionComponent<IProps> = (props) => {
@@ -17,7 +17,7 @@ const CompletedStoryRow: React.FunctionComponent<IProps> = (props) => {
   };
 
   const handleDelete = () => {
-    props.onDelete();
+    props.onDelete(props.storyName);
   };
 
   return (

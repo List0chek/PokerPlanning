@@ -10,7 +10,9 @@ interface IProps {
 
   onCompletedStoryClick(storyName: string): void;
 
-  onDownload(value: number): void;
+  onDelete(storyName: string): void;
+
+  onDownload(): void;
 }
 
 const CompletedStories: React.FunctionComponent<IProps> = (props) => {
@@ -19,8 +21,12 @@ const CompletedStories: React.FunctionComponent<IProps> = (props) => {
     props.onCompletedStoryClick(storyName);
   };
 
+  const handleDelete = (storyName: string) => {
+    props.onDelete(storyName);
+  };
+
   const handleDownload = () => {
-    props.onDownload(+1);
+    props.onDownload();
   };
 
   return (
@@ -48,7 +54,7 @@ const CompletedStories: React.FunctionComponent<IProps> = (props) => {
                                       storyName={item.storyName}
                                       avgVote={item.avgVote}
                                       onClick={(storyName) => handleCompletedStoryClick(storyName)}
-                                      onDelete={handleDownload}/>;
+                                      onDelete={(storyName) => handleDelete(storyName)}/>;
           })}
           </tbody>
         </table>

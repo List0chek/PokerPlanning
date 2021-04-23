@@ -2,7 +2,7 @@ import React from "react";
 import PlayerRow from "./PlayersRow/playerRow";
 import StoryVoteButton from "../StoryVoteButton/storyVoteButton";
 import InviteFriend from "./InviteFriend/inviteFriend";
-import CreateNewDiscussion from "./CreateNewDiscussion/createNewDiscussionBlock";
+import CreateNewDiscussionControl from "./CreateNewDiscussion/createNewDiscussionBlock";
 import "./storyVote.css";
 
 interface IProps {
@@ -55,7 +55,7 @@ class StoryVote extends React.Component<IProps> {
             ? <StoryVoteButton className="story_vote_button"
                                buttonText={discussionState == 0 ? "Finish voting" : "Next"}
                                onClick={()=>this.handleStoryVoteButtonClick(discussionState, discussionName)}/>
-            : <CreateNewDiscussion onGoButtonClick={(discussionState, discussionName)=>this.handleStoryVoteButtonClick(discussionState, discussionName)} />}
+            : <CreateNewDiscussionControl onGoButtonClick={(discussionName)=>this.handleStoryVoteButtonClick(discussionState, discussionName)} />}
         </div>
         <InviteFriend url={url}/>
       </div>
