@@ -7,7 +7,7 @@ const data = [
   {
     className: "input_username",
     labelName: "Username",
-    input: "Enter your name",
+    placeholderText: "Enter your name",
     inputName: "username"
   }
 ];

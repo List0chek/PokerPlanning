@@ -7,13 +7,13 @@ const data = [
   {
     className: "input_username",
     labelName: "Username",
-    input: "Enter your name",
+    placeholderText: "Enter your name",
     inputName: "username"
   },
   {
     className: "input_roomname",
     labelName: "Room name",
-    input: "Enter room name",
+    placeholderText: "Enter room name",
     inputName: "roomname"
   }
 ];

@@ -11,7 +11,8 @@ interface IProps {
   url: string;
   buttonClass?: string;
 
-  onStoryVoteButtonClick(discussionState: number, discussionName: string): void;
+  onGoButtonClick(discussionName: string): void;
+  onStoryVoteButtonClick(value: number): void;
 
   discussionState: number;
   discussionName: string;
@@ -24,7 +25,11 @@ class StoryVote extends React.Component<IProps> {
   }
 
   public handleStoryVoteButtonClick = () => {
-    this.props.onStoryVoteButtonClick(this.props.discussionState, this.props.discussionName);
+    this.props.onStoryVoteButtonClick(this.props.discussionState);
+  }
+
+  public handleGoButtonClick = (discussionName: string) => {
+    this.props.onGoButtonClick(discussionName);
   }
 
   public render() {
@@ -55,7 +60,7 @@ class StoryVote extends React.Component<IProps> {
             ? <StoryVoteButton className="story_vote_button"
                                buttonText={discussionState == 0 ? "Finish voting" : "Next"}
                                onClick={this.handleStoryVoteButtonClick}/>
-            : <CreateNewDiscussionControl onGoButtonClick={this.handleStoryVoteButtonClick} />}
+            : <CreateNewDiscussionControl onGoButtonClick={this.handleGoButtonClick} />}
         </div>
         <InviteFriend url={url}/>
       </div>

@@ -97,6 +97,7 @@ class RoomPage extends React.Component<IProps, IState> {
     };
     this.handleEnterButtonClick = this.handleEnterButtonClick.bind(this);
     this.handleGoButtonClick = this.handleGoButtonClick.bind(this);
+    this.handleCompletedStoryClick = this.handleCompletedStoryClick.bind(this);
     this.handleStoryDetailsDeleteButtonClick = this.handleStoryDetailsDeleteButtonClick.bind(this);
     this.handleStoryDetailsCloseButtonClick = this.handleStoryDetailsCloseButtonClick.bind(this);
     this.handleStoryDetailsDownloadButtonClick = this.handleStoryDetailsDownloadButtonClick.bind(this);
@@ -108,7 +109,7 @@ class RoomPage extends React.Component<IProps, IState> {
     })
   }
 
-  public handleGoButtonClick(state: number, value: string) {
+  public handleGoButtonClick(value: string) {
     this.setState({
       discussionState: 0,
       discussionName: value
@@ -158,7 +159,8 @@ class RoomPage extends React.Component<IProps, IState> {
 
             <StoryVote playersList={usersData}
                        url={"http://localhost:63342/client/src/html/InvitePage.html"}
-                       onStoryVoteButtonClick={discussionState <= 1 ? this.handleEnterButtonClick : this.handleGoButtonClick}
+                       onStoryVoteButtonClick={this.handleEnterButtonClick}
+                       onGoButtonClick={this.handleGoButtonClick}
                        discussionState={discussionState}
                        discussionName={discussionName}/>
           </div>
