@@ -53,8 +53,8 @@ const CompletedStories: React.FunctionComponent<IProps> = (props) => {
             return <CompletedStoryRow key={item.storyName}
                                       storyName={item.storyName}
                                       avgVote={item.avgVote}
-                                      onClick={(storyName) => handleCompletedStoryClick(storyName)}
-                                      onDelete={(storyName) => handleDelete(storyName)}/>;
+                                      onClick={handleCompletedStoryClick}
+                                      onDelete={handleDelete}/>;
           })}
           </tbody>
         </table>

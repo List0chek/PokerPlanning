@@ -163,8 +163,8 @@ class RoomPage extends React.Component<IProps, IState> {
                        discussionName={discussionName}/>
           </div>
           <CompletedStories completedStoriesCount={"5"} completedStoriesList={completedStoriesData}
-                            onCompletedStoryClick={(storyName) => this.handleCompletedStoryClick(storyName)}
-                            onDelete={(storyName) => this.handleStoryDetailsDeleteButtonClick(storyName)}
+                            onCompletedStoryClick={this.handleCompletedStoryClick}
+                            onDelete={this.handleStoryDetailsDeleteButtonClick}
                             onDownload={() => this.handleStoryDetailsDownloadButtonClick(this.state.discussionNames)}/>
         </main>
         <Footer/>

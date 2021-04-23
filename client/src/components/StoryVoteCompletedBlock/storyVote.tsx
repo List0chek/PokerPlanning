@@ -23,8 +23,8 @@ class StoryVote extends React.Component<IProps> {
     this.handleStoryVoteButtonClick = this.handleStoryVoteButtonClick.bind(this);
   }
 
-  public handleStoryVoteButtonClick = (discussionState: number, discussionName: string) => {
-    this.props.onStoryVoteButtonClick(discussionState, discussionName);
+  public handleStoryVoteButtonClick = () => {
+    this.props.onStoryVoteButtonClick(this.props.discussionState, this.props.discussionName);
   }
 
   public render() {
@@ -54,8 +54,8 @@ class StoryVote extends React.Component<IProps> {
           {discussionState == 0 || discussionState == 1
             ? <StoryVoteButton className="story_vote_button"
                                buttonText={discussionState == 0 ? "Finish voting" : "Next"}
-                               onClick={()=>this.handleStoryVoteButtonClick(discussionState, discussionName)}/>
-            : <CreateNewDiscussionControl onGoButtonClick={(discussionName)=>this.handleStoryVoteButtonClick(discussionState, discussionName)} />}
+                               onClick={this.handleStoryVoteButtonClick}/>
+            : <CreateNewDiscussionControl onGoButtonClick={this.handleStoryVoteButtonClick} />}
         </div>
         <InviteFriend url={url}/>
       </div>
