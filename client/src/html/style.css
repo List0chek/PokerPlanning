@@ -413,10 +413,10 @@ button {
   justify-content: space-between;
   margin-top: 31px;
   margin-bottom: 52px;
-  padding-left: 89px;
   padding-top: 36px;
   padding-right: 102px;
   padding-bottom: 61px;
+  padding-left: 89px;
 
   background: #ffffff;
 }
@@ -522,9 +522,9 @@ button {
 .completed_stories {
   display: flex;
   flex-direction: column;
+  margin-top: 5px;
   /*max-width: 715px;*/
   margin-right: 315px;
-  margin-top: 5px;
   margin-bottom: 52px;
   /*margin-left: 125px;*/
 
