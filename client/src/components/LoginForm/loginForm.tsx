@@ -7,11 +7,22 @@ import "./loginForm.css";
 interface IProps {
   title: string;
   values: Array<IInputProps>;
+  onClick(event: React.FormEvent): void;
+  onSubmit(event: React.FormEvent): void;
 }
 
 const LoginForm: React.FunctionComponent<IProps> = (props) => {
+
+  const handleClick = (event: React.FormEvent) => {
+    props.onClick(event);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    props.onSubmit(event);
+  };
+
   return (
-    <form className="login_form" action="/api/room/create/" method="post">
+    <form className="login_form" action="/api/room/create/" method="post" onSubmit={handleSubmit}>
       <h2 className="login_form_h2">{'Let\'s start!'}</h2>
       <ActionName actionName={props.title}/>
       {props.values.map((item) => {
@@ -22,7 +33,7 @@ const LoginForm: React.FunctionComponent<IProps> = (props) => {
                       inputName={item.inputName} />;
 
       })}
-      <EnterButton className={"login_form_button"}/>
+      <EnterButton className={"login_form_button"} onClick={handleClick}/>
     </form>
   );
 };

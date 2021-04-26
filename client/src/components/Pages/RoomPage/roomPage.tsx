@@ -1,4 +1,6 @@
 import React from "react";
+import { withRouter } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router';
 import MainHeader from "../../MainHeader/mainHeader";
 import Footer from "../../Footer/footer";
 import Board from "../../Board/board";
@@ -8,6 +10,7 @@ import Modal from "../Modal/modal";
 import StoryVoteResult from "../../StoryVoteResult/storyVoteResult";
 import CreateNewDiscussionControl from "../../StoryVoteCompletedBlock/CreateNewDiscussion/createNewDiscussionBlock";
 import "../Modal/modal.css";
+import {RoutePath} from "../../routes";
 
 const cardData = ["0", "1", "2", "3", "5", "8", "13", "21", "34", "55", "89", "?", "∞", "coffee"];
 const usersData = [
@@ -70,7 +73,11 @@ const storyVoteResultInfoData = [
   }
 ];
 
-interface IProps {
+interface IMatchParams {
+  id: string;
+}
+
+interface IProps extends RouteComponentProps<IMatchParams> {
   isChecked?: boolean;
 }
 
@@ -146,6 +153,9 @@ class RoomPage extends React.Component<IProps, IState> {
     const {discussionState} = this.state;
     const {discussionName} = this.state;
     const {isModalOpen} = this.state;
+
+    console.log(this.props.match.params.id);
+
     return (
       <>
         <MainHeader isAuth={true}/>
@@ -158,7 +168,7 @@ class RoomPage extends React.Component<IProps, IState> {
                                                                 storyVoteResultInfoValues={storyVoteResultInfoData}/>}
 
             <StoryVote playersList={usersData}
-                       url={"http://localhost:63342/client/src/html/InvitePage.html"}
+                       url={`http://${window.location.host}${RoutePath.INVITE}/${this.props.match.params.id}`}
                        onStoryVoteButtonClick={this.handleEnterButtonClick}
                        onGoButtonClick={this.handleGoButtonClick}
                        discussionState={discussionState}
@@ -177,4 +187,4 @@ class RoomPage extends React.Component<IProps, IState> {
   }
 }
 
-export default RoomPage;
+export default withRouter(RoomPage);
