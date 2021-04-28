@@ -18,23 +18,40 @@ interface IProps {
   discussionName: string;
 }
 
-class StoryVote extends React.Component<IProps> {
+interface IState {
+  buttonState: string;
+}
+
+const ButtonState: Array<string> = ['notClicked', 'FinishVotingIsClicked', 'NextIsClicked'];
+
+class StoryVote extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
+    this.state = {
+      buttonState: ButtonState[0],
+    };
     this.handleStoryVoteButtonClick = this.handleStoryVoteButtonClick.bind(this);
     this.handleGoButtonClick = this.handleGoButtonClick.bind(this);
   }
 
   public handleStoryVoteButtonClick = () => {
     this.props.onStoryVoteButtonClick(this.props.isClosed);
+    const i = ButtonState.indexOf(this.state.buttonState);
+    this.setState({
+      buttonState: ButtonState[i + 1],
+    });
   };
 
   public handleGoButtonClick = (discussionName: string) => {
     this.props.onGoButtonClick(discussionName);
+    this.setState({
+      buttonState: ButtonState[0],
+    });
   };
 
   public render() {
     const { playersList, url, isClosed } = this.props;
+    const { buttonState } = this.state;
 
     return (
       <div className='story_vote'>
@@ -58,7 +75,8 @@ class StoryVote extends React.Component<IProps> {
               })}
             </tbody>
           </table>
-          {isClosed === false ? (
+          {/*Как вариант можно ставить условие так: buttonState == ButtonState[0] || buttonState == ButtonState[1], но тогда будет хуже читабельность кода*/}
+          {buttonState == 'notClicked' || buttonState == 'FinishVotingIsClicked' ? (
             <StoryVoteButton
               className='story_vote_button'
               buttonText={isClosed === false ? 'Finish voting' : 'Next'}
