@@ -24,10 +24,10 @@ const PlayerRow: React.FunctionComponent<IPlayerRowProps> = (props) => {
       </td>
       <td className='cell_username'>{props.username}</td>
       <td className='cell_voted_icon'>
-        {props.isClosed == false && props.isChecked == true && (
+        {props.isClosed === false && props.isChecked === true && (
           <img src={checkCircle} alt='check_circle_icon' width='24' height='24' />
         )}
-        {props.isClosed != false && (props.value == '☕' ? coffeeIcon : props.value)}
+        {props.isClosed !== false && (props.value === '☕' ? coffeeIcon : props.value)}
       </td>
     </tr>
   );

@@ -5,7 +5,6 @@ import FirstPage from '../Pages/CreateRoomPage/createRoomPage';
 import InvitePage from '../Pages/InvitePage/invitePage';
 import RoomPage from '../Pages/RoomPage/roomPage';
 import ErrorPage from '../Pages/ErrorPage/errorPage';
-import BasePage from '../Pages/basepage';
 import './app.css';
 
 const App: React.FunctionComponent<any> = () => {

@@ -19,11 +19,7 @@ interface IMatchParams {
   id: string;
 }
 
-interface IProps extends RouteComponentProps<IMatchParams> {
-  className?: string;
-}
-
-const InvitePage: React.FC<IProps> = (props) => {
+const InvitePage: React.FC<RouteComponentProps<IMatchParams>> = (props) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     props.history.push(`${RoutePath.MAIN}/${props.match.params.id}`);

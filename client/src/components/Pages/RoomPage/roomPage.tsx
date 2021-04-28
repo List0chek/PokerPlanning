@@ -273,7 +273,7 @@ class RoomPage extends React.Component<RouteComponentProps<IMatchParams>, IState
         <Footer />
         {isModalOpen && (
           <Modal
-            playersList={completedStoriesData.find((item) => item.storyName == openedStory)!.usersData}
+            playersList={completedStoriesData.find((item) => item.storyName === openedStory)!.usersData}
             onStoryDetailsCloseButtonClick={this.handleStoryDetailsCloseButtonClick}
           />
         )}

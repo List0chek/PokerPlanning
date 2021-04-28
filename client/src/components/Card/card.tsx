@@ -32,7 +32,7 @@ const Card: React.FunctionComponent<IProps> = (props) => {
         onChange={handleChange}
       />
       <label className='card' htmlFor={props.value}>
-        <span className='card_text'>{props.value == '☕' ? coffeeIcon : props.value}</span>
+        <span className='card_text'>{props.value === '☕' ? coffeeIcon : props.value}</span>
       </label>
     </>
   );
