@@ -9,6 +9,6 @@ export const history = createBrowserHistory();
 
 render(
   <Router history={history}>
-    < App/>
+    <App/>
   </Router>,
   document.getElementById(`root`));

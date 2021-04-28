@@ -1,6 +1,5 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router';
 import { RoutePath } from '../../routes';
 import MainHeader from '../../MainHeader/mainHeader';
 import Footer from '../../Footer/footer';
@@ -13,20 +12,23 @@ const data = [
     placeholderText: 'Enter your name',
     inputName: 'username',
   },
+  {
+    className: 'input_roomname',
+    labelName: 'Room name',
+    placeholderText: 'Enter room name',
+    inputName: 'roomname',
+  },
 ];
 
-interface IMatchParams {
-  id: string;
-}
+const CreateRoomPage: React.FC<any> = (props) => {
+  const handleClick = () => {
+    const roomId = Math.round(Math.random() * (100 - 1) + 1);
+    window.console.log(roomId);
+    props.history.push(`${RoutePath.MAIN}/${roomId}`);
+  };
 
-interface IProps extends RouteComponentProps<IMatchParams> {
-  className?: string;
-}
-
-const InvitePage: React.FC<IProps> = (props) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    props.history.push(`${RoutePath.MAIN}/${props.match.params.id}`);
   };
 
   return (
@@ -34,7 +36,7 @@ const InvitePage: React.FC<IProps> = (props) => {
       <MainHeader isAuth={false} />
       <main className='main_main'>
         <div className='main_block'>
-          <Form title={'Join the room:'} values={data} onClick={handleSubmit} onSubmit={handleSubmit} />
+          <Form title={'Create the room:'} values={data} onClick={handleClick} onSubmit={handleSubmit} />
         </div>
       </main>
       <Footer />
@@ -42,4 +44,4 @@ const InvitePage: React.FC<IProps> = (props) => {
   );
 };
 
-export default withRouter(InvitePage);
+export default withRouter(CreateRoomPage);

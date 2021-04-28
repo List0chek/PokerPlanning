@@ -7,14 +7,16 @@ interface IProps {
 
 const InviteFriend: React.FunctionComponent<IProps> = (props) => {
 
-  const handleFocus = (event: any) => event.target.select();
+  const handleClick = (event: any) => {
+    event.target.select();
+  }
 
   return (
     <div className="story_vote_invite_friend">
       <label>
         Invite friend
         <input className="story_vote_invite_friend_url" type="url" name="url"
-               value={props.url} onClick={handleFocus} readOnly/>
+               value={props.url} onClick={handleClick} readOnly/>
       </label>
     </div>
   );
