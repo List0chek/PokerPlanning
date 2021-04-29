@@ -15,10 +15,12 @@
 }
 
 .user_btn_username {
-  width: 250px;
+  width: 100%;
+  max-width: 200px;
+  padding-right: 10px;
   overflow: hidden;
 
   white-space: nowrap;
-  text-align: right;
+  text-align: left;
   text-overflow: ellipsis;
 }
