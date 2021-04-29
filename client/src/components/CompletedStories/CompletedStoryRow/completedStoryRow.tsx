@@ -1,6 +1,6 @@
 import React from 'react';
 import deleteStoryIcon from '../../../images/delete_24px.svg';
-import StoryVoteButton from '../../StoryVoteButton/storyVoteButton';
+import DefaultButton from '../../defaultButton/defaultButton';
 import './completedStoryRow.css';
 
 export interface ICompletedStoryRowProps {
@@ -27,7 +27,7 @@ const CompletedStoryRow: React.FunctionComponent<ICompletedStoryRowProps> = (pro
       <td className='completed_stories_cell_avg_vote'>{props.avgVote}</td>
       <td className='completed_stories_cell_delete_story_button'>
         {
-          <StoryVoteButton
+          <DefaultButton
             className='completed_stories_delete_btn'
             buttonText={<img src={deleteStoryIcon} alt='deleteStoryIcon' width='14' height='18' />}
             onClick={handleDelete}

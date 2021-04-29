@@ -1,5 +1,5 @@
 import React from 'react';
-import StoryVoteButton from '../StoryVoteButton/storyVoteButton';
+import DefaultButton from '../defaultButton/defaultButton';
 import InviteFriend from './InviteFriend/inviteFriend';
 import CreateNewDiscussionControl from './CreateNewDiscussion/createNewDiscussionBlock';
 import PlayerRow, { IPlayerRowProps } from '../StoryVoteCompletedBlock/PlayersRow/playerRow';
@@ -77,7 +77,7 @@ class StoryVote extends React.Component<IProps, IState> {
           </table>
           {/*Как вариант можно ставить условие так: buttonState == ButtonState[0] || buttonState == ButtonState[1], но тогда будет хуже читабельность кода*/}
           {buttonState == 'notClicked' || buttonState == 'FinishVotingIsClicked' ? (
-            <StoryVoteButton
+            <DefaultButton
               className='story_vote_button'
               buttonText={isClosed === false ? 'Finish voting' : 'Next'}
               onClick={this.handleStoryVoteButtonClick}

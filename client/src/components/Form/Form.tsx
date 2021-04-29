@@ -1,5 +1,5 @@
 import React from 'react';
-import EnterButton from '../EnterButton/enterButton';
+import Button from '../EnterButton/button';
 import ActionName from '../ActionName/actionName';
 import Input, { IInputProps } from '../InputAnyName/input';
 import './Form.css';
@@ -35,7 +35,7 @@ const Form: React.FunctionComponent<IProps> = (props) => {
           />
         );
       })}
-      <EnterButton className={'login_form_button'} onClick={handleClick} />
+      <Button className={'login_form_button'} onClick={handleClick} />
     </form>
   );
 };

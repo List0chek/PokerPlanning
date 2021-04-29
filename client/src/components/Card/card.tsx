@@ -5,8 +5,6 @@ interface IProps {
   value: string;
 
   onChange(value: string): void;
-
-  isChecked: boolean;
 }
 
 const coffeeIcon = (
@@ -22,15 +20,7 @@ const Card: React.FunctionComponent<IProps> = (props) => {
 
   return (
     <>
-      <input
-        id={props.value}
-        className='radio'
-        type='radio'
-        name='radio'
-        value={props.value}
-        checked={props.isChecked}
-        onChange={handleChange}
-      />
+      <input id={props.value} className='radio' type='radio' name='radio' value={props.value} onChange={handleChange} />
       <label className='card' htmlFor={props.value}>
         <span className='card_text'>{props.value === '☕' ? coffeeIcon : props.value}</span>
       </label>

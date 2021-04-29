@@ -77,6 +77,7 @@ interface IMatchParams {
 }
 
 interface IState {
+  nameOfCurrentUser: string;
   isClosed: boolean;
   discussionName: string;
   deleteDiscussion: string /*TODO: потом будет discussionId*/;
@@ -93,6 +94,7 @@ class RoomPage extends React.Component<RouteComponentProps<IMatchParams>, IState
   constructor(props: RouteComponentProps<IMatchParams>) {
     super(props);
     this.state = {
+      nameOfCurrentUser: 'userName 1',
       isClosed: false,
       discussionName: 'Story',
       deleteDiscussion: '',
@@ -100,15 +102,14 @@ class RoomPage extends React.Component<RouteComponentProps<IMatchParams>, IState
       openedStory: '',
       discussionNames: '',
       cardData: ['0', '1', '2', '3', '5', '8', '13', '21', '34', '55', '89', '?', '∞', '☕'],
-      usersData: [{ username: 'test 1', value: '', isChecked: false, isClosed: false }],
-      storyVoteResultInfoData: [
-        {
-          className: 'vote_value_dot_1',
-          voteValueMark: '3',
-          playersCount: '2',
-          playersPercentage: '66,6',
-        },
+      usersData: [
+        { username: 'userName 1', value: '', isChecked: false, isClosed: false },
+        { username: 'userName 2', value: '2', isChecked: true, isClosed: false },
+        { username: 'userName 3', value: '55', isChecked: true, isClosed: false },
+        { username: 'userName 4', value: '13', isChecked: true, isClosed: false },
+        { username: 'userName 5', value: '13', isChecked: true, isClosed: false },
       ],
+      storyVoteResultInfoData: [],
       completedStoriesData: [
         {
           storyName: 'Story 1',
@@ -126,73 +127,86 @@ class RoomPage extends React.Component<RouteComponentProps<IMatchParams>, IState
     this.handleStoryDetailsDownloadButtonClick = this.handleStoryDetailsDownloadButtonClick.bind(this);
   }
 
-  /*  public handleCardChange = (value: string) => {
-    const obj: IPlayerRowProps = {
-      username: 'newUser 1',
-      isChecked: true,
-      value: value,
-      isClosed: this.state.isClosed,
-    };
-    this.setState({
-      usersData: [...this.state.usersData, obj],
-    });
-  };*/
-
   public handleCardChange = (value: string) => {
-    this.setState((state) => {
-      this.state.usersData.map((item) => {
-        item.isChecked = true;
-        item.value = value;
-        item.isClosed = this.state.isClosed;
-      });
-      return state;
+    const updatedUsersData = this.state.usersData.map((s) => {
+      if (s.username === this.state.nameOfCurrentUser) {
+        return {
+          ...s,
+          isChecked: true,
+          value: value,
+          isClosed: this.state.isClosed,
+        };
+      }
+      return s;
+    });
+
+    this.setState({
+      usersData: updatedUsersData,
     });
   };
 
   public handleEnterButtonClick() {
-    const obj: ICompletedStory = {
+    const updatedUsersData = this.state.usersData.map((s) => {
+      return {
+        ...s,
+        isClosed: true,
+      };
+    });
+
+    const updatedStoryVoteResultInfoData = (s: Array<IStoryVoteResultInfoRowProps>) => {
+      for (let i = 0; i < updatedUsersData.length; i++) {
+        const newStoryVoteResultInfoData: IStoryVoteResultInfoRowProps = {
+          className: `vote_value_dot_${[i]}`,
+          voteValueMark: updatedUsersData[i].value,
+          playersCount: updatedUsersData.filter((item) => item.value === updatedUsersData[i].value).length,
+          playersPercentagePerVote: (
+            (updatedUsersData.filter((item) => item.value === updatedUsersData[i].value).length /
+              updatedUsersData.length) *
+            100
+          ).toString(),
+        };
+        const voteValueDuplicate = s.find((s) => s.voteValueMark === updatedUsersData[i].value);
+        if (!voteValueDuplicate) s.push(newStoryVoteResultInfoData);
+      }
+      return s;
+    };
+
+    const newCompletedStory: ICompletedStory = {
       storyName: this.state.discussionName,
       avgVote: (
-        this.state.usersData.reduce((votesSum: number, item) => votesSum + parseInt(item.value, 10), 0) /
-        this.state.usersData.length
+        updatedUsersData.reduce((votesSum: number, item) => votesSum + parseInt(item.value, 10), 0) /
+        updatedUsersData.length
       ).toString(),
-      usersData: this.state.usersData,
+      usersData: updatedUsersData,
     };
 
     const storyDuplicate = this.state.completedStoriesData.find((s) => s.storyName === this.state.discussionName);
     if (storyDuplicate) return;
-    const newStory = [...this.state.completedStoriesData, obj];
+    const updatedCompletedStoriesData = [...this.state.completedStoriesData, newCompletedStory];
 
     this.setState({
       isClosed: true,
-      completedStoriesData: newStory,
-    });
-
-    this.state.usersData.map((item) => {
-      item.isClosed = true;
-    });
-
-    this.state.storyVoteResultInfoData.map((item) => {
-      item.voteValueMark = this.state.usersData.map((item) => item.value).toString();
-      item.playersCount = this.state.usersData.filter((item) => item.username).length.toString();
-      item.playersPercentage = (
-        (this.state.usersData.filter((item) => item.username).length /
-          this.state.usersData.filter((item) => item.value).length) *
-        100
-      ).toString();
+      completedStoriesData: updatedCompletedStoriesData,
+      usersData: updatedUsersData,
+      storyVoteResultInfoData: updatedStoryVoteResultInfoData(this.state.storyVoteResultInfoData),
     });
   }
 
   public handleGoButtonClick(value: string) {
-    this.state.usersData.map((item) => {
-      item.value = '';
-      item.isChecked = false;
-      item.isClosed = false;
+    const updatedUsersData = this.state.usersData.map((s) => {
+      return {
+        ...s,
+        isChecked: undefined,
+        value: '',
+        isClosed: false,
+      };
     });
 
     this.setState({
       isClosed: false,
       discussionName: value,
+      usersData: updatedUsersData,
+      storyVoteResultInfoData: [],
     });
   }
 
@@ -211,10 +225,10 @@ class RoomPage extends React.Component<RouteComponentProps<IMatchParams>, IState
   }
 
   public handleStoryDetailsDeleteButtonClick(value: string) {
-    const updatedList = this.state.completedStoriesData.filter((s) => s.storyName !== value);
+    const updatedCompletedStoriesData = this.state.completedStoriesData.filter((s) => s.storyName !== value);
     this.setState({
       deleteDiscussion: value,
-      completedStoriesData: updatedList,
+      completedStoriesData: updatedCompletedStoriesData,
     });
   }
 

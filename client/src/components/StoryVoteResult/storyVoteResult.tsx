@@ -24,7 +24,7 @@ const StoryVoteResult: React.FunctionComponent<IStoryVoteResultProps> = (props) 
               className={array.className}
               voteValueMark={array.voteValueMark}
               playersCount={array.playersCount}
-              playersPercentage={array.playersPercentage}
+              playersPercentagePerVote={array.playersPercentagePerVote}
             />
           );
         })}

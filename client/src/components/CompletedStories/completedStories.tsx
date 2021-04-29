@@ -1,6 +1,6 @@
 import React from 'react';
 import downloadStoriesIcon from '../../images/download_24px.svg';
-import StoryVoteButton from '../StoryVoteButton/storyVoteButton';
+import DefaultButton from '../defaultButton/defaultButton';
 import CompletedStoryRow from './CompletedStoryRow/completedStoryRow';
 import { IPlayerRowProps } from '../StoryVoteCompletedBlock/PlayersRow/playerRow';
 import './completedStories.css';
@@ -44,7 +44,7 @@ const CompletedStories: React.FunctionComponent<IProps> = (props) => {
           </div>
         </div>
         {
-          <StoryVoteButton
+          <DefaultButton
             className='completed_stories_download_btn'
             buttonText={
               <img

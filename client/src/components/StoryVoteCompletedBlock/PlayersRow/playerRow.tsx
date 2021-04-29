@@ -27,7 +27,8 @@ const PlayerRow: React.FunctionComponent<IPlayerRowProps> = (props) => {
         {props.isClosed === false && props.isChecked === true && (
           <img src={checkCircle} alt='check_circle_icon' width='24' height='24' />
         )}
-        {props.isClosed !== false && (props.value === '☕' ? coffeeIcon : props.value)}
+        {props.isClosed !== false &&
+          ((props.value === '☕' ? coffeeIcon : props.value) || (props.isChecked === undefined ? '?' : props.value))}
       </td>
     </tr>
   );
