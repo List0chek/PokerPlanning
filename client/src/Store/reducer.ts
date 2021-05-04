@@ -29,6 +29,6 @@ export const ActionType = {
 };*/
 
 export const reducer = combineReducers<IRootState>({
-  rooms: roomReducer,
+  room: roomReducer,
   user: userReducer,
 });

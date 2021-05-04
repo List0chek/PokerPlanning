@@ -1,20 +1,20 @@
-import { ICard } from '../types';
+import { ICard, IUser } from '../types';
 import { Action } from 'redux';
 import { ActionType } from '../reducer';
 
 export interface IVoteAction extends Action {
   roomId: string;
   discussionId: string;
-  userId: string;
+  user: IUser;
   card: ICard;
 }
 
-export const vote = (roomId: string, discussionId: string, userId: string, card: ICard): IVoteAction => {
+export const vote = (roomId: string, discussionId: string, user: IUser, card: ICard): IVoteAction => {
   return {
     type: ActionType.VOTE,
     roomId: roomId,
     discussionId: discussionId,
-    userId: userId,
+    user: user,
     card: card,
   };
 };

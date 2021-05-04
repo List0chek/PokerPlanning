@@ -23,7 +23,7 @@ interface IMatchParams {
 export interface IMainPageProps extends RouteComponentProps<IMatchParams> {
   room: IRoom;
   user: IUser;
-  vote(roomId: string, discussionId: string, userId: string, card: ICard): void;
+  vote(roomId: string, discussionId: string, user: IUser, card: ICard): void;
 }
 
 interface IState {
@@ -91,7 +91,7 @@ class RoomPage extends React.Component<IMainPageProps, IState> {
   };*/
 
   public handleVote(value: ICard) {
-    this.props.vote(this.props.match.params.id, '456', this.props.user.id, value);
+    this.props.vote(this.props.match.params.id, '456', this.props.user, value);
     console.log(this.props.user.id);
     this.setState({
       isCardChecked: true,
@@ -196,13 +196,11 @@ class RoomPage extends React.Component<IMainPageProps, IState> {
       isDiscussionClosed,
       discussionName,
       isModalOpen,
-      usersData,
       storyVoteResultInfoData,
       completedStoriesData,
-      openedStory,
       isCardChecked,
     } = this.state;
-    const { room, user } = this.props;
+    const { room } = this.props;
     const playersCount = this.state.usersData.filter((item) => item.user.name).length;
     const votesSum = this.state.usersData.reduce(
       (votesSum: number, item) => votesSum + parseInt(item.card.value, 10),
@@ -225,6 +223,7 @@ class RoomPage extends React.Component<IMainPageProps, IState> {
             )}
             <DiscussionController
               playersList={room.discussions.find((item) => item.topic === discussionName)!.votes}
+              /*playersList={room.members}*/
               url={window.location.href}
               onEnterButtonClick={this.handleEnterButtonClick}
               onGoButtonClick={this.handleGoButtonClick}
@@ -252,17 +251,21 @@ class RoomPage extends React.Component<IMainPageProps, IState> {
 }
 
 const mapStateToProps = (state: IRootState, ownProps: IMainPageProps) => {
-  const room = state.rooms.find((r) => r.id === ownProps.match.params.id);
+  const room = (r: IRoom) => {
+    if (r.id === ownProps.match.params.id) {
+      return r;
+    }
+  };
   return {
-    room: room,
+    room: room(state.room),
     user: state.user,
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    vote: (roomId: string, discussionId: string, userId: string, card: ICard) =>
-      dispatch(vote(roomId, discussionId, userId, card)),
+    vote: (roomId: string, discussionId: string, user: IUser, card: ICard) =>
+      dispatch(vote(roomId, discussionId, user, card)),
   };
 };
 
