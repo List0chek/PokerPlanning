@@ -27,13 +27,11 @@ const InvitePage: React.FC<RouteComponentProps<IMatchParams>> = (props) => {
 
   return (
     <>
-      <MainHeader isAuth={false} />
       <main className='main_main'>
         <div className='main_block'>
           <Form title={'Join the room:'} values={data} onClick={handleSubmit} onSubmit={handleSubmit} />
         </div>
       </main>
-      <Footer />
     </>
   );
 };

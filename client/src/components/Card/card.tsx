@@ -1,10 +1,11 @@
 import React from 'react';
+import { ICard } from '../../Store/types';
 import './card.css';
 
 interface IProps {
-  value: string;
+  card: ICard;
 
-  onChange(value: string): void;
+  onChange(value: ICard): void;
 }
 
 const coffeeIcon = (
@@ -15,14 +16,21 @@ const coffeeIcon = (
 
 const Card: React.FunctionComponent<IProps> = (props) => {
   const handleChange = () => {
-    props.onChange(props.value);
+    props.onChange(props.card);
   };
 
   return (
     <>
-      <input id={props.value} className='radio' type='radio' name='radio' value={props.value} onChange={handleChange} />
-      <label className='card' htmlFor={props.value}>
-        <span className='card_text'>{props.value === '☕' ? coffeeIcon : props.value}</span>
+      <input
+        id={props.card.id}
+        className='radio'
+        type='radio'
+        name='radio'
+        value={props.card.value}
+        onChange={handleChange}
+      />
+      <label className='card' htmlFor={props.card.id}>
+        <span className='card_text'>{props.card.value === '&#9749' ? coffeeIcon : props.card.name}</span>
       </label>
     </>
   );

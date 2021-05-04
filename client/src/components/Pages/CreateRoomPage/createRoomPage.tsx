@@ -33,13 +33,11 @@ const CreateRoomPage: React.FC<any> = (props) => {
 
   return (
     <>
-      <MainHeader isAuth={false} />
       <main className='main_main'>
         <div className='main_block'>
           <Form title={'Create the room:'} values={data} onClick={handleClick} onSubmit={handleSubmit} />
         </div>
       </main>
-      <Footer />
     </>
   );
 };

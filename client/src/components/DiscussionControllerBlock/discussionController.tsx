@@ -1,20 +1,22 @@
 import React from 'react';
 import DefaultButton from '../defaultButton/defaultButton';
 import InviteFriend from './InviteFriend/inviteFriend';
-import CreateNewDiscussionControl from './CreateNewDiscussion/createNewDiscussionBlock';
-import PlayerRow, { IPlayerRowProps } from '../StoryVoteCompletedBlock/PlayersRow/playerRow';
-import './storyVote.css';
+import CreateNewDiscussionControl from './CreateNewDiscussion/createNewDiscussionControl';
+import PlayerRow, { IPlayerRowProps } from './/PlayersRow/playerRow';
+import './discussionController.css';
+import { IVote } from '../../Store/types';
 
 interface IProps {
   buttonText?: string;
-  playersList: Array<IPlayerRowProps>;
+  playersList: Array<IVote>;
   url: string;
   buttonClass?: string;
 
   onGoButtonClick(discussionName: string): void;
-  onStoryVoteButtonClick(isClosed: boolean): void;
+  onEnterButtonClick(isClosed: boolean): void;
 
-  isClosed: boolean;
+  isCardChecked: boolean;
+  isDiscussionClosed: boolean;
   discussionName: string;
 }
 
@@ -24,18 +26,18 @@ interface IState {
 
 const ButtonState: Array<string> = ['notClicked', 'FinishVotingIsClicked', 'NextIsClicked'];
 
-class StoryVote extends React.Component<IProps, IState> {
+class DiscussionController extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
       buttonState: ButtonState[0],
     };
-    this.handleStoryVoteButtonClick = this.handleStoryVoteButtonClick.bind(this);
+    this.handleEnterButtonClick = this.handleEnterButtonClick.bind(this);
     this.handleGoButtonClick = this.handleGoButtonClick.bind(this);
   }
 
-  public handleStoryVoteButtonClick = () => {
-    this.props.onStoryVoteButtonClick(this.props.isClosed);
+  public handleEnterButtonClick = () => {
+    this.props.onEnterButtonClick(this.props.isDiscussionClosed);
     const i = ButtonState.indexOf(this.state.buttonState);
     this.setState({
       buttonState: ButtonState[i + 1],
@@ -50,7 +52,7 @@ class StoryVote extends React.Component<IProps, IState> {
   };
 
   public render() {
-    const { playersList, url, isClosed } = this.props;
+    const { playersList, url, isDiscussionClosed } = this.props;
     const { buttonState } = this.state;
 
     return (
@@ -65,11 +67,11 @@ class StoryVote extends React.Component<IProps, IState> {
               {playersList.map((item) => {
                 return (
                   <PlayerRow
-                    key={item.username}
-                    username={item.username}
-                    value={item.value}
-                    isChecked={item.isChecked}
-                    isClosed={item.isClosed}
+                    key={item.user.id}
+                    user={item.user}
+                    card={item.card}
+                    isCardChecked={this.props.isCardChecked}
+                    isDiscussionClosed={this.props.isDiscussionClosed}
                   />
                 );
               })}
@@ -79,8 +81,8 @@ class StoryVote extends React.Component<IProps, IState> {
           {buttonState == 'notClicked' || buttonState == 'FinishVotingIsClicked' ? (
             <DefaultButton
               className='story_vote_button'
-              buttonText={isClosed === false ? 'Finish voting' : 'Next'}
-              onClick={this.handleStoryVoteButtonClick}
+              buttonText={isDiscussionClosed === false ? 'Finish voting' : 'Next'}
+              onClick={this.handleEnterButtonClick}
             />
           ) : (
             <CreateNewDiscussionControl onGoButtonClick={this.handleGoButtonClick} />
@@ -92,4 +94,4 @@ class StoryVote extends React.Component<IProps, IState> {
   }
 }
 
-export default StoryVote;
+export default DiscussionController;

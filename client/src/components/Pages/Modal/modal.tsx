@@ -1,10 +1,16 @@
 import React from 'react';
-import '../../StoryVoteCompletedBlock/storyVote.css';
-import PlayerRow, { IPlayerRowProps } from '../../StoryVoteCompletedBlock/PlayersRow/playerRow';
+import '../../DiscussionControllerBlock/discussionController.css';
+import PlayerRow, { IPlayerRowProps } from '../../DiscussionControllerBlock/PlayersRow/playerRow';
 import './modal.css';
+import { ICard, IRootState, IVote } from '../../../Store/types';
+import { compose, Dispatch } from 'redux';
+import { vote } from '../../../Store/room/room-action-creators';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { IMainPageProps } from '../RoomPage/roomPage';
 
 interface IProps {
-  playersList: Array<IPlayerRowProps>;
+  playersList: Array<IVote>;
 
   onStoryDetailsCloseButtonClick(): void;
 }
@@ -24,9 +30,7 @@ const Modal: React.FunctionComponent<IProps> = (props) => {
         <table className='players_table'>
           <tbody>
             {props.playersList.map((item) => {
-              return (
-                <PlayerRow key={item.username} username={item.username} value={item.value} isClosed={item.isClosed} />
-              );
+              return <PlayerRow key={item.user.id} user={item.user} card={item.card} isDiscussionClosed={true} />;
             })}
           </tbody>
         </table>

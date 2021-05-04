@@ -1,10 +1,11 @@
 import React from 'react';
 import Card from '../Card/card';
+import { ICard } from '../../Store/types';
 import './board.css';
 
 interface IProps {
-  cardValues: Array<string>;
-  onCardChange(value: string | null): void;
+  cardValues: Array<ICard>;
+  onCardChange(value: ICard): void;
 }
 
 class Board extends React.Component<IProps> {
@@ -13,7 +14,8 @@ class Board extends React.Component<IProps> {
     this.handleCardChange = this.handleCardChange.bind(this);
   }
 
-  public handleCardChange(value: string) {
+  public handleCardChange(value: ICard) {
+    console.log(value);
     this.props.onCardChange(value);
   }
 
@@ -22,7 +24,7 @@ class Board extends React.Component<IProps> {
     return (
       <div className='board'>
         {cardValues.map((item) => {
-          return <Card key={item} value={item} onChange={this.handleCardChange} />;
+          return <Card key={item.id} card={item} onChange={this.handleCardChange} />;
         })}
       </div>
     );
