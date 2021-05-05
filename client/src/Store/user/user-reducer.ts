@@ -1,12 +1,20 @@
 import { IUser } from '../types';
-import { Action } from 'redux';
+import { ActionType } from '../reducer';
+import { ICreateUserAction } from './user-action-creators';
 
-const initState = {
-  id: '3520061f-3ade-43a0-9c21-4b62088ccdbc',
-  name: 'userName 1',
-  token: 'HwYgNd46oEOcIUtiCIzNvA==',
-};
+const initState = null;
 
-export const userReducer = (state: IUser | null = initState, action: Action): IUser | null => {
-  return state;
+export const userReducer = (state: IUser | null = initState, action: ICreateUserAction): IUser | null => {
+  switch (action.type) {
+    case ActionType.CREATE_USER: {
+      const userId = Math.round(Math.random() * (100 - 1) + 1);
+      return {
+        id: userId.toString(),
+        name: action.userName,
+        token: 'token',
+      };
+    }
+    default:
+      return state;
+  }
 };

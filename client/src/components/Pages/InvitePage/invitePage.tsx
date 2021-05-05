@@ -2,9 +2,11 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { RoutePath } from '../../routes';
-import MainHeader from '../../MainHeader/mainHeader';
-import Footer from '../../Footer/footer';
 import Form from '../../Form/Form';
+import { IRootState } from '../../../Store/types';
+import { compose, Dispatch } from 'redux';
+import { createUser } from '../../../Store/user/user-action-creators';
+import { connect } from 'react-redux';
 
 const data = [
   {
@@ -19,21 +21,65 @@ interface IMatchParams {
   id: string;
 }
 
-const InvitePage: React.FC<RouteComponentProps<IMatchParams>> = (props) => {
-  const handleSubmit = (event: React.FormEvent) => {
+interface IProps extends RouteComponentProps<IMatchParams> {
+  createUser(userName: string): void;
+}
+
+interface IState {
+  enteredText: string;
+}
+
+class InvitePage extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      enteredText: '',
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    props.history.push(`${RoutePath.MAIN}/${props.match.params.id}`);
+    this.props.history.push(`${RoutePath.MAIN}/${this.props.match.params.id}`);
+    this.props.createUser(this.state.enteredText);
   };
 
-  return (
-    <>
-      <main className='main_main'>
-        <div className='main_block'>
-          <Form title={'Join the room:'} values={data} onClick={handleSubmit} onSubmit={handleSubmit} />
-        </div>
-      </main>
-    </>
-  );
+  public handleChange = (textValue: string) => {
+    this.setState({
+      enteredText: textValue,
+    });
+  };
+
+  render() {
+    return (
+      <>
+        <main className='main_main'>
+          <div className='main_block'>
+            <Form
+              title={'Join the room:'}
+              values={data}
+              onClick={this.handleSubmit}
+              onSubmit={this.handleSubmit}
+              onChange={this.handleChange}
+            />
+          </div>
+        </main>
+      </>
+    );
+  }
+}
+
+const mapStateToProps = (state: IRootState) => {
+  return {
+    user: state.user,
+  };
 };
 
-export default withRouter(InvitePage);
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    createUser: (userName: string) => dispatch(createUser(userName)),
+  };
+};
+
+export default compose<React.ComponentClass>(withRouter, connect(mapStateToProps, mapDispatchToProps))(InvitePage);

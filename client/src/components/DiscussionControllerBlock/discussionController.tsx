@@ -3,8 +3,8 @@ import DefaultButton from '../defaultButton/defaultButton';
 import InviteFriend from './InviteFriend/inviteFriend';
 import CreateNewDiscussionControl from './CreateNewDiscussion/createNewDiscussionControl';
 import PlayerRow, { IPlayerRowProps } from './/PlayersRow/playerRow';
-import './discussionController.css';
 import { IVote } from '../../Store/types';
+import './discussionController.css';
 
 interface IProps {
   buttonText?: string;

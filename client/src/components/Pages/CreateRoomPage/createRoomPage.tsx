@@ -1,9 +1,12 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { RoutePath } from '../../routes';
-import MainHeader from '../../MainHeader/mainHeader';
-import Footer from '../../Footer/footer';
+import { RouteComponentProps } from 'react-router';
 import Form from '../../Form/Form';
+import { IRootState, IUser } from '../../../Store/types';
+import { compose, Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { createUser } from '../../../Store/user/user-action-creators';
 
 const data = [
   {
@@ -20,26 +23,70 @@ const data = [
   },
 ];
 
-const CreateRoomPage: React.FC<any> = (props) => {
-  const handleClick = () => {
+interface IProps extends RouteComponentProps<any> {
+  createUser(userName: string): void;
+}
+
+interface IState {
+  enteredText: string;
+}
+
+class CreateRoomPage extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      enteredText: '',
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  public handleClick = () => {
     const roomId = Math.round(Math.random() * (100 - 1) + 1);
-    window.console.log(roomId);
-    props.history.push(`${RoutePath.MAIN}/${roomId}`);
+    this.props.history.push(`${RoutePath.MAIN}/${roomId}`);
+    this.props.createUser(this.state.enteredText);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  public handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
   };
 
-  return (
-    <>
-      <main className='main_main'>
-        <div className='main_block'>
-          <Form title={'Create the room:'} values={data} onClick={handleClick} onSubmit={handleSubmit} />
-        </div>
-      </main>
-    </>
-  );
+  public handleChange = (textValue: string) => {
+    this.setState({
+      enteredText: textValue,
+    });
+  };
+
+  render() {
+    return (
+      <>
+        <main className='main_main'>
+          <div className='main_block'>
+            <Form
+              title={'Create the room:'}
+              values={data}
+              onClick={this.handleClick}
+              onSubmit={this.handleSubmit}
+              onChange={this.handleChange}
+            />
+          </div>
+        </main>
+      </>
+    );
+  }
+}
+
+const mapStateToProps = (state: IRootState) => {
+  return {
+    user: state.user,
+  };
 };
 
-export default withRouter(CreateRoomPage);
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    createUser: (userName: string) => dispatch(createUser(userName)),
+  };
+};
+
+export default compose<React.ComponentClass>(withRouter, connect(mapStateToProps, mapDispatchToProps))(CreateRoomPage);

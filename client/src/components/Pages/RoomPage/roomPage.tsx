@@ -3,8 +3,6 @@ import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { connect } from 'react-redux';
 import { Dispatch, compose } from 'redux';
-import MainHeader from '../../MainHeader/mainHeader';
-import Footer from '../../Footer/footer';
 import Board from '../../Board/board';
 import DiscussionController from '../../DiscussionControllerBlock/discussionController';
 import CompletedStories, { ICompletedStory } from '../../CompletedStories/completedStories';
@@ -62,7 +60,6 @@ class RoomPage extends React.Component<IMainPageProps, IState> {
         },
       ],
     };
-    /*this.handleCardChange = this.handleCardChange.bind(this);*/
     this.handleEnterButtonClick = this.handleEnterButtonClick.bind(this);
     this.handleGoButtonClick = this.handleGoButtonClick.bind(this);
     this.handleCompletedStoryClick = this.handleCompletedStoryClick.bind(this);
@@ -71,24 +68,6 @@ class RoomPage extends React.Component<IMainPageProps, IState> {
     this.handleStoryDetailsDownloadButtonClick = this.handleStoryDetailsDownloadButtonClick.bind(this);
     this.handleVote = this.handleVote.bind(this);
   }
-
-  /* public handleCardChange = (value: string) => {
-    const updatedUsersData = this.state.usersData.map((s) => {
-      if (s.username === this.state.nameOfCurrentUser) {
-        return {
-          ...s,
-          isChecked: true,
-          value: value,
-          isClosed: this.state.isDiscussionClosed,
-        };
-      }
-      return s;
-    });
-
-    this.setState({
-      usersData: updatedUsersData,
-    });
-  };*/
 
   public handleVote(value: ICard) {
     this.props.vote(this.props.match.params.id, '456', this.props.user, value);
@@ -223,7 +202,6 @@ class RoomPage extends React.Component<IMainPageProps, IState> {
             )}
             <DiscussionController
               playersList={room.discussions.find((item) => item.topic === discussionName)!.votes}
-              /*playersList={room.members}*/
               url={window.location.href}
               onEnterButtonClick={this.handleEnterButtonClick}
               onGoButtonClick={this.handleGoButtonClick}
@@ -250,14 +228,9 @@ class RoomPage extends React.Component<IMainPageProps, IState> {
   }
 }
 
-const mapStateToProps = (state: IRootState, ownProps: IMainPageProps) => {
-  const room = (r: IRoom) => {
-    if (r.id === ownProps.match.params.id) {
-      return r;
-    }
-  };
+const mapStateToProps = (state: IRootState) => {
   return {
-    room: room(state.room),
+    room: state.room,
     user: state.user,
   };
 };

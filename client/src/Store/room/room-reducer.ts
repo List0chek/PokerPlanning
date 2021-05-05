@@ -164,13 +164,13 @@ export function roomReducer(state: IRoom = initState, action: IVoteAction): IRoo
         ...state,
         discussions: state.discussions.map((discussion) => {
           if (discussion.id === action.discussionId) {
-            if (!discussion.votes.find((item) => item.user === action.user)) {
+            const updatingVote = discussion.votes.find((item) => item.user === action.user)!;
+            if (!updatingVote) {
               return {
                 ...discussion,
                 votes: [...discussion.votes, newVote],
               };
-            } else if (discussion.votes.find((item) => item.user === action.user)) {
-              const updatingVote = discussion.votes.find((item) => item.user === action.user)!;
+            } else {
               return {
                 ...discussion,
                 votes: [
