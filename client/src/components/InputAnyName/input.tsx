@@ -4,27 +4,13 @@ import './input.css';
 export interface IInputProps {
   className: string;
   labelName: string;
-  placeholderText?: string;
-  inputName?: string;
-  onChange(textValue: string): void;
+  placeholderText: string;
+  inputName: string;
 }
 
 class Input extends React.Component<IInputProps> {
-  private inputRef: React.RefObject<HTMLInputElement>;
   constructor(props: IInputProps) {
     super(props);
-    this.inputRef = React.createRef();
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  public handleChange() {
-    const { current } = this.inputRef;
-    let textValue = '';
-    if (current != null) {
-      textValue = current.value;
-    }
-    console.log(textValue);
-    this.props.onChange(textValue);
   }
 
   render() {
@@ -41,8 +27,6 @@ class Input extends React.Component<IInputProps> {
           name={inputName}
           placeholder={placeholderText}
           required
-          ref={this.inputRef}
-          onChange={this.handleChange}
         />
       </div>
     );

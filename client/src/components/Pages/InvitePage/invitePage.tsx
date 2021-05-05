@@ -25,30 +25,15 @@ interface IProps extends RouteComponentProps<IMatchParams> {
   createUser(userName: string): void;
 }
 
-interface IState {
-  enteredText: string;
-}
-
-class InvitePage extends React.Component<IProps, IState> {
+class InvitePage extends React.Component<IProps> {
   constructor(props: IProps) {
     super(props);
-    this.state = {
-      enteredText: '',
-    };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  handleSubmit = (inputUsernameValue: string) => {
     this.props.history.push(`${RoutePath.MAIN}/${this.props.match.params.id}`);
-    this.props.createUser(this.state.enteredText);
-  };
-
-  public handleChange = (textValue: string) => {
-    this.setState({
-      enteredText: textValue,
-    });
+    this.props.createUser(inputUsernameValue);
   };
 
   render() {
@@ -56,13 +41,7 @@ class InvitePage extends React.Component<IProps, IState> {
       <>
         <main className='main_main'>
           <div className='main_block'>
-            <Form
-              title={'Join the room:'}
-              values={data}
-              onClick={this.handleSubmit}
-              onSubmit={this.handleSubmit}
-              onChange={this.handleChange}
-            />
+            <Form title={'Join the room:'} values={data} onSubmit={this.handleSubmit} />
           </div>
         </main>
       </>

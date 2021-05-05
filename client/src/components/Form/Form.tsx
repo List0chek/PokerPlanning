@@ -7,53 +7,38 @@ import './Form.css';
 interface IProps {
   title: string;
   values: Array<any>;
-  onClick(event: React.FormEvent): void;
-  onSubmit(event: React.FormEvent): void;
-  onChange(textValue: string): void;
+  onSubmit(enteredText: string): void;
 }
 
-class Form extends React.Component<IProps> {
-  constructor(props: IProps) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
+const Form: React.FunctionComponent<IProps> = (props) => {
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
 
-  public handleChange = (textValue: string) => {
-    this.props.onChange(textValue);
+    const inputUsername = form.elements[props.values[0].inputName] as HTMLFormElement;
+    console.log(inputUsername.value);
+
+    props.onSubmit(inputUsername.value);
   };
 
-  public handleSubmit = (event: React.FormEvent) => {
-    this.props.onSubmit(event);
-  };
-
-  public handleClick = (event: React.FormEvent) => {
-    this.props.onClick(event);
-  };
-
-  render() {
-    const { title, values } = this.props;
-    return (
-      <form className='login_form' onSubmit={this.handleSubmit}>
-        <h2 className='login_form_h2'>{"Let's start!"}</h2>
-        <ActionName actionName={title} />
-        {values.map((item) => {
-          return (
-            <Input
-              key={item.inputName}
-              className={item.className}
-              labelName={item.labelName}
-              placeholderText={item.placeholderText}
-              inputName={item.inputName}
-              onChange={this.handleChange}
-            />
-          );
-        })}
-        <Button className={'login_form_button'} onClick={this.handleClick} />
-      </form>
-    );
-  }
-}
+  return (
+    <form className='login_form' onSubmit={handleSubmit}>
+      <h2 className='login_form_h2'>{"Let's start!"}</h2>
+      <ActionName actionName={props.title} />
+      {props.values.map((item) => {
+        return (
+          <Input
+            key={item.inputName}
+            className={item.className}
+            labelName={item.labelName}
+            placeholderText={item.placeholderText}
+            inputName={item.inputName}
+          />
+        );
+      })}
+      <Button className={'login_form_button'} onSubmit={handleSubmit} />
+    </form>
+  );
+};
 
 export default Form;

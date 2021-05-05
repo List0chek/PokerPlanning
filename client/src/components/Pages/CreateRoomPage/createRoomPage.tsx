@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { RoutePath } from '../../routes';
 import { RouteComponentProps } from 'react-router';
 import Form from '../../Form/Form';
-import { IRootState, IUser } from '../../../Store/types';
+import { IRootState } from '../../../Store/types';
 import { compose, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createUser } from '../../../Store/user/user-action-creators';
@@ -27,35 +27,16 @@ interface IProps extends RouteComponentProps<any> {
   createUser(userName: string): void;
 }
 
-interface IState {
-  enteredText: string;
-}
-
-class CreateRoomPage extends React.Component<IProps, IState> {
+class CreateRoomPage extends React.Component<IProps> {
   constructor(props: IProps) {
     super(props);
-    this.state = {
-      enteredText: '',
-    };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  public handleClick = () => {
+  public handleSubmit = (inputUsernameValue: string) => {
     const roomId = Math.round(Math.random() * (100 - 1) + 1);
     this.props.history.push(`${RoutePath.MAIN}/${roomId}`);
-    this.props.createUser(this.state.enteredText);
-  };
-
-  public handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-  };
-
-  public handleChange = (textValue: string) => {
-    this.setState({
-      enteredText: textValue,
-    });
+    this.props.createUser(inputUsernameValue);
   };
 
   render() {
@@ -63,13 +44,7 @@ class CreateRoomPage extends React.Component<IProps, IState> {
       <>
         <main className='main_main'>
           <div className='main_block'>
-            <Form
-              title={'Create the room:'}
-              values={data}
-              onClick={this.handleClick}
-              onSubmit={this.handleSubmit}
-              onChange={this.handleChange}
-            />
+            <Form title={'Create the room:'} values={data} onSubmit={this.handleSubmit} />
           </div>
         </main>
       </>
