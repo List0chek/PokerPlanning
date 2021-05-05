@@ -11,3 +11,9 @@ export const createUser = (userName: string): ICreateUserAction => {
     userName: userName,
   };
 };
+
+export const deleteUser = (): Action => {
+  return {
+    type: ActionType.DELETE_USER,
+  };
+};

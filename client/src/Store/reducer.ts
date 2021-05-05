@@ -7,6 +7,7 @@ export const ActionType = {
   VOTE: 'VOTE',
   REMOVE_DISCUSSION: 'REMOVE_DISCUSSION',
   CREATE_USER: 'CREATE_USER',
+  DELETE_USER: 'DELETE_USER',
 };
 
 export const reducer = combineReducers<IRootState>({

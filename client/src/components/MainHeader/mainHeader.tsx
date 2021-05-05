@@ -1,24 +1,20 @@
 import React from 'react';
 import MainLogoWithURL from '../MainLogoWithURL/mainLogoWithURL';
 import UserButton from '../UserButton/userButton';
-import { ICard, IRootState, IUser } from '../../Store/types';
-import './mainHeader.css';
-import { compose, Dispatch } from 'redux';
-import { vote } from '../../Store/room/room-action-creators';
-import { withRouter } from 'react-router-dom';
+import { IRootState, IUser } from '../../Store/types';
 import { connect } from 'react-redux';
-import { IMainPageProps } from '../Pages/RoomPage/roomPage';
+import './mainHeader.css';
 
 interface IProps {
   user: IUser | null;
 }
 
-const MainHeader: React.FunctionComponent<IProps> = ({ user }) => {
+const MainHeader: React.FunctionComponent<IProps> = (props) => {
   return (
     <header className='main_header'>
       <div className='main_header_content_block'>
         <MainLogoWithURL />
-        {user && <UserButton userName={user.name} />}
+        {props.user && <UserButton userName={props.user.name} />}
       </div>
     </header>
   );

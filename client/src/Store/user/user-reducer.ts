@@ -14,6 +14,8 @@ export const userReducer = (state: IUser | null = initState, action: ICreateUser
         token: 'token',
       };
     }
+    case ActionType.DELETE_USER:
+      return initState;
     default:
       return state;
   }
