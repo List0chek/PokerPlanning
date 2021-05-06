@@ -3,17 +3,17 @@ import './button.css';
 
 interface IProps {
   className: string;
-  onClick(event: React.FormEvent): void;
+  onSubmit(event: React.FormEvent): void;
 }
 
 const Button: React.FunctionComponent<IProps> = (props) => {
-  const handleClick = (event: React.FormEvent) => {
-    props.onClick(event);
+  const handleSubmit = (event: React.FormEvent) => {
+    props.onSubmit(event);
   };
 
   return (
     <div className='input_enter_btn'>
-      <button className={`enter_btn + ${props.className}`} type='submit' onClick={handleClick}>
+      <button className={`enter_btn + ${props.className}`} type='submit' onSubmit={handleSubmit}>
         Enter
       </button>
     </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import downloadStoriesIcon from '../../images/download_24px.svg';
 import DefaultButton from '../defaultButton/defaultButton';
 import CompletedStoryRow from './CompletedStoryRow/completedStoryRow';
-import { IPlayerRowProps } from '../StoryVoteCompletedBlock/PlayersRow/playerRow';
+import { IPlayerRowProps } from '../DiscussionControllerBlock/PlayersRow/playerRow';
 import './completedStories.css';
 
 export interface ICompletedStory {

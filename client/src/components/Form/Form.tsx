@@ -1,23 +1,24 @@
 import React from 'react';
 import Button from '../EnterButton/button';
 import ActionName from '../ActionName/actionName';
-import Input, { IInputProps } from '../InputAnyName/input';
+import Input from '../InputAnyName/input';
 import './Form.css';
 
 interface IProps {
   title: string;
-  values: Array<IInputProps>;
-  onClick(event: React.FormEvent): void;
-  onSubmit(event: React.FormEvent): void;
+  values: Array<any>;
+  onSubmit(enteredText: string): void;
 }
 
 const Form: React.FunctionComponent<IProps> = (props) => {
-  const handleClick = (event: React.FormEvent) => {
-    props.onClick(event);
-  };
-
   const handleSubmit = (event: React.FormEvent) => {
-    props.onSubmit(event);
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+
+    const inputUsername = form.elements[props.values[0].inputName] as HTMLFormElement;
+    console.log(inputUsername.value);
+
+    props.onSubmit(inputUsername.value);
   };
 
   return (
@@ -35,7 +36,7 @@ const Form: React.FunctionComponent<IProps> = (props) => {
           />
         );
       })}
-      <Button className={'login_form_button'} onClick={handleClick} />
+      <Button className={'login_form_button'} onSubmit={handleSubmit} />
     </form>
   );
 };

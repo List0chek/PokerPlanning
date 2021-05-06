@@ -2,9 +2,11 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { RoutePath } from '../../routes';
-import MainHeader from '../../MainHeader/mainHeader';
-import Footer from '../../Footer/footer';
 import Form from '../../Form/Form';
+import { IRootState } from '../../../Store/types';
+import { compose, Dispatch } from 'redux';
+import { createUser } from '../../../Store/user/user-action-creators';
+import { connect } from 'react-redux';
 
 const data = [
   {
@@ -19,23 +21,44 @@ interface IMatchParams {
   id: string;
 }
 
-const InvitePage: React.FC<RouteComponentProps<IMatchParams>> = (props) => {
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    props.history.push(`${RoutePath.MAIN}/${props.match.params.id}`);
+interface IProps extends RouteComponentProps<IMatchParams> {
+  createUser(userName: string): void;
+}
+
+class InvitePage extends React.Component<IProps> {
+  constructor(props: IProps) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit = (inputUsernameValue: string) => {
+    this.props.history.push(`${RoutePath.MAIN}/${this.props.match.params.id}`);
+    this.props.createUser(inputUsernameValue);
   };
 
-  return (
-    <>
-      <MainHeader isAuth={false} />
-      <main className='main_main'>
-        <div className='main_block'>
-          <Form title={'Join the room:'} values={data} onClick={handleSubmit} onSubmit={handleSubmit} />
-        </div>
-      </main>
-      <Footer />
-    </>
-  );
+  render() {
+    return (
+      <>
+        <main className='main_main'>
+          <div className='main_block'>
+            <Form title={'Join the room:'} values={data} onSubmit={this.handleSubmit} />
+          </div>
+        </main>
+      </>
+    );
+  }
+}
+
+const mapStateToProps = (state: IRootState) => {
+  return {
+    user: state.user,
+  };
 };
 
-export default withRouter(InvitePage);
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    createUser: (userName: string) => dispatch(createUser(userName)),
+  };
+};
+
+export default compose<React.ComponentClass>(withRouter, connect(mapStateToProps, mapDispatchToProps))(InvitePage);
