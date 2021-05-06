@@ -46,6 +46,6 @@ namespace PlanPoker.Models
         /// <summary>
         /// Длительность обсуждения.
         /// </summary>
-        public TimeSpan? Duration { get; set; }
+        public double? Duration { get; set; }
     }
 }

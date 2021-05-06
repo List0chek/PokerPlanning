@@ -30,7 +30,7 @@ namespace PlanPoker.Models
         /// <summary>
         /// Id сущности User.
         /// </summary>
-        public Guid UserId { get; set; }
+        public UserDTO User { get; set; }
 
         /// <summary>
         /// Карта.

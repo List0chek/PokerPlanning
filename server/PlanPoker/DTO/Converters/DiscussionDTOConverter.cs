@@ -16,12 +16,19 @@ namespace PlanPoker.DTO.Converters
         private readonly IRepository<Vote> voteRepository;
 
         /// <summary>
+        /// Экземпляр InMemoryUserRepository.
+        /// </summary>
+        private readonly IRepository<User> userRepository;
+
+        /// <summary>
         /// Конструктор класса DiscussionDTOConverter.
         /// </summary>
         /// <param name="voteRepository">Экземпляр InMemoryVoteRepository.</param>
-        public DiscussionDTOConverter(IRepository<Vote> voteRepository)
+        /// <param name="userRepository">Экземпляр InMemoryUserRepository.</param>
+        public DiscussionDTOConverter(IRepository<Vote> voteRepository, IRepository<User> userRepository)
         {
             this.voteRepository = voteRepository;
+            this.userRepository = userRepository;
         }
 
         /// <summary>
@@ -36,7 +43,7 @@ namespace PlanPoker.DTO.Converters
             double numerableVotesSum = 0;
             double averageResult = 0;
             var votesList = this.voteRepository.GetAll()
-                .Select(item => new VoteDTOConverter().Convert(item))
+                .Select(item => new VoteDTOConverter(this.userRepository).Convert(item))
                 .Where(item => item.DiscussionId.Equals(discussion.Id))
                 .ToList();
             if (votesList?.Count > 0)
@@ -52,6 +59,7 @@ namespace PlanPoker.DTO.Converters
                 discussion.AverageResult = averageResult;
             }
 
+            var discussionDuration = discussion.DateEnd - discussion.DateStart;
             return new DiscussionDTO()
             {
                 Id = discussion.Id,
@@ -61,7 +69,7 @@ namespace PlanPoker.DTO.Converters
                 DateEnd = discussion.DateEnd,
                 Votes = votesList,
                 AverageResult = discussion.AverageResult,
-                Duration = discussion.DateEnd - discussion.DateStart
+                Duration = (discussionDuration.HasValue is false) ? 0 : discussionDuration.Value.TotalMinutes,
             };
         }
     }

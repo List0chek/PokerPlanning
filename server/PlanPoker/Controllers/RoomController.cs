@@ -1,4 +1,5 @@
 ﻿using DataService;
+using DataService.Models;
 using Microsoft.AspNetCore.Mvc;
 using PlanPoker.DTO.Converters;
 using PlanPoker.Models;
@@ -30,16 +31,44 @@ namespace PlanPoker.Controllers
         private readonly IRepository<Discussion> discussionRepository;
 
         /// <summary>
+        /// Экземпляр InMemoryDeckRepository.
+        /// </summary>
+        private readonly IRepository<Deck> deckRepository;
+
+        /// <summary>
+        /// Экземпляр InMemoryCardRepository.
+        /// </summary>
+        private readonly IRepository<Card> cardRepository;
+
+        /// <summary>
+        /// Экземпляр InMemoryUserRepository.
+        /// </summary>
+        private readonly IRepository<User> userRepository;
+
+        /// <summary>
         /// Конструктор RoomController.
         /// </summary>
         /// <param name="roomService">Экземпляр RoomService.</param>
         /// <param name="voteRepository">Экземпляр InMemoryVoteRepository.</param>
         /// <param name="discussionRepository">Экземпляр InMemoryDiscussionRepository.</param>
-        public RoomController(RoomService roomService, IRepository<Vote> voteRepository, IRepository<Discussion> discussionRepository)
+        /// <param name="discussionRepository">Экземпляр InMemoryDiscussionRepository.</param>
+        /// <param name="deckRepository">Экземпляр InMemoryDeckRepository.</param>
+        /// <param name="cardRepository">Экземпляр InMemoryCardRepository.</param>
+        /// <param name="userRepository">Экземпляр InMemoryUserRepository.</param>
+        public RoomController(
+            RoomService roomService,
+            IRepository<Vote> voteRepository,
+            IRepository<Discussion> discussionRepository,
+            IRepository<Deck> deckRepository,
+            IRepository<Card> cardRepository,
+            IRepository<User> userRepository)
         {
             this.roomService = roomService;
             this.voteRepository = voteRepository;
             this.discussionRepository = discussionRepository;
+            this.deckRepository = deckRepository;
+            this.cardRepository = cardRepository;
+            this.userRepository = userRepository;
         }
 
         /// <summary>
@@ -50,10 +79,16 @@ namespace PlanPoker.Controllers
         /// <param name="ownerToken">Token создателя.</param>
         /// <returns>Возвращает экземпляр RoomDTO.</returns>
         [HttpPost]
-        public RoomDTO Create(string name, Guid ownerId, string ownerToken)
+        public RoomDTO Create(string name, Guid ownerId, [FromHeader]string ownerToken)
         {
             var room = this.roomService.Create(name, ownerId, ownerToken);
-            return new RoomDTOConverter(this.voteRepository, this.discussionRepository).Convert(room);
+            return new RoomDTOConverter(
+                this.voteRepository,
+                this.discussionRepository,
+                this.deckRepository,
+                this.cardRepository,
+                this.userRepository)
+                .Convert(room);
         }
 
         /// <summary>
@@ -67,7 +102,13 @@ namespace PlanPoker.Controllers
         public RoomDTO AddMember(Guid roomId, Guid newUserId, Guid ownerId)
         {
             var room = this.roomService.AddMember(roomId, newUserId, ownerId);
-            return new RoomDTOConverter(this.voteRepository, this.discussionRepository).Convert(room);
+            return new RoomDTOConverter(
+                this.voteRepository,
+                this.discussionRepository,
+                this.deckRepository,
+                this.cardRepository,
+                this.userRepository)
+                .Convert(room);
         }
 
         /// <summary>
@@ -80,7 +121,13 @@ namespace PlanPoker.Controllers
         public RoomDTO GetRoomInfo(Guid roomId, Guid userId)
         {
             var room = this.roomService.GetRoomInfo(roomId, userId);
-            return new RoomDTOConverter(this.voteRepository, this.discussionRepository).Convert(room);
+            return new RoomDTOConverter(
+                this.voteRepository,
+                this.discussionRepository,
+                this.deckRepository,
+                this.cardRepository,
+                this.userRepository)
+                .Convert(room);
         }
 
 
@@ -93,10 +140,16 @@ namespace PlanPoker.Controllers
         /// <param name="ownerToken">Токен владельца комнаты.</param>
         /// <returns>Возвращает экземпляр RoomDTO.</returns>
         [HttpPost]
-        public RoomDTO ChangeHost(Guid roomId, Guid newHostId, Guid ownerId, string ownerToken)
+        public RoomDTO ChangeHost(Guid roomId, Guid newHostId, Guid ownerId)
         {
-            var room = this.roomService.ChangeHost(roomId, newHostId, ownerId, ownerToken);
-            return new RoomDTOConverter(this.voteRepository, this.discussionRepository).Convert(room);
+            var room = this.roomService.ChangeHost(roomId, newHostId, ownerId);
+            return new RoomDTOConverter(
+                this.voteRepository,
+                this.discussionRepository,
+                this.deckRepository,
+                this.cardRepository,
+                this.userRepository)
+                .Convert(room);
         }
     }
 }

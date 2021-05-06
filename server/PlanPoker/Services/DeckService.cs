@@ -65,7 +65,7 @@ namespace PlanPoker.Services
         }
 
         /// <summary>
-        /// Создает новую колоду.
+        /// Возвращает стандартную колоду.
         /// </summary>
         /// <returns>Возвращает экземпляр Deck.</returns>
         public Deck GetDefaultDeck()
@@ -73,7 +73,7 @@ namespace PlanPoker.Services
             var deck = this.deckRepository
                 .GetAll()
                 .Where(item => item.Name.Contains("defaultDeck"))
-                .FirstOrDefault() ?? throw new ArgumentException("Something went wrong, so we can't find the default deck"); ;
+                .FirstOrDefault() ?? throw new ArgumentException("Something went wrong, so we can't find the default deck"); 
             return deck;
         }
     }

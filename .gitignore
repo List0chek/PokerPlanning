@@ -24,3 +24,4 @@ yarn-debug.log*
 yarn-error.log*
 /dotNet module/Task_6/bin/Debug/netcoreapp3.1/Task_6.runtimeconfig.dev.json
 /dotNet module/Task_10usingTask
+/dotNet module/Task_10/UnitTest.cs

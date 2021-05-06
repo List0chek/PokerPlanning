@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlanPoker.DTO;
+using System;
 using System.Collections.Generic;
 
 namespace PlanPoker.Models
@@ -44,5 +45,10 @@ namespace PlanPoker.Models
         /// Хеш код для URL.
         /// </summary>
         public string HashCode { get; set; }
+
+        /// <summary>
+        /// Колода в комнате.
+        /// </summary>
+        public DeckDTO Deck { get; set; }
     }
 }

@@ -25,14 +25,21 @@ namespace PlanPoker.Controllers
         private readonly DiscussionService discussionService;
 
         /// <summary>
+        /// Экземпляр InMemoryUserRepository.
+        /// </summary>
+        private readonly IRepository<User> userRepository;
+
+        /// <summary>
         /// Конструктор класса DiscussionController.
         /// </summary>
         /// <param name="discussionService">Экземпляр DiscussionService.</param>
         /// <param name="voteRepository">Экземпляр InMemoryVoteRepository.</param>
-        public DiscussionController(DiscussionService discussionService, IRepository<Vote> voteRepository)
+        /// <param name="userRepository">Экземпляр InMemoryUserRepository.</param>
+        public DiscussionController(DiscussionService discussionService, IRepository<Vote> voteRepository, IRepository<User> userRepository)
         {
             this.discussionService = discussionService;
             this.voteRepository = voteRepository;
+            this.userRepository = userRepository;
         }
 
         /// <summary>
@@ -44,10 +51,10 @@ namespace PlanPoker.Controllers
         /// <param name="hostToken">Token ведущего.</param>
         /// <returns>Возвращает экземпляр DiscussionDTO.</returns>
         [HttpPost]
-        public DiscussionDTO Create(Guid roomId, string topic, Guid hostId, string hostToken)
+        public DiscussionDTO Create(Guid roomId, string topic, Guid hostId, [FromHeader]string hostToken)
         {
             var discussion = this.discussionService.Create(roomId, topic, hostId, hostToken);
-            return new DiscussionDTOConverter(this.voteRepository).Convert(discussion);
+            return new DiscussionDTOConverter(this.voteRepository, this.userRepository).Convert(discussion);
         }
 
         /// <summary>
@@ -85,7 +92,7 @@ namespace PlanPoker.Controllers
         public DiscussionDTO Close(Guid roomId, Guid discussionId, Guid hostId)
         {
             var discussion = this.discussionService.Close(roomId, discussionId, hostId);
-            return new DiscussionDTOConverter(this.voteRepository).Convert(discussion);
+            return new DiscussionDTOConverter(this.voteRepository, this.userRepository).Convert(discussion);
         }
 
         /// <summary>
@@ -98,7 +105,7 @@ namespace PlanPoker.Controllers
         public DiscussionDTO GetResults(Guid discussionId, Guid userId)
         {
             var discussion = this.discussionService.GetResults(discussionId, userId);
-            return new DiscussionDTOConverter(this.voteRepository).Convert(discussion);
+            return new DiscussionDTOConverter(this.voteRepository, this.userRepository).Convert(discussion);
         }
     }
 }

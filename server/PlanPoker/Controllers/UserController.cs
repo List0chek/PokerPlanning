@@ -47,7 +47,7 @@ namespace PlanPoker.Controllers
         /// <param name="newName">Новое имя пользоваетля.</param>
         /// <returns>Возвращает экземпляр UserDTO.</returns>
         [HttpPost]
-        public UserDTO ChangeName(Guid id, string token, string newName)
+        public UserDTO ChangeName(Guid id, [FromHeader]string token, string newName)
         {
             var user = this.userService.ChangeName(id, token, newName);
             return new UserDTOConverter().Convert(user);
