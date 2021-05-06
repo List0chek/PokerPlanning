@@ -60,6 +60,8 @@ namespace PlanPoker.Services
                 newRoom.Members.Add(owner);
             }
 
+            newRoom.HashCode = Convert.ToBase64String(newRoom.Id.ToByteArray());
+
             this.roomRepository.Save(newRoom);
             return newRoom;
         }

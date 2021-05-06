@@ -16,10 +16,5 @@ namespace PlanPoker.Models
         /// Имя пользователя.
         /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        /// Токен пользователя.
-        /// </summary>
-        public string Token { get; set; }
     }
 }

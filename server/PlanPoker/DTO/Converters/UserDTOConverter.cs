@@ -18,8 +18,7 @@ namespace PlanPoker.DTO.Converters
             return new UserDTO()
             {
                 Id = user.Id,
-                Name = user.Name,
-                Token = user.Token
+                Name = user.Name
             };
         }
     }
