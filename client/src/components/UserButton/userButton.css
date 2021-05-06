@@ -1,0 +1,36 @@
+.user_btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: #131b23;
+  font-weight: normal;
+  font-size: 18px;
+  font-family: "Roboto";
+  font-style: normal;
+  line-height: 21px;
+
+  background: transparent;
+  border: none;
+}
+
+.user_btn_username_and_logo_wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: transparent;
+  border: none;
+}
+
+.user_btn_username {
+  width: 100%;
+  max-width: 200px;
+  padding-right: 10px;
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-align: left;
+  text-overflow: ellipsis;
+}
