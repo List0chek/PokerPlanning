@@ -79,9 +79,9 @@ namespace PlanPoker.Controllers
         /// <param name="ownerToken">Token создателя.</param>
         /// <returns>Возвращает экземпляр RoomDTO.</returns>
         [HttpPost]
-        public RoomDTO Create(string name, Guid ownerId, [FromHeader]string ownerToken)
+        public RoomDTO Create(string name, Guid ownerId, [FromHeader]string token)
         {
-            var room = this.roomService.Create(name, ownerId, ownerToken);
+            var room = this.roomService.Create(name, ownerId, token);            
             return new RoomDTOConverter(
                 this.voteRepository,
                 this.discussionRepository,

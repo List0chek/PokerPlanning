@@ -1,19 +1,14 @@
 import { Action } from 'redux';
 import { ActionType } from '../reducer';
+import { IUser } from '../types';
 
-export interface ICreateUserAction extends Action {
-  userName: string;
+export interface IUpdateUserAction extends Action {
+  user: IUser;
 }
 
-export const createUser = (userName: string): ICreateUserAction => {
+export const updateUser = (user: IUser): IUpdateUserAction => {
   return {
-    type: ActionType.CREATE_USER,
-    userName: userName,
-  };
-};
-
-export const deleteUser = (): Action => {
-  return {
-    type: ActionType.DELETE_USER,
+    type: ActionType.UPDATE_USER,
+    user: user,
   };
 };

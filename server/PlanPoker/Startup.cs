@@ -3,6 +3,7 @@ using DataService.Models;
 using DataService.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,6 +49,8 @@ namespace PlanPoker
             {
                 options.Filters.Add<CustomExceptionFilter>();
             });
+
+            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -58,6 +61,11 @@ namespace PlanPoker
             }
 
             app.UseRouting();
+
+            app.UseCors(builder => builder.AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin()
+            .WithExposedHeaders("token"));
 
             app.UseEndpoints(endpoints =>
             {

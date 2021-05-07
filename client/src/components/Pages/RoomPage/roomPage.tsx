@@ -11,8 +11,9 @@ import StoryVoteResult from '../../StoryVoteResult/storyVoteResult';
 import { IStoryVoteResultInfoRowProps } from '../../StoryVoteResult/VoteValueResultInfo/storyVoteResultInfo';
 import { IPlayerRowProps } from '../../DiscussionControllerBlock/PlayersRow/playerRow';
 import { ICard, IRoom, IRootState, IUser } from '../../../Store/types';
-import { vote } from '../../../Store/room/room-action-creators';
 import '../Modal/modal.css';
+import history from '../../../services/history-service';
+import { RoutePath } from '../../routes';
 
 interface IMatchParams {
   id: string;
@@ -67,6 +68,12 @@ class RoomPage extends React.Component<IMainPageProps, IState> {
     this.handleStoryDetailsCloseButtonClick = this.handleStoryDetailsCloseButtonClick.bind(this);
     this.handleStoryDetailsDownloadButtonClick = this.handleStoryDetailsDownloadButtonClick.bind(this);
     this.handleVote = this.handleVote.bind(this);
+  }
+
+  public componentDidMount() {
+    if (this.props.user == null) {
+      history.push(`${RoutePath.INVITE}/${this.props.room.id}`);
+    }
   }
 
   public handleVote(value: ICard) {
@@ -235,11 +242,11 @@ const mapStateToProps = (state: IRootState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
+/*const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     vote: (roomId: string, discussionId: string, user: IUser, card: ICard) =>
       dispatch(vote(roomId, discussionId, user, card)),
   };
-};
+};*/
 
-export default compose<React.ComponentClass>(withRouter, connect(mapStateToProps, mapDispatchToProps))(RoomPage);
+export default compose<React.ComponentClass>(withRouter, connect(mapStateToProps /*mapDispatchToProps*/))(RoomPage);

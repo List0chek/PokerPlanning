@@ -3,10 +3,12 @@ import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { RoutePath } from '../../routes';
 import Form from '../../Form/Form';
-import { IRootState } from '../../../Store/types';
+import { IRootState, IUser } from '../../../Store/types';
 import { compose, Dispatch } from 'redux';
-import { createUser } from '../../../Store/user/user-action-creators';
+import { updateUser } from '../../../Store/user/user-action-creators';
+import * as api from '../../../api/api';
 import { connect } from 'react-redux';
+import authService from '../../../services/auth-service';
 
 const data = [
   {
@@ -22,7 +24,8 @@ interface IMatchParams {
 }
 
 interface IProps extends RouteComponentProps<IMatchParams> {
-  createUser(userName: string): void;
+  createUser(userName: string): Promise<{ user: IUser; token: string }>;
+  user: IUser;
 }
 
 class InvitePage extends React.Component<IProps> {
@@ -57,7 +60,12 @@ const mapStateToProps = (state: IRootState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    createUser: (userName: string) => dispatch(createUser(userName)),
+    createUser: async (userName: string) => {
+      const response = await api.createUserRequest(userName);
+      authService.set(response.token);
+      dispatch(updateUser(response.user));
+      return response.user;
+    },
   };
 };
 

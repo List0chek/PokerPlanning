@@ -2,14 +2,12 @@ import React from 'react';
 import { createStore } from 'redux';
 import { render } from 'react-dom';
 import { Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
-import './index.css';
-import App from './components/app/app';
 import { reducer } from './Store/reducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
-
-export const history = createBrowserHistory();
+import history from './services/history-service';
+import './index.css';
+import App from './components/app/app';
 
 const store = createStore(reducer, composeWithDevTools());
 

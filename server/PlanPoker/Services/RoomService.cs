@@ -45,7 +45,7 @@ namespace PlanPoker.Services
             if (name is null || name == string.Empty)
             {
                 throw new UnauthorizedAccessException("Room name is not valid");
-            }
+            }     
 
             if (ownerToken is null || !owner.Token.Equals(ownerToken))
             {

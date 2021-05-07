@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Tests
 {
-    class DiscussionServiceTests
+    public class DiscussionServiceTests
     {
         private InMemoryUserRepository userRepository;
         private InMemoryRoomRepository roomRepository;

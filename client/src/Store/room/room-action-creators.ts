@@ -1,31 +1,14 @@
-import { ICard, IUser } from '../types';
+import { IRoom } from '../types';
 import { Action } from 'redux';
 import { ActionType } from '../reducer';
 
-export interface IVoteAction extends Action {
-  roomId: string;
-  discussionId: string;
-  user: IUser;
-  card: ICard;
+export interface IUpdateRoomAction extends Action {
+  room: IRoom;
 }
 
-export const vote = (roomId: string, discussionId: string, user: IUser, card: ICard): IVoteAction => {
+export const updateRoom = (room: IRoom): IUpdateRoomAction => {
   return {
-    type: ActionType.VOTE,
-    roomId: roomId,
-    discussionId: discussionId,
-    user: user,
-    card: card,
-  };
-};
-
-export interface IRemoveDiscussionAction extends Action {
-  id: string;
-}
-
-export const removeStory = (id: string): IRemoveDiscussionAction => {
-  return {
-    type: ActionType.REMOVE_DISCUSSION,
-    id: id,
+    type: ActionType.UPDATE_ROOM,
+    room: room,
   };
 };

@@ -10,17 +10,14 @@ export const mockState: IRootState = {
       {
         id: '3520061f-3ade-43a0-9c21-4b62088ccdbc',
         name: 'userName 1',
-        token: 'HwYgNd46oEOcIUtiCIzNvA==',
       },
       {
         id: '96eda390-266f-49c3-99db-36fad60f8106',
         name: 'userName 2',
-        token: 'kKPtlm8mw0mZ2zb61g+BBg==',
       },
       {
         id: 'd92aa5b4-290e-495a-909d-a26ea4ca068a',
         name: 'userName 3',
-        token: 'tKUq2Q4pWkmQnaJupMoGig==',
       },
     ],
     discussions: [
@@ -39,7 +36,6 @@ export const mockState: IRootState = {
             user: {
               id: 'd92aa5b4-290e-495a-909d-a26ea4ca068a',
               name: 'userName 3',
-              token: 'tKUq2Q4pWkmQnaJupMoGig==',
             },
             card: {
               id: '5e70029d-6592-4beb-9765-bd93e3809ff5',
@@ -55,7 +51,6 @@ export const mockState: IRootState = {
             user: {
               id: '3520061f-3ade-43a0-9c21-4b62088ccdbc',
               name: 'userName 1',
-              token: 'HwYgNd46oEOcIUtiCIzNvA==',
             },
             card: {
               id: 'afc6f1ca-73fe-4f3a-a096-0d37de56475b',
@@ -71,7 +66,6 @@ export const mockState: IRootState = {
             user: {
               id: '96eda390-266f-49c3-99db-36fad60f8106',
               name: 'userName 2',
-              token: 'kKPtlm8mw0mZ2zb61g+BBg==',
             },
             card: {
               id: '0a573be3-cb46-4725-b399-1ba32515a80b',
@@ -84,7 +78,7 @@ export const mockState: IRootState = {
         duration: 5.4129076933333335,
       },
     ],
-    hashCode: 'null',
+    hashCode: 'hFCNxk541rgfefUmm7dpm1mOYLA==',
     deck: {
       id: 'cc697d91-76a1-4612-8f32-7cfdcee8cd74',
       name: 'defaultDeck',
@@ -165,6 +159,5 @@ export const mockState: IRootState = {
   user: {
     id: '3520061f-3ade-43a0-9c21-4b62088ccdbc',
     name: 'userName 1',
-    token: 'HwYgNd46oEOcIUtiCIzNvA==',
   },
 };

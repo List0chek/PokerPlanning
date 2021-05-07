@@ -78,7 +78,7 @@ namespace Tests
             Assert.Throws<ArgumentException>(() => this.voteService.Change(Guid.NewGuid(), newCard.Id, this.user.Id), "Vote not found");
             Assert.Throws<ArgumentException>(() => this.voteService.Change(vote.Id, Guid.NewGuid(), this.user.Id), "Card not found");
             Assert.Throws<ArgumentException>(() => this.voteService.Change(vote.Id, newCard.Id, Guid.NewGuid()), "User not found");
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<ArgumentException>(() => 
             {
                 var fakeUser = this.userRepository.Create();
                 this.userRepository.Save(fakeUser);

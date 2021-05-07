@@ -36,7 +36,7 @@ namespace PlanPoker.Controllers
         public UserDTO Create(string name)
         {            
             var user = this.userService.Create(name);
-            Response.Headers.Add("token", user.Token);
+            Response.Headers.Add("token", user.Token);            
             return new UserDTOConverter().Convert(user);
         }
 

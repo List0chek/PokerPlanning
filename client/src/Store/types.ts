@@ -1,7 +1,6 @@
 export interface IUser {
   id: string;
   name: string;
-  token: string;
 }
 
 export interface IVote {
@@ -48,6 +47,6 @@ export interface IDeck {
 }
 
 export interface IRootState {
-  room: IRoom;
+  room: IRoom | null;
   user: IUser | null;
 }

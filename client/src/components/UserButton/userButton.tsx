@@ -5,11 +5,10 @@ import { connect } from 'react-redux';
 import { IRootState, IUser } from '../../Store/types';
 import './userButton.css';
 import { Dispatch } from 'redux';
-import { deleteUser } from '../../Store/user/user-action-creators';
 
 interface IProps {
   userName: string;
-  deleteUser(): void;
+  /*deleteUser(): void;*/
 }
 
 interface IState {
@@ -40,7 +39,10 @@ class UserButton extends React.Component<IProps, IState> {
   }
 
   handleSignOutButtonClick() {
-    this.props.deleteUser();
+    /*this.props.deleteUser();*/
+    this.setState({
+      isSignButtonHovering: false,
+    });
   }
 
   render() {
@@ -73,10 +75,10 @@ const mapStateToProps = (state: IRootState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
+/*const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     deleteUser: () => dispatch(deleteUser()),
   };
-};
+};*/
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserButton);
+export default connect(mapStateToProps /*mapDispatchToProps*/)(UserButton);
