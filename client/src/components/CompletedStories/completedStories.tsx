@@ -3,6 +3,8 @@ import downloadStoriesIcon from '../../images/download_24px.svg';
 import DefaultButton from '../defaultButton/defaultButton';
 import CompletedStoryRow from './CompletedStoryRow/completedStoryRow';
 import { IPlayerRowProps } from '../DiscussionControllerBlock/PlayersRow/playerRow';
+import { IDiscussion, IRootState } from '../../Store/types';
+import { connect } from 'react-redux';
 import './completedStories.css';
 
 export interface ICompletedStory {
@@ -12,7 +14,9 @@ export interface ICompletedStory {
 }
 
 interface IProps {
-  completedStoriesList: Array<ICompletedStory>;
+  completedStoriesList: Array<IDiscussion>;
+
+  discussion: IDiscussion | null;
 
   onCompletedStoryClick(storyName: string): void;
 
@@ -22,12 +26,12 @@ interface IProps {
 }
 
 const CompletedStories: React.FunctionComponent<IProps> = (props) => {
-  const handleCompletedStoryClick = (storyName: string) => {
-    props.onCompletedStoryClick(storyName);
+  const handleCompletedStoryClick = (discussionId: string) => {
+    props.onCompletedStoryClick(discussionId);
   };
 
-  const handleDelete = (storyName: string) => {
-    props.onDelete(storyName);
+  const handleDelete = (discussionId: string) => {
+    props.onDelete(discussionId);
   };
 
   const handleDownload = () => {
@@ -62,17 +66,17 @@ const CompletedStories: React.FunctionComponent<IProps> = (props) => {
       <div>
         <table className='players_table'>
           <tbody>
-            {props.completedStoriesList.map((item) => {
-              return (
-                <CompletedStoryRow
-                  key={item.storyName}
-                  storyName={item.storyName}
-                  avgVote={item.avgVote}
-                  onClick={handleCompletedStoryClick}
-                  onDelete={handleDelete}
-                />
-              );
-            })}
+            {props.discussion &&
+              props.completedStoriesList.map((item) => {
+                return (
+                  <CompletedStoryRow
+                    key={item.id}
+                    discussion={item}
+                    onClick={handleCompletedStoryClick}
+                    onDelete={handleDelete}
+                  />
+                );
+              })}
           </tbody>
         </table>
       </div>
@@ -80,4 +84,10 @@ const CompletedStories: React.FunctionComponent<IProps> = (props) => {
   );
 };
 
-export default CompletedStories;
+const mapStateToProps = (state: IRootState) => {
+  return {
+    discussion: state.discussion,
+  };
+};
+
+export default connect(mapStateToProps)(CompletedStories);

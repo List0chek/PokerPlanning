@@ -20,7 +20,6 @@ class CreateNewDiscussionControl extends React.Component<IProps> {
     if (current != null) {
       textValue = current.value;
     }
-    console.log(textValue);
     this.props.onGoButtonClick(textValue);
   };
 

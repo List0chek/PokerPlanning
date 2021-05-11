@@ -11,59 +11,29 @@ interface IProps {
   /*deleteUser(): void;*/
 }
 
-interface IState {
-  isSignButtonHovering: boolean;
-}
-
-class UserButton extends React.Component<IProps, IState> {
+class UserButton extends React.Component<IProps> {
   constructor(props: IProps) {
     super(props);
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
-    this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.handleSignOutButtonClick = this.handleSignOutButtonClick.bind(this);
-    this.state = {
-      isSignButtonHovering: false,
-    };
-  }
-
-  handleMouseEnter() {
-    this.setState({
-      isSignButtonHovering: true,
-    });
-  }
-
-  handleMouseLeave() {
-    this.setState({
-      isSignButtonHovering: false,
-    });
   }
 
   handleSignOutButtonClick() {
-    /*this.props.deleteUser();*/
-    this.setState({
-      isSignButtonHovering: false,
-    });
+    return;
   }
 
   render() {
     return (
-      <button
-        className='user_btn'
-        id='user_button'
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-      >
+      <button className='user_btn' id='user_button'>
         <div className={'user_btn_username_and_logo_wrap'}>
           <span className='user_btn_username'>{this.props.userName}</span>
           <img src={userIcon} alt='userIcon' width='59' height='59' />
-        </div>
-        {this.state.isSignButtonHovering && (
+
           <DefaultButton
             onClick={this.handleSignOutButtonClick}
             buttonText={'Sign out'}
             className={'sign_out_button'}
           />
-        )}
+        </div>
       </button>
     );
   }

@@ -101,15 +101,15 @@ namespace DataService.Repositories
 
             cardRepository.Create();
             var card13 = cardRepository.Create();
-            card13.Name = "∞";
-            card13.Value = "∞";
+            card13.Name = "infinity";
+            card13.Value = "infinity";
             cardRepository.Save(card13);
             defaultDeck.CardsIds.Add(card13.Id);
 
             cardRepository.Create();
             var card14 = cardRepository.Create();
-            card14.Name = "&#9749";
-            card14.Value = "&#9749";
+            card14.Name = "coffee";
+            card14.Value = "coffee";
             cardRepository.Save(card14);
             defaultDeck.CardsIds.Add(card14.Id);
             this.Save(defaultDeck);

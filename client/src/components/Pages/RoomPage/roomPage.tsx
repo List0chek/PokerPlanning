@@ -5,61 +5,55 @@ import { connect } from 'react-redux';
 import { Dispatch, compose } from 'redux';
 import Board from '../../Board/board';
 import DiscussionController from '../../DiscussionControllerBlock/discussionController';
-import CompletedStories, { ICompletedStory } from '../../CompletedStories/completedStories';
+import CompletedStories from '../../CompletedStories/completedStories';
 import Modal from '../Modal/modal';
 import StoryVoteResult from '../../StoryVoteResult/storyVoteResult';
 import { IStoryVoteResultInfoRowProps } from '../../StoryVoteResult/VoteValueResultInfo/storyVoteResultInfo';
-import { IPlayerRowProps } from '../../DiscussionControllerBlock/PlayersRow/playerRow';
-import { ICard, IRoom, IRootState, IUser } from '../../../Store/types';
-import '../Modal/modal.css';
+import { ICard, IDiscussion, IRoom, IRootState, IUser, IVote } from '../../../Store/types';
 import history from '../../../services/history-service';
 import { RoutePath } from '../../routes';
+import * as api from '../../../api/api';
+import { updateRoom } from '../../../Store/room/room-action-creators';
+import { updateDiscussion } from '../../../Store/discussion/discussion-action-creators';
+import { toggleLoadingIndicator } from '../../../Store/loading/loading-action-creators';
+import { updateUser } from '../../../Store/user/user-action-creators';
+import authService from '../../../services/auth-service';
+import '../Modal/modal.css';
 
 interface IMatchParams {
   id: string;
 }
 
-export interface IMainPageProps extends RouteComponentProps<IMatchParams> {
+export interface IRoomPageProps extends RouteComponentProps<IMatchParams> {
   room: IRoom;
   user: IUser;
-  vote(roomId: string, discussionId: string, user: IUser, card: ICard): void;
+  discussion: IDiscussion;
+  setVote(discussionId: string, userId: string, cardId: string): void;
+  getRoomInfo(roomId: string, userId: string): Promise<IRoom>;
+  getDiscussionInfo(discussionId: string, userId: string): Promise<IDiscussion>;
+  closeDiscussion(roomId: string, discussionId: string, userId: string): Promise<IDiscussion>;
+  createDiscussion(roomId: string, topicName: string, userId: string): Promise<IDiscussion>;
+  getUser(): Promise<IUser>;
+  deleteDiscussion(roomId: string, discussionId: string, userId: string): void;
 }
 
 interface IState {
-  nameOfCurrentUser: string;
   isDiscussionClosed: boolean;
-  discussionName: string;
-  deleteDiscussion: string /*TODO: потом будет discussionId*/;
   isModalOpen: boolean;
-  openedStory: string;
+  openedStoryId: string;
   discussionNames: string /*TODO: потом будет массив discussionId*/;
-  usersData: Array<IPlayerRowProps>;
   storyVoteResultInfoData: Array<IStoryVoteResultInfoRowProps>;
-  completedStoriesData: Array<ICompletedStory>;
-  isCardChecked: boolean;
 }
 
-class RoomPage extends React.Component<IMainPageProps, IState> {
-  constructor(props: IMainPageProps) {
+class RoomPage extends React.Component<IRoomPageProps, IState> {
+  constructor(props: IRoomPageProps) {
     super(props);
     this.state = {
-      nameOfCurrentUser: 'userName 1',
       isDiscussionClosed: false,
-      isCardChecked: false,
-      discussionName: 'topicName1',
-      deleteDiscussion: '',
       isModalOpen: false,
-      openedStory: '',
+      openedStoryId: '',
       discussionNames: '',
-      usersData: [],
       storyVoteResultInfoData: [],
-      completedStoriesData: [
-        {
-          storyName: 'Story 1',
-          avgVote: '14',
-          usersData: [],
-        },
-      ],
     };
     this.handleEnterButtonClick = this.handleEnterButtonClick.bind(this);
     this.handleGoButtonClick = this.handleGoButtonClick.bind(this);
@@ -69,156 +63,137 @@ class RoomPage extends React.Component<IMainPageProps, IState> {
     this.handleStoryDetailsDownloadButtonClick = this.handleStoryDetailsDownloadButtonClick.bind(this);
     this.handleVote = this.handleVote.bind(this);
   }
-
-  public componentDidMount() {
-    if (this.props.user == null) {
-      history.push(`${RoutePath.INVITE}/${this.props.room.id}`);
+  public static timer: NodeJS.Timeout;
+  public async componentDidMount() {
+    if (authService.get() === '') {
+      history.push(`${RoutePath.INVITE}/${this.props.match.params.id}`);
     }
-  }
 
-  public handleVote(value: ICard) {
-    this.props.vote(this.props.match.params.id, '456', this.props.user, value);
-    console.log(this.props.user.id);
-    this.setState({
-      isCardChecked: true,
-    });
-  }
+    if (this.props.user == null) {
+      await this.props.getUser();
+    }
 
-  public handleEnterButtonClick() {
-    const updatedUsersData = this.state.usersData.map((s) => {
-      return {
-        ...s,
-        isClosed: true,
-      };
-    });
+    if (this.props.room == null && this.props.user) {
+      await this.props.getRoomInfo(this.props.match.params.id, this.props.user.id);
+    }
 
-    const updatedStoryVoteResultInfoData = (s: Array<IStoryVoteResultInfoRowProps>) => {
-      for (let i = 0; i < updatedUsersData.length; i++) {
-        const newStoryVoteResultInfoData: IStoryVoteResultInfoRowProps = {
-          className: `vote_value_dot_${[i]}`,
-          voteValueMark: updatedUsersData[i].card.value,
-          playersCount: updatedUsersData.filter((item) => item.card.value === updatedUsersData[i].card.value).length,
-          playersPercentagePerVote: (
-            (updatedUsersData.filter((item) => item.card.value === updatedUsersData[i].card.value).length /
-              updatedUsersData.length) *
-            100
-          ).toString(),
-        };
-        const voteValueDuplicate = s.find((s) => s.voteValueMark === updatedUsersData[i].card.value);
-        if (!voteValueDuplicate) s.push(newStoryVoteResultInfoData);
+    if (this.props.discussion == null && this.props.room && this.props.user) {
+      const currentDiscussionIndex = this.props.room.discussions.length - 1;
+      await this.props.getDiscussionInfo(this.props.room.discussions[currentDiscussionIndex].id, this.props.user.id);
+    }
+    RoomPage.timer = setInterval(async () => {
+      await this.props.getRoomInfo(this.props.room.id, this.props.user.id);
+      const currentDiscussionIndex = this.props.room.discussions.length - 1;
+      if (currentDiscussionIndex >= 0) {
+        console.log(currentDiscussionIndex);
+        await this.props.getDiscussionInfo(this.props.room.discussions[currentDiscussionIndex].id, this.props.user.id);
       }
-      return s;
-    };
+    }, 5000);
+  }
 
-    const newCompletedStory: ICompletedStory = {
-      storyName: this.state.discussionName,
-      avgVote: (
-        updatedUsersData.reduce((votesSum: number, item) => votesSum + parseInt(item.card.value, 10), 0) /
-        updatedUsersData.length
-      ).toString(),
-      usersData: updatedUsersData,
-    };
+  componentWillUnmount() {
+    clearInterval(RoomPage.timer);
+  }
 
-    const storyDuplicate = this.state.completedStoriesData.find((s) => s.storyName === this.state.discussionName);
-    if (storyDuplicate) return;
-    const updatedCompletedStoriesData = [...this.state.completedStoriesData, newCompletedStory];
+  public async handleVote(value: ICard) {
+    await this.props.setVote(this.props.discussion.id, this.props.user.id, value.id);
+    await this.props.getRoomInfo(this.props.room.id, this.props.user.id);
+    await this.props.getDiscussionInfo(this.props.discussion.id, this.props.user.id);
+  }
+
+  public updatedStoryVoteResultInfoData = (s: Array<IStoryVoteResultInfoRowProps>) => {
+    const currentDiscussion = this.props.room.discussions[this.props.room.discussions.length - 1];
+    const votes = currentDiscussion ? currentDiscussion.votes : [];
+    for (let i = 0; i < votes.length; i++) {
+      const newStoryVoteResultInfoData: IStoryVoteResultInfoRowProps = {
+        className: `vote_value_dot_${[i]}`,
+        voteValueMark: votes[i].card.value,
+        playersCount: votes.filter((item: IVote) => item.card.value === votes[i].card.value).length,
+        playersPercentagePerVote: (
+          (votes.filter((item: IVote) => item.card.value === votes[i].card.value).length / votes.length) *
+          100
+        ).toString(),
+      };
+      const voteValueDuplicate = s.find((s) => s.voteValueMark === votes[i].card.value);
+      if (!voteValueDuplicate) s.push(newStoryVoteResultInfoData);
+    }
+    return s;
+  };
+
+  public async handleEnterButtonClick() {
+    if (this.props.discussion.dateEnd === null) {
+      await this.props.closeDiscussion(this.props.room.id, this.props.discussion.id, this.props.user.id);
+      await this.props.getRoomInfo(this.props.room.id, this.props.user.id);
+    }
 
     this.setState({
       isDiscussionClosed: true,
-      completedStoriesData: updatedCompletedStoriesData,
-      usersData: updatedUsersData,
-      storyVoteResultInfoData: updatedStoryVoteResultInfoData(this.state.storyVoteResultInfoData),
+      storyVoteResultInfoData: this.updatedStoryVoteResultInfoData(this.state.storyVoteResultInfoData),
     });
   }
 
-  public handleGoButtonClick(value: string) {
-    const updatedUsersData = this.state.usersData.map((s) => {
-      return {
-        ...s,
-        isChecked: undefined,
-        value: '',
-        isClosed: false,
-      };
-    });
-
+  public async handleGoButtonClick(value: string) {
+    await this.props.createDiscussion(this.props.room.id, value, this.props.user.id);
+    await this.props.getRoomInfo(this.props.room.id, this.props.user.id);
     this.setState({
       isDiscussionClosed: false,
-      discussionName: value,
-      usersData: updatedUsersData,
       storyVoteResultInfoData: [],
     });
   }
 
-  public handleCompletedStoryClick(storyName: string) {
+  public handleCompletedStoryClick(discussionId: string) {
     this.setState({
       isModalOpen: true,
-      openedStory: storyName,
+      openedStoryId: discussionId,
     });
   }
 
   public handleStoryDetailsCloseButtonClick() {
     this.setState({
       isModalOpen: false,
-      openedStory: '',
+      openedStoryId: '',
     });
   }
 
-  public handleStoryDetailsDeleteButtonClick(value: string) {
-    const updatedCompletedStoriesData = this.state.completedStoriesData.filter((s) => s.storyName !== value);
-    this.setState({
-      deleteDiscussion: value,
-      completedStoriesData: updatedCompletedStoriesData,
-    });
+  public async handleStoryDetailsDeleteButtonClick(discussionId: string) {
+    await this.props.deleteDiscussion(this.props.room.id, discussionId, this.props.user.id);
+    await this.props.getRoomInfo(this.props.room.id, this.props.user.id);
   }
 
   public handleStoryDetailsDownloadButtonClick() {
-    this.setState({
-      discussionNames: 'discussionIdArray',
-    });
+    return;
   }
 
   public render() {
-    const {
-      isDiscussionClosed,
-      discussionName,
-      isModalOpen,
-      storyVoteResultInfoData,
-      completedStoriesData,
-      isCardChecked,
-    } = this.state;
-    const { room } = this.props;
-    const playersCount = this.state.usersData.filter((item) => item.user.name).length;
-    const votesSum = this.state.usersData.reduce(
-      (votesSum: number, item) => votesSum + parseInt(item.card.value, 10),
-      0
-    );
-
+    const { isDiscussionClosed, isModalOpen, storyVoteResultInfoData, openedStoryId } = this.state;
+    const { room, discussion } = this.props;
+    const discussionInModal = room.discussions.find((item) => item.id === openedStoryId);
     return (
       <>
         <main className='main_main'>
-          <p className='main_block_name'>{discussionName}</p>
+          <p className='main_block_name'>{discussion.topic}</p>
           <div className='main_block'>
-            {!isDiscussionClosed ? (
+            {!isDiscussionClosed && discussion.dateEnd === null ? (
               <Board cardValues={room.deck.cards} onCardChange={this.handleVote} />
             ) : (
               <StoryVoteResult
-                playersCount={playersCount.toString()}
-                avgVote={(votesSum / playersCount).toString()}
+                playersCount={discussion.votes.length.toString()}
+                avgVote={discussion.averageResult ? discussion.averageResult.toString() : '0'}
                 storyVoteResultInfoValues={storyVoteResultInfoData}
               />
             )}
             <DiscussionController
-              playersList={room.discussions.find((item) => item.topic === discussionName)!.votes}
+              playersListBeforeDiscussionClosed={room.members}
+              playersListAfterDiscussionClosed={discussion.votes}
               url={window.location.href}
               onEnterButtonClick={this.handleEnterButtonClick}
               onGoButtonClick={this.handleGoButtonClick}
               isDiscussionClosed={isDiscussionClosed}
-              discussionName={discussionName}
-              isCardChecked={isCardChecked}
+              discussionName={discussion.topic}
             />
           </div>
           <CompletedStories
-            completedStoriesList={completedStoriesData}
+            completedStoriesList={room.discussions.filter((item) => item.dateEnd != null)}
             onCompletedStoryClick={this.handleCompletedStoryClick}
             onDelete={this.handleStoryDetailsDeleteButtonClick}
             onDownload={this.handleStoryDetailsDownloadButtonClick}
@@ -226,7 +201,7 @@ class RoomPage extends React.Component<IMainPageProps, IState> {
         </main>
         {isModalOpen && (
           <Modal
-            playersList={room.discussions.find((item) => item.topic === discussionName)!.votes}
+            playersList={discussionInModal ? discussionInModal.votes : []}
             onStoryDetailsCloseButtonClick={this.handleStoryDetailsCloseButtonClick}
           />
         )}
@@ -239,14 +214,64 @@ const mapStateToProps = (state: IRootState) => {
   return {
     room: state.room,
     user: state.user,
+    discussion: state.discussion,
   };
 };
 
-/*const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    vote: (roomId: string, discussionId: string, user: IUser, card: ICard) =>
-      dispatch(vote(roomId, discussionId, user, card)),
+    setVote: async (discussionId: string, userId: string, cardId: string) => {
+      dispatch(toggleLoadingIndicator(true));
+      try {
+        await api.setVoteRequest(discussionId, userId, cardId);
+      } finally {
+        dispatch(toggleLoadingIndicator(false));
+      }
+    },
+    getUser: async () => {
+      const response = await api.getUserRequest();
+      if (response) dispatch(updateUser(response));
+      return response;
+    },
+    getRoomInfo: async (roomId: string, userId: string) => {
+      const response = await api.getRoomInfoRequest(roomId, userId);
+      if (response) dispatch(updateRoom(response));
+      return response;
+    },
+    getDiscussionInfo: async (discussionId: string, userId: string) => {
+      const response = await api.getDiscussionInfoRequest(discussionId, userId);
+      if (response) dispatch(updateDiscussion(response));
+      return response;
+    },
+    closeDiscussion: async (roomId: string, discussionId: string, userId: string) => {
+      dispatch(toggleLoadingIndicator(true));
+      try {
+        const response = await api.closeDiscussionRequest(roomId, discussionId, userId);
+        dispatch(updateDiscussion(response));
+        return response;
+      } finally {
+        dispatch(toggleLoadingIndicator(false));
+      }
+    },
+    createDiscussion: async (roomId: string, topicName: string, userId: string) => {
+      dispatch(toggleLoadingIndicator(true));
+      try {
+        const response = await api.createDiscussionRequest(roomId, topicName, userId);
+        dispatch(updateDiscussion(response));
+        return response;
+      } finally {
+        dispatch(toggleLoadingIndicator(false));
+      }
+    },
+    deleteDiscussion: async (roomId: string, discussionId: string, userId: string) => {
+      dispatch(toggleLoadingIndicator(true));
+      try {
+        await api.deleteDiscussionRequest(roomId, discussionId, userId);
+      } finally {
+        dispatch(toggleLoadingIndicator(false));
+      }
+    },
   };
-};*/
+};
 
-export default compose<React.ComponentClass>(withRouter, connect(mapStateToProps /*mapDispatchToProps*/))(RoomPage);
+export default compose<React.ComponentClass>(withRouter, connect(mapStateToProps, mapDispatchToProps))(RoomPage);

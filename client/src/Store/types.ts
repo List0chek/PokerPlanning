@@ -49,4 +49,6 @@ export interface IDeck {
 export interface IRootState {
   room: IRoom | null;
   user: IUser | null;
+  discussion: IDiscussion | null;
+  loadingIndicator: boolean;
 }

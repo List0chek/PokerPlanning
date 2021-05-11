@@ -1,5 +1,4 @@
 ﻿using PlanPoker.Models;
-using System.Net.Http.Headers;
 
 namespace PlanPoker.DTO.Converters
 {

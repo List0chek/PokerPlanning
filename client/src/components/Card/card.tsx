@@ -19,6 +19,16 @@ const Card: React.FunctionComponent<IProps> = (props) => {
     props.onChange(props.card);
   };
 
+  let cardIcon;
+
+  if (props.card.value === 'coffee') {
+    cardIcon = coffeeIcon;
+  } else if (props.card.value === 'infinity') {
+    cardIcon = '∞';
+  } else {
+    cardIcon = props.card.name;
+  }
+
   return (
     <>
       <input
@@ -30,7 +40,7 @@ const Card: React.FunctionComponent<IProps> = (props) => {
         onChange={handleChange}
       />
       <label className='card' htmlFor={props.card.id}>
-        <span className='card_text'>{props.card.value === '&#9749' ? coffeeIcon : props.card.name}</span>
+        <span className='card_text'>{cardIcon}</span>
       </label>
     </>
   );

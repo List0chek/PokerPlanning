@@ -56,46 +56,39 @@ namespace PlanPoker.Services
         /// <param name="discussionId">Id обсуждения.</param>
         /// <param name="userId">Id пользователя.</param>
         /// <returns>Возвращает экземпляр Vote.</returns>
-        public Vote Create(Guid cardId, Guid discussionId, Guid userId)
+        public Vote SetVote(Guid cardId, Guid discussionId, Guid userId)
         {
             var card = this.cardRepository.Get(cardId) ?? throw new ArgumentException("Card not found");
             var discussion = this.discussionRepository.Get(discussionId) ?? throw new ArgumentException("Discussion not found");
             var user = this.userRepository.Get(userId) ?? throw new ArgumentException("User not found");
-            if (this.voteRepository.GetAll().Where(item => item.UserId.Equals(user.Id)).Count() == 0)
+            var userVotesCount = this.voteRepository
+                .GetAll()
+                .Where(item => item.UserId.Equals(user.Id) && item.DiscussionId.Equals(discussion.Id))
+                .Count();
+
+            if (userVotesCount == 0)
             {
-                var vote = this.voteRepository.Create();
+                var newVote = this.voteRepository.Create();
+                newVote.CardId = card.Id;
+                newVote.DiscussionId = discussion.Id;
+                newVote.UserId = user.Id;
+                newVote.RoomId = discussion.RoomId;
+                newVote.Card = card;
+                this.voteRepository.Save(newVote);
+                return newVote;
+            }
+            else if (userVotesCount == 1)
+            {
+                var voteId = this.voteRepository
+                    .GetAll()
+                    .FirstOrDefault(item => item.UserId.Equals(user.Id) && item.DiscussionId.Equals(discussion.Id)).Id;
+                var vote = this.voteRepository.Get(voteId) ?? throw new ArgumentException("Vote not found");
                 vote.CardId = card.Id;
-                vote.DiscussionId = discussion.Id;
-                vote.UserId = user.Id;
-                vote.RoomId = discussion.RoomId;
                 vote.Card = card;
                 this.voteRepository.Save(vote);
                 return vote;
             }
-            else throw new ArgumentException("User already did a vote");
-        }
-
-        /// <summary>
-        /// Изменяет выбранную карту в оценке.
-        /// </summary>
-        /// <param name="voteId">Id оценки.</param>
-        /// <param name="newCardId">Id карты, на которую происходит замента старой.</param>
-        /// <param name="userId">Id пользователя.</param>
-        /// <returns>Возвращает экземпляр Vote.</returns>
-        public Vote Change(Guid voteId, Guid newCardId, Guid userId)
-        {
-            var vote = this.voteRepository.Get(voteId) ?? throw new ArgumentException("Vote not found");
-            var newCard = this.cardRepository.Get(newCardId) ?? throw new ArgumentException("Card not found");
-            var user = this.userRepository.Get(userId) ?? throw new ArgumentException("User not found");
-            if (!vote.UserId.Equals(user.Id))
-            {
-                throw new ArgumentException("User is not valid");
-            }
-
-            vote.CardId = newCard.Id;
-            vote.Card = newCard;
-            this.voteRepository.Save(vote);
-            return vote;
+            else throw new ArgumentException("Wrong discussion");
         }
     }
 }

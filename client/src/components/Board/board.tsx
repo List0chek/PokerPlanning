@@ -15,7 +15,6 @@ class Board extends React.Component<IProps> {
   }
 
   public handleCardChange(value: ICard) {
-    console.log(value);
     this.props.onCardChange(value);
   }
 

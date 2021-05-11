@@ -73,15 +73,10 @@ namespace PlanPoker.Services
         /// <param name="newUserId">Id пользователя, которого нужно добавить в комнату.</param>
         /// <param name="ownerId">Id пользователя, который является владельцем комнаты.</param>
         /// <returns>Возвращает экземпляр Room.</returns>
-        public Room AddMember(Guid roomId, Guid newUserId, Guid ownerId)
+        public Room AddMember(Guid roomId, Guid newUserId)
         {
             var newUser = this.userRepository.Get(newUserId) ?? throw new UnauthorizedAccessException("User not found");
-            var owner = this.userRepository.Get(ownerId) ?? throw new UnauthorizedAccessException("User not found");
             var room = this.roomRepository.Get(roomId) ?? throw new UnauthorizedAccessException("Room not found");
-            if (!room.OwnerId.Equals(owner.Id))
-            {
-                throw new UnauthorizedAccessException("Owner is not valid");
-            }
 
             if (!room.Members.Contains(newUser))
             {

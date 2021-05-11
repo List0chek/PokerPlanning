@@ -1,30 +1,32 @@
 import React from 'react';
 import deleteStoryIcon from '../../../images/delete_24px.svg';
 import DefaultButton from '../../defaultButton/defaultButton';
+import { IDiscussion } from '../../../Store/types';
 import './completedStoryRow.css';
 
 export interface ICompletedStoryRowProps {
-  storyName: string;
-  avgVote: string;
+  discussion: IDiscussion;
   onClick(storyName: string): void;
   onDelete(storyName: string): void;
 }
 
 const CompletedStoryRow: React.FunctionComponent<ICompletedStoryRowProps> = (props) => {
   const handleClick = () => {
-    props.onClick(props.storyName);
+    props.onClick(props.discussion.id);
   };
 
   const handleDelete = () => {
-    props.onDelete(props.storyName);
+    props.onDelete(props.discussion.id);
   };
 
   return (
     <tr className='row'>
       <td className='completed_stories_cell_storyname' onClick={handleClick}>
-        {props.storyName}
+        {props.discussion.topic}
       </td>
-      <td className='completed_stories_cell_avg_vote'>{props.avgVote}</td>
+      <td className='completed_stories_cell_avg_vote'>
+        {props.discussion.averageResult ? props.discussion.averageResult : '0'}
+      </td>
       <td className='completed_stories_cell_delete_story_button'>
         {
           <DefaultButton

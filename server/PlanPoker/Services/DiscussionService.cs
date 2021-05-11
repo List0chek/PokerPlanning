@@ -102,7 +102,7 @@ namespace PlanPoker.Services
         }
 
         /// <summary>
-        /// Метод позволяет выставить оценку в обсуждении.
+        /// Метод позволяет выставить и сменить оценку в обсуждении.
         /// </summary>
         /// <param name="discussionId">Id обсуждения.</param>
         /// <param name="userId">Id пользователя.</param>
@@ -123,38 +123,7 @@ namespace PlanPoker.Services
 
                 if (room.Members.Contains(user))
                 {
-                    this.voteService.Create(card.Id, discussion.Id, user.Id);
-                }
-                else if (!room.Members.Contains(user))
-                {
-                    throw new UnauthorizedAccessException("User is not valid");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Изменяет оценку.
-        /// </summary>
-        /// <param name="voteId">Id оценки, которую нужно изменить.</param>
-        /// <param name="newCardId">Id новой карты.</param>
-        /// <param name="userId">Id пользователя.</param>
-        public void ChangeVote(Guid voteId, Guid newCardId, Guid userId)
-        {
-            var vote = this.voteRepository.Get(voteId) ?? throw new UnauthorizedAccessException("Vote not found");
-            var newCard = this.cardRepository.Get(newCardId) ?? throw new UnauthorizedAccessException("Card not found");
-            var discussion = this.discussionRepository.Get(vote.DiscussionId) ?? throw new UnauthorizedAccessException("Discussion not found");
-            var room = this.roomRepository.Get(discussion.RoomId) ?? throw new UnauthorizedAccessException("Room not found");
-            var user = this.userRepository.Get(userId) ?? throw new UnauthorizedAccessException("User not found");
-            if (!discussion.RoomId.Equals(room.Id))
-            {
-                throw new UnauthorizedAccessException("Discussion is not containing in Room");
-            }
-
-            if (discussion.DateEnd == null)
-            {
-                if (room.Members.Contains(user))
-                {
-                    this.voteService.Change(vote.Id, newCard.Id, user.Id);
+                    this.voteService.SetVote(card.Id, discussion.Id, user.Id);
                 }
                 else if (!room.Members.Contains(user))
                 {
@@ -192,6 +161,30 @@ namespace PlanPoker.Services
             }
 
             return discussion;
+        }
+
+        /// <summary>
+        /// Удаляет обсуждение.
+        /// </summary>
+        /// <param name="roomId">Id комнаты.</param>
+        /// <param name="discussionId">Id обсуждения.</param>
+        /// <param name="hostId">Id пользователя.</param>
+        public void Delete(Guid roomId, Guid discussionId, Guid hostId)
+        {
+            var discussion = this.discussionRepository.Get(discussionId) ?? throw new UnauthorizedAccessException("Discussion not found");
+            var room = this.roomRepository.Get(roomId) ?? throw new UnauthorizedAccessException("Room not found");
+            var host = this.userRepository.Get(hostId) ?? throw new UnauthorizedAccessException("User not found");
+            if (!discussion.RoomId.Equals(room.Id))
+            {
+                throw new UnauthorizedAccessException("Discussion is not containing in Room");
+            }
+
+            if (!room.HostId.Equals(host.Id))
+            {
+                throw new UnauthorizedAccessException("Host is not valid");
+            }
+
+            this.discussionRepository.Delete(discussion.Id);
         }
 
         /// <summary>

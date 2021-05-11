@@ -70,18 +70,6 @@ namespace PlanPoker.Controllers
         }
 
         /// <summary>
-        /// Изменяет оценку.
-        /// </summary>
-        /// <param name="voteId">Id оценки, которую нужно изменить.</param>
-        /// <param name="newCardId">Id новой карты.</param>
-        /// <param name="userId">Id пользователя.</param>
-        [HttpPost]
-        public void ChangeVote(Guid voteId, Guid newCardId, Guid userId)
-        {
-            this.discussionService.ChangeVote(voteId, newCardId, userId);
-        }
-
-        /// <summary>
         /// Закрывает обсуждение.
         /// </summary>
         /// <param name="roomId">Id комнаты, в которой нужно закрыть обсуждение.</param>
@@ -93,6 +81,18 @@ namespace PlanPoker.Controllers
         {
             var discussion = this.discussionService.Close(roomId, discussionId, hostId);
             return new DiscussionDTOConverter(this.voteRepository, this.userRepository).Convert(discussion);
+        }
+
+        /// <summary>
+        /// Удаляет обсуждение.
+        /// </summary>
+        /// <param name="roomId">Id комнаты, в которой нужно закрыть обсуждение.</param>
+        /// <param name="discussionId">Id обсуждения.</param>
+        /// <param name="hostId">Id пользователя.</param>
+        [HttpPost]
+        public void Delete(Guid roomId, Guid discussionId, Guid hostId)
+        {
+            this.discussionService.Delete(roomId, discussionId, hostId);
         }
 
         /// <summary>

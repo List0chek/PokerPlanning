@@ -1,13 +1,13 @@
 import React from 'react';
 import cellUserIcon from '../../../images/User Icon.svg';
 import checkCircle from '../../../images/check_circle_24px.png';
-import { ICard, IUser, IVote } from '../../../Store/types';
+import { ICard, IUser } from '../../../Store/types';
 import './playerRow.css';
 
 export interface IPlayerRowProps {
   user: IUser;
-  card: ICard;
-  isCardChecked?: boolean;
+  card?: ICard;
+  isCardChecked?: boolean | null;
   isDiscussionClosed: boolean;
 }
 
@@ -18,6 +18,20 @@ const coffeeIcon = (
 );
 
 const PlayerRow: React.FunctionComponent<IPlayerRowProps> = (props) => {
+  let userVoteValueIcon;
+
+  if (props.card) {
+    if (props.card.value === 'coffee') {
+      userVoteValueIcon = coffeeIcon;
+    } else if (props.card.value === 'infinity') {
+      userVoteValueIcon = '∞';
+    } else {
+      userVoteValueIcon = props.card.name;
+    }
+  } else {
+    userVoteValueIcon = `didn't vote`;
+  }
+
   return (
     <tr className='row'>
       <td className='cell_user_icon'>
@@ -25,12 +39,10 @@ const PlayerRow: React.FunctionComponent<IPlayerRowProps> = (props) => {
       </td>
       <td className='cell_username'>{props.user.name}</td>
       <td className='cell_voted_icon'>
-        {props.isDiscussionClosed === false && props.isCardChecked === true && (
+        {!props.isDiscussionClosed && props.isCardChecked === true && (
           <img src={checkCircle} alt='check_circle_icon' width='24' height='24' />
         )}
-        {props.isDiscussionClosed !== false &&
-          ((props.card.value === '&#9749' ? coffeeIcon : props.card.name) ||
-            (props.isCardChecked === undefined ? '?' : props.card.name))}
+        {props.isDiscussionClosed && userVoteValueIcon}
       </td>
     </tr>
   );

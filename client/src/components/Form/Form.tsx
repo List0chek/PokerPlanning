@@ -7,7 +7,7 @@ import './Form.css';
 interface IProps {
   title: string;
   values: Array<any>;
-  onSubmit(inputUsernameValue: string, inputRoomnameValue?: string): void;
+  onSubmit(inputUsernameValue: string, inputRoomnameValue?: string, inputDiscussionName?: string): void;
 }
 
 const Form: React.FunctionComponent<IProps> = (props) => {
@@ -16,11 +16,15 @@ const Form: React.FunctionComponent<IProps> = (props) => {
     const form = event.currentTarget as HTMLFormElement;
 
     const inputUsername = form.elements[props.values[0].inputName] as HTMLInputElement;
-    const isInputRoomnameExist = props.values[1];
 
-    if (isInputRoomnameExist) {
+    const isInputRoomnameExist = props.values[1];
+    const isInputDiscussionNameExist = props.values[2];
+
+    if (isInputRoomnameExist && isInputDiscussionNameExist) {
       const inputRoomname = form.elements[props.values[1].inputName] as HTMLInputElement;
-      props.onSubmit(inputUsername.value, inputRoomname.value);
+      const inputDiscussionName = form.elements[props.values[2].inputName] as HTMLInputElement;
+
+      props.onSubmit(inputUsername.value, inputRoomname.value, inputDiscussionName.value);
     } else {
       props.onSubmit(inputUsername.value);
     }

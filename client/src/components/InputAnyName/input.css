@@ -30,6 +30,12 @@
 }
 
 .input_roomname {
+  margin-bottom: 10px;
+
+  text-align: left;
+}
+
+.input_discussionName {
 
   text-align: left;
 }

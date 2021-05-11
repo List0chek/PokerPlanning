@@ -1,12 +1,8 @@
 import React from 'react';
 import '../../DiscussionControllerBlock/discussionController.css';
-import PlayerRow, { IPlayerRowProps } from '../../DiscussionControllerBlock/PlayersRow/playerRow';
+import PlayerRow from '../../DiscussionControllerBlock/PlayersRow/playerRow';
 import './modal.css';
 import { IVote } from '../../../Store/types';
-import { compose, Dispatch } from 'redux';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { IMainPageProps } from '../RoomPage/roomPage';
 
 interface IProps {
   playersList: Array<IVote>;

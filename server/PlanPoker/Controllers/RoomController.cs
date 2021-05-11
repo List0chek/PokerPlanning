@@ -99,9 +99,9 @@ namespace PlanPoker.Controllers
         /// <param name="ownerId">Id владельца комнаты.</param>
         /// <returns>Возвращает экземпляр RoomDTO.</returns>
         [HttpPost]
-        public RoomDTO AddMember(Guid roomId, Guid newUserId, Guid ownerId)
+        public RoomDTO AddMember(Guid roomId, Guid newUserId)
         {
-            var room = this.roomService.AddMember(roomId, newUserId, ownerId);
+            var room = this.roomService.AddMember(roomId, newUserId);
             return new RoomDTOConverter(
                 this.voteRepository,
                 this.discussionRepository,

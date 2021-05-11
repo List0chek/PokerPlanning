@@ -53,5 +53,17 @@ namespace PlanPoker.Controllers
             var user = this.userService.ChangeName(id, token, newName);
             return new UserDTOConverter().Convert(user);
         }
+
+        /// <summary>
+        /// Возвращает пользователя.
+        /// </summary>
+        /// <param token="token">Токен пользователя.</param>
+        /// <returns>Возвращает экземпляр User.</returns>
+        [HttpGet]
+        public UserDTO GetUser([FromHeader]string token)
+        {
+            var user = this.userService.GetUser(token);
+            return new UserDTOConverter().Convert(user);
+        }
     }
 }

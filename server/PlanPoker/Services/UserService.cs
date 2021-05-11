@@ -1,6 +1,7 @@
 ﻿using DataService;
 using PlanPoker.Models;
 using System;
+using System.Linq;
 
 namespace PlanPoker.Services
 {
@@ -35,7 +36,7 @@ namespace PlanPoker.Services
 
             if (name is null || name == string.Empty)
             {
-                throw new UnauthorizedAccessException("Wrong username");
+                throw new ArgumentException("Wrong username");
             }
 
             newUser.Token = token;
@@ -57,16 +58,33 @@ namespace PlanPoker.Services
 
             if (newName is null || newName == string.Empty)
             {
-                throw new UnauthorizedAccessException("Wrong username");
+                throw new ArgumentException("Wrong username");
             }
 
             if (token is null || !user.Token.Equals(token))
             {
-                throw new UnauthorizedAccessException("Wrong token");
+                throw new ArgumentException("Wrong token");
             }
 
             user.Name = newName;
             this.userRepository.Save(user);
+            return user;
+        }
+
+        /// <summary>
+        /// Возвращает пользователя.
+        /// </summary>
+        /// <param token="token">Токен пользователя.</param>
+        /// <returns>Возвращает экземпляр User.</returns>
+        public User GetUser(string token)
+        {
+            if (token is null || token == string.Empty)
+            {
+                throw new ArgumentException("Wrong token");
+            }
+
+            var user = this.userRepository.GetAll().First(item => item.Token == token) ?? throw new UnauthorizedAccessException("User not found");            
+
             return user;
         }
     }

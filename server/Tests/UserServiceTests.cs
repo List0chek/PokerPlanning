@@ -39,14 +39,28 @@ namespace Tests
         }
 
         [Test]
+        public void GetUserTest()
+        {
+            var newUser = this.userService.Create(this.userName);
+            var receivedUser = this.userService.GetUser(newUser.Token);
+            Assert.AreEqual(newUser, receivedUser);
+            Assert.AreEqual(newUser.Id, receivedUser.Id);
+            Assert.AreEqual(newUser.Name, receivedUser.Name);
+            Assert.AreEqual(newUser.Id, receivedUser.Id);
+        }
+
+
+        [Test]
         public void IsThrowExceptionOnInvalidNameTest()
         {
             Assert.Multiple(() =>
             {
-                Assert.Throws<UnauthorizedAccessException>(() => this.userService.Create(string.Empty), "Wrong username");
-                Assert.Throws<UnauthorizedAccessException>(() => this.userService.ChangeName(Guid.NewGuid(), this.token, string.Empty), "Wrong username");
-                Assert.Throws<UnauthorizedAccessException>(() => this.userService.Create(null), "Wrong username");
-                Assert.Throws<UnauthorizedAccessException>(() => this.userService.ChangeName(Guid.NewGuid(), this.token, null), "Wrong username");
+                Assert.Throws<ArgumentException>(() => this.userService.Create(string.Empty), "Wrong username");
+                Assert.Throws<UnauthorizedAccessException>(() => this.userService.ChangeName(Guid.NewGuid(), this.token, string.Empty), "User not found");
+                Assert.Throws<ArgumentException>(() => this.userService.Create(null), "Wrong username");
+                Assert.Throws<UnauthorizedAccessException>(() => this.userService.ChangeName(Guid.NewGuid(), this.token, null), "User not found");
+                Assert.Throws<ArgumentException>(() => this.userService.GetUser(null), "Wrong token");
+                Assert.Throws<ArgumentException>(() => this.userService.GetUser(string.Empty), "Wrong token");
             });
         }
     }
