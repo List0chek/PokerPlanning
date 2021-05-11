@@ -1,24 +1,26 @@
 import React from 'react';
 import userIcon from '../../images/User Icon.svg';
 import DefaultButton from '../defaultButton/defaultButton';
-import { connect } from 'react-redux';
-import { IRootState, IUser } from '../../Store/types';
+import { IUser } from '../../Store/types';
+import history from '../../services/history-service';
+import { RoutePath } from '../routes';
 import './userButton.css';
-import { Dispatch } from 'redux';
 
 interface IProps {
   userName: string;
-  /*deleteUser(): void;*/
+  user: IUser | null;
+  deleteUser(): void;
 }
 
-class UserButton extends React.Component<IProps> {
+class UserButtonView extends React.Component<IProps> {
   constructor(props: IProps) {
     super(props);
     this.handleSignOutButtonClick = this.handleSignOutButtonClick.bind(this);
   }
 
-  handleSignOutButtonClick() {
-    return;
+  public async handleSignOutButtonClick() {
+    history.push(`${RoutePath.INDEX}`);
+    await this.props.deleteUser();
   }
 
   render() {
@@ -39,16 +41,4 @@ class UserButton extends React.Component<IProps> {
   }
 }
 
-const mapStateToProps = (state: IRootState) => {
-  return {
-    user: state.user,
-  };
-};
-
-/*const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    deleteUser: () => dispatch(deleteUser()),
-  };
-};*/
-
-export default connect(mapStateToProps /*mapDispatchToProps*/)(UserButton);
+export default UserButtonView;

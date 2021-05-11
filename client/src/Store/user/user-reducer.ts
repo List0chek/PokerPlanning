@@ -8,6 +8,8 @@ export function userReducer(state: IUser | null = initState, action: IUpdateUser
   switch (action.type) {
     case ActionType.UPDATE_USER:
       return action.user;
+    case ActionType.DELETE_USER:
+      return null;
     default:
       return state;
   }

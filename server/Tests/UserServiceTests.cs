@@ -2,12 +2,14 @@
 using NUnit.Framework;
 using PlanPoker.Services;
 using System;
+using System.Linq;
 
 namespace Tests
 {
     public class UserServiceTests
     {
         private InMemoryUserRepository userRepository;
+        private InMemoryRoomRepository roomRepository;
         private UserService userService;
 
         private string userName;
@@ -16,8 +18,9 @@ namespace Tests
         [SetUp]
         public void SetUp()
         {
+            this.roomRepository = new InMemoryRoomRepository();
             this.userRepository = new InMemoryUserRepository();
-            this.userService = new UserService(this.userRepository);
+            this.userService = new UserService(this.userRepository, this.roomRepository);
             this.userName = "Name";
             this.token = "token";
         }
@@ -42,13 +45,23 @@ namespace Tests
         public void GetUserTest()
         {
             var newUser = this.userService.Create(this.userName);
-            var receivedUser = this.userService.GetUser(newUser.Token);
+            var receivedUser = this.userService.Get(newUser.Token);
             Assert.AreEqual(newUser, receivedUser);
             Assert.AreEqual(newUser.Id, receivedUser.Id);
             Assert.AreEqual(newUser.Name, receivedUser.Name);
             Assert.AreEqual(newUser.Id, receivedUser.Id);
         }
 
+        [Test]
+        public void DeleteUserTest()
+        {
+            var user = this.userService.Create(this.userName);
+            this.userService.Delete(user.Token);
+            var isUserDeleted = this.userRepository.Get(user.Id) == null;
+            var isUserDeletedFromAllRooms = this.roomRepository.GetAll().Where(item => item.Members.Contains(user)).Count() == 0;
+            Assert.IsTrue(isUserDeleted);
+            Assert.IsTrue(isUserDeletedFromAllRooms);
+        }
 
         [Test]
         public void IsThrowExceptionOnInvalidNameTest()
@@ -59,8 +72,8 @@ namespace Tests
                 Assert.Throws<UnauthorizedAccessException>(() => this.userService.ChangeName(Guid.NewGuid(), this.token, string.Empty), "User not found");
                 Assert.Throws<ArgumentException>(() => this.userService.Create(null), "Wrong username");
                 Assert.Throws<UnauthorizedAccessException>(() => this.userService.ChangeName(Guid.NewGuid(), this.token, null), "User not found");
-                Assert.Throws<ArgumentException>(() => this.userService.GetUser(null), "Wrong token");
-                Assert.Throws<ArgumentException>(() => this.userService.GetUser(string.Empty), "Wrong token");
+                Assert.Throws<ArgumentException>(() => this.userService.Get(null), "Wrong token");
+                Assert.Throws<ArgumentException>(() => this.userService.Get(string.Empty), "Wrong token");
             });
         }
     }

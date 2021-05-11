@@ -16,12 +16,18 @@ namespace PlanPoker.Services
         private readonly IRepository<User> userRepository;
 
         /// <summary>
+        /// Экземпляр InMemoryRoomRepository.
+        /// </summary>
+        private readonly IRepository<Room> roomRepository;
+
+        /// <summary>
         /// Конструктор класса UserService.
         /// </summary>
         /// <param name="userRepository">Экземпляр InMemoryUserRepository.</param>
-        public UserService(IRepository<User> userRepository)
+        public UserService(IRepository<User> userRepository, IRepository<Room> roomRepository)
         {
             this.userRepository = userRepository;
+            this.roomRepository = roomRepository;
         }
 
         /// <summary>
@@ -76,7 +82,7 @@ namespace PlanPoker.Services
         /// </summary>
         /// <param token="token">Токен пользователя.</param>
         /// <returns>Возвращает экземпляр User.</returns>
-        public User GetUser(string token)
+        public User Get(string token)
         {
             if (token is null || token == string.Empty)
             {
@@ -86,6 +92,33 @@ namespace PlanPoker.Services
             var user = this.userRepository.GetAll().First(item => item.Token == token) ?? throw new UnauthorizedAccessException("User not found");            
 
             return user;
+        }
+
+        /// <summary>
+        /// Удаляет пользователя из InMemoryUserRepository и из всех комнат, членом которых он являлся.
+        /// </summary>
+        /// <param token="token">Токен пользователя.</param>
+        public void Delete(string token)
+        {
+            if (token is null || token == string.Empty)
+            {
+                throw new ArgumentException("Wrong token");
+            }
+            
+            var user = this.userRepository
+                .GetAll()
+                .First(item => item.Token == token)
+                ?? throw new UnauthorizedAccessException("User not found");
+            var roomsWithUser = this.roomRepository
+                .GetAll()
+                .Where(item => item.Members.Contains(user)) 
+                ?? throw new UnauthorizedAccessException("Room not found");
+
+            this.userRepository.Delete(user.Id);
+            foreach (var room in roomsWithUser)
+            {
+                room.Members.Remove(user);
+            }            
         }
     }
 }

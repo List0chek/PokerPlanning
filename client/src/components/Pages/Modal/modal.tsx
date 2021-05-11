@@ -1,8 +1,8 @@
 import React from 'react';
 import '../../DiscussionControllerBlock/discussionController.css';
 import PlayerRow from '../../DiscussionControllerBlock/PlayersRow/playerRow';
-import './modal.css';
 import { IVote } from '../../../Store/types';
+import './modal.css';
 
 interface IProps {
   playersList: Array<IVote>;

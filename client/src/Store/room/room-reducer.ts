@@ -8,6 +8,8 @@ export function roomReducer(state: IRoom | null = initState, action: IUpdateRoom
   switch (action.type) {
     case ActionType.UPDATE_ROOM:
       return action.room;
+    case ActionType.DELETE_ROOM:
+      return null;
     default:
       return state;
   }

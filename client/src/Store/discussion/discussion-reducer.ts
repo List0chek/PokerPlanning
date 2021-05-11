@@ -11,6 +11,8 @@ export function discussionReducer(
   switch (action.type) {
     case ActionType.UPDATE_DISCUSSION:
       return action.discussion;
+    case ActionType.DELETE_DISCUSSION:
+      return null;
     default:
       return state;
   }

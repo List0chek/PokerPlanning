@@ -2,9 +2,8 @@ import React from 'react';
 import DefaultButton from '../defaultButton/defaultButton';
 import InviteFriend from './InviteFriend/inviteFriend';
 import CreateNewDiscussionControl from './CreateNewDiscussion/createNewDiscussionControl';
-import PlayerRow, { IPlayerRowProps } from './/PlayersRow/playerRow';
-import { IDiscussion, IRoom, IRootState, IUser, IVote } from '../../Store/types';
-import { connect } from 'react-redux';
+import PlayerRow from './/PlayersRow/playerRow';
+import { IDiscussion, IRoom, IUser, IVote } from '../../Store/types';
 import './discussionController.css';
 
 interface IProps {
@@ -30,7 +29,7 @@ interface IState {
 
 const ButtonState: Array<string> = ['notClicked', 'FinishVotingIsClicked', 'NextIsClicked'];
 
-class DiscussionController extends React.Component<IProps, IState> {
+class DiscussionControllerView extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
@@ -122,12 +121,4 @@ class DiscussionController extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: IRootState) => {
-  return {
-    room: state.room,
-    user: state.user,
-    discussion: state.discussion,
-  };
-};
-
-export default connect(mapStateToProps)(DiscussionController);
+export default DiscussionControllerView;

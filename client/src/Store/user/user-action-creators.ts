@@ -12,3 +12,9 @@ export const updateUser = (user: IUser): IUpdateUserAction => {
     user: user,
   };
 };
+
+export const deleteUser = (): Action => {
+  return {
+    type: ActionType.DELETE_USER,
+  };
+};

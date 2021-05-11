@@ -60,10 +60,20 @@ namespace PlanPoker.Controllers
         /// <param token="token">Токен пользователя.</param>
         /// <returns>Возвращает экземпляр User.</returns>
         [HttpGet]
-        public UserDTO GetUser([FromHeader]string token)
+        public UserDTO Get([FromHeader]string token)
         {
-            var user = this.userService.GetUser(token);
+            var user = this.userService.Get(token);
             return new UserDTOConverter().Convert(user);
+        }
+
+        /// <summary>
+        /// Удаляет пользователя.
+        /// </summary>
+        /// <param token="token">Токен пользователя.</param>
+        [HttpGet]
+        public void Delete([FromHeader]string token)
+        {
+            this.userService.Delete(token);
         }
     }
 }

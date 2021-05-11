@@ -1,6 +1,4 @@
 import React from 'react';
-import MainHeader from '../../MainHeader/mainHeader';
-import Footer from '../../Footer/footer';
 import '../ErrorPage/errorPage.css';
 
 const ErrorPage = () => {

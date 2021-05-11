@@ -5,11 +5,11 @@ import FirstPage from '../Pages/CreateRoomPage/createRoomPage';
 import InvitePage from '../Pages/InvitePage/invitePage';
 import RoomPage from '../Pages/RoomPage/roomPage';
 import ErrorPage from '../Pages/ErrorPage/errorPage';
-import BasePage from '../Pages/basepage';
+import BasePage from '../Pages/BasePage/basepage';
 import { connect } from 'react-redux';
 import { IRootState } from '../../Store/types';
-import './app.css';
 import Spinner from '../Spinner/spinner';
+import './app.css';
 
 interface IProps {
   loadingIndicator: boolean;

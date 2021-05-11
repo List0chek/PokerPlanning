@@ -19,7 +19,7 @@ export const createUserRequest = async (userName: string): Promise<{ user: IUser
 };
 
 export const getUserRequest = async (): Promise<IUser> => {
-  const response = await fetch(`${baseUrl}/user/getuser`, {
+  const response = await fetch(`${baseUrl}/user/get`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -27,6 +27,17 @@ export const getUserRequest = async (): Promise<IUser> => {
     },
   });
   return await response.json();
+};
+
+export const deleteUserRequest = async () => {
+  const response = await fetch(`${baseUrl}/user/delete`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      token: authService.get(),
+    },
+  });
+  authService.set('');
 };
 
 export const createRoomRequest = async (roomName: string, userId: string): Promise<IRoom> => {

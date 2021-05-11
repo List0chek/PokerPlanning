@@ -1,22 +1,14 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
-import { connect } from 'react-redux';
-import { Dispatch, compose } from 'redux';
 import Board from '../../Board/board';
 import DiscussionController from '../../DiscussionControllerBlock/discussionController';
 import CompletedStories from '../../CompletedStories/completedStories';
 import Modal from '../Modal/modal';
 import StoryVoteResult from '../../StoryVoteResult/storyVoteResult';
 import { IStoryVoteResultInfoRowProps } from '../../StoryVoteResult/VoteValueResultInfo/storyVoteResultInfo';
-import { ICard, IDiscussion, IRoom, IRootState, IUser, IVote } from '../../../Store/types';
+import { ICard, IDiscussion, IRoom, IUser, IVote } from '../../../Store/types';
 import history from '../../../services/history-service';
 import { RoutePath } from '../../routes';
-import * as api from '../../../api/api';
-import { updateRoom } from '../../../Store/room/room-action-creators';
-import { updateDiscussion } from '../../../Store/discussion/discussion-action-creators';
-import { toggleLoadingIndicator } from '../../../Store/loading/loading-action-creators';
-import { updateUser } from '../../../Store/user/user-action-creators';
 import authService from '../../../services/auth-service';
 import '../Modal/modal.css';
 
@@ -45,7 +37,7 @@ interface IState {
   storyVoteResultInfoData: Array<IStoryVoteResultInfoRowProps>;
 }
 
-class RoomPage extends React.Component<IRoomPageProps, IState> {
+class RoomPageView extends React.Component<IRoomPageProps, IState> {
   constructor(props: IRoomPageProps) {
     super(props);
     this.state = {
@@ -63,36 +55,34 @@ class RoomPage extends React.Component<IRoomPageProps, IState> {
     this.handleStoryDetailsDownloadButtonClick = this.handleStoryDetailsDownloadButtonClick.bind(this);
     this.handleVote = this.handleVote.bind(this);
   }
+
   public static timer: NodeJS.Timeout;
   public async componentDidMount() {
-    if (authService.get() === '') {
+    if (localStorage.getItem('token') === '') {
       history.push(`${RoutePath.INVITE}/${this.props.match.params.id}`);
-    }
-
-    if (this.props.user == null) {
+    } else if (this.props.user == null) {
       await this.props.getUser();
-    }
-
-    if (this.props.room == null && this.props.user) {
+    } else if (this.props.room == null && this.props.user) {
       await this.props.getRoomInfo(this.props.match.params.id, this.props.user.id);
+    } else if (this.props.discussion == null && this.props.room && this.props.user) {
+      const currentDiscussionIndex = this.props.room.discussions.length - 1;
+      if (currentDiscussionIndex >= 0) {
+        await this.props.getDiscussionInfo(this.props.room.discussions[currentDiscussionIndex].id, this.props.user.id);
+      }
     }
 
-    if (this.props.discussion == null && this.props.room && this.props.user) {
-      const currentDiscussionIndex = this.props.room.discussions.length - 1;
-      await this.props.getDiscussionInfo(this.props.room.discussions[currentDiscussionIndex].id, this.props.user.id);
-    }
-    RoomPage.timer = setInterval(async () => {
+    RoomPageView.timer = setInterval(async () => {
+      await this.props.getUser();
       await this.props.getRoomInfo(this.props.room.id, this.props.user.id);
       const currentDiscussionIndex = this.props.room.discussions.length - 1;
       if (currentDiscussionIndex >= 0) {
-        console.log(currentDiscussionIndex);
         await this.props.getDiscussionInfo(this.props.room.discussions[currentDiscussionIndex].id, this.props.user.id);
       }
     }, 5000);
   }
 
   componentWillUnmount() {
-    clearInterval(RoomPage.timer);
+    clearInterval(RoomPageView.timer);
   }
 
   public async handleVote(value: ICard) {
@@ -165,113 +155,51 @@ class RoomPage extends React.Component<IRoomPageProps, IState> {
   }
 
   public render() {
-    const { isDiscussionClosed, isModalOpen, storyVoteResultInfoData, openedStoryId } = this.state;
-    const { room, discussion } = this.props;
-    const discussionInModal = room.discussions.find((item) => item.id === openedStoryId);
-    return (
-      <>
-        <main className='main_main'>
-          <p className='main_block_name'>{discussion.topic}</p>
-          <div className='main_block'>
-            {!isDiscussionClosed && discussion.dateEnd === null ? (
-              <Board cardValues={room.deck.cards} onCardChange={this.handleVote} />
-            ) : (
-              <StoryVoteResult
-                playersCount={discussion.votes.length.toString()}
-                avgVote={discussion.averageResult ? discussion.averageResult.toString() : '0'}
-                storyVoteResultInfoValues={storyVoteResultInfoData}
+    if (this.props.user && this.props.room && this.props.discussion) {
+      const { isDiscussionClosed, isModalOpen, storyVoteResultInfoData, openedStoryId } = this.state;
+      const { room, discussion } = this.props;
+      const discussionInModal = room.discussions.find((item) => item.id === openedStoryId);
+      return (
+        <>
+          <main className='main_main'>
+            <p className='main_block_name'>{discussion.topic}</p>
+            <div className='main_block'>
+              {!isDiscussionClosed && discussion.dateEnd === null ? (
+                <Board cardValues={room.deck.cards} onCardChange={this.handleVote} />
+              ) : (
+                <StoryVoteResult
+                  playersCount={discussion.votes.length.toString()}
+                  avgVote={discussion.averageResult ? discussion.averageResult.toString() : '0'}
+                  storyVoteResultInfoValues={storyVoteResultInfoData}
+                />
+              )}
+              <DiscussionController
+                playersListBeforeDiscussionClosed={room.members}
+                playersListAfterDiscussionClosed={discussion.votes}
+                url={window.location.href}
+                onEnterButtonClick={this.handleEnterButtonClick}
+                onGoButtonClick={this.handleGoButtonClick}
+                isDiscussionClosed={isDiscussionClosed}
+                discussionName={discussion.topic}
               />
-            )}
-            <DiscussionController
-              playersListBeforeDiscussionClosed={room.members}
-              playersListAfterDiscussionClosed={discussion.votes}
-              url={window.location.href}
-              onEnterButtonClick={this.handleEnterButtonClick}
-              onGoButtonClick={this.handleGoButtonClick}
-              isDiscussionClosed={isDiscussionClosed}
-              discussionName={discussion.topic}
+            </div>
+            <CompletedStories
+              completedStoriesList={room.discussions.filter((item) => item.dateEnd != null)}
+              onCompletedStoryClick={this.handleCompletedStoryClick}
+              onDelete={this.handleStoryDetailsDeleteButtonClick}
+              onDownload={this.handleStoryDetailsDownloadButtonClick}
             />
-          </div>
-          <CompletedStories
-            completedStoriesList={room.discussions.filter((item) => item.dateEnd != null)}
-            onCompletedStoryClick={this.handleCompletedStoryClick}
-            onDelete={this.handleStoryDetailsDeleteButtonClick}
-            onDownload={this.handleStoryDetailsDownloadButtonClick}
-          />
-        </main>
-        {isModalOpen && (
-          <Modal
-            playersList={discussionInModal ? discussionInModal.votes : []}
-            onStoryDetailsCloseButtonClick={this.handleStoryDetailsCloseButtonClick}
-          />
-        )}
-      </>
-    );
+          </main>
+          {isModalOpen && (
+            <Modal
+              playersList={discussionInModal ? discussionInModal.votes : []}
+              onStoryDetailsCloseButtonClick={this.handleStoryDetailsCloseButtonClick}
+            />
+          )}
+        </>
+      );
+    } else return null;
   }
 }
 
-const mapStateToProps = (state: IRootState) => {
-  return {
-    room: state.room,
-    user: state.user,
-    discussion: state.discussion,
-  };
-};
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    setVote: async (discussionId: string, userId: string, cardId: string) => {
-      dispatch(toggleLoadingIndicator(true));
-      try {
-        await api.setVoteRequest(discussionId, userId, cardId);
-      } finally {
-        dispatch(toggleLoadingIndicator(false));
-      }
-    },
-    getUser: async () => {
-      const response = await api.getUserRequest();
-      if (response) dispatch(updateUser(response));
-      return response;
-    },
-    getRoomInfo: async (roomId: string, userId: string) => {
-      const response = await api.getRoomInfoRequest(roomId, userId);
-      if (response) dispatch(updateRoom(response));
-      return response;
-    },
-    getDiscussionInfo: async (discussionId: string, userId: string) => {
-      const response = await api.getDiscussionInfoRequest(discussionId, userId);
-      if (response) dispatch(updateDiscussion(response));
-      return response;
-    },
-    closeDiscussion: async (roomId: string, discussionId: string, userId: string) => {
-      dispatch(toggleLoadingIndicator(true));
-      try {
-        const response = await api.closeDiscussionRequest(roomId, discussionId, userId);
-        dispatch(updateDiscussion(response));
-        return response;
-      } finally {
-        dispatch(toggleLoadingIndicator(false));
-      }
-    },
-    createDiscussion: async (roomId: string, topicName: string, userId: string) => {
-      dispatch(toggleLoadingIndicator(true));
-      try {
-        const response = await api.createDiscussionRequest(roomId, topicName, userId);
-        dispatch(updateDiscussion(response));
-        return response;
-      } finally {
-        dispatch(toggleLoadingIndicator(false));
-      }
-    },
-    deleteDiscussion: async (roomId: string, discussionId: string, userId: string) => {
-      dispatch(toggleLoadingIndicator(true));
-      try {
-        await api.deleteDiscussionRequest(roomId, discussionId, userId);
-      } finally {
-        dispatch(toggleLoadingIndicator(false));
-      }
-    },
-  };
-};
-
-export default compose<React.ComponentClass>(withRouter, connect(mapStateToProps, mapDispatchToProps))(RoomPage);
+export default RoomPageView;

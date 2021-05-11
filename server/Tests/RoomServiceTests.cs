@@ -22,7 +22,7 @@ namespace Tests
         {
             this.roomRepository = new InMemoryRoomRepository();
             this.userRepository = new InMemoryUserRepository();
-            this.userService = new UserService(this.userRepository);
+            this.userService = new UserService(this.userRepository, this.roomRepository);
             this.ownerName = "ownerName";
             this.owner = this.userService.Create(this.ownerName);
 

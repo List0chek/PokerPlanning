@@ -3,8 +3,7 @@ import downloadStoriesIcon from '../../images/download_24px.svg';
 import DefaultButton from '../defaultButton/defaultButton';
 import CompletedStoryRow from './CompletedStoryRow/completedStoryRow';
 import { IPlayerRowProps } from '../DiscussionControllerBlock/PlayersRow/playerRow';
-import { IDiscussion, IRootState } from '../../Store/types';
-import { connect } from 'react-redux';
+import { IDiscussion } from '../../Store/types';
 import './completedStories.css';
 
 export interface ICompletedStory {
@@ -25,7 +24,7 @@ interface IProps {
   onDownload(): void;
 }
 
-const CompletedStories: React.FunctionComponent<IProps> = (props) => {
+const CompletedStoriesView: React.FunctionComponent<IProps> = (props) => {
   const handleCompletedStoryClick = (discussionId: string) => {
     props.onCompletedStoryClick(discussionId);
   };
@@ -84,10 +83,4 @@ const CompletedStories: React.FunctionComponent<IProps> = (props) => {
   );
 };
 
-const mapStateToProps = (state: IRootState) => {
-  return {
-    discussion: state.discussion,
-  };
-};
-
-export default connect(mapStateToProps)(CompletedStories);
+export default CompletedStoriesView;

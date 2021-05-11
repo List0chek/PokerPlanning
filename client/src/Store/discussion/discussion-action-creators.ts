@@ -12,3 +12,9 @@ export const updateDiscussion = (discussion: IDiscussion): IUpdateDiscussionActi
     discussion: discussion,
   };
 };
+
+export const deleteDiscussion = (): Action => {
+  return {
+    type: ActionType.DELETE_DISCUSSION,
+  };
+};

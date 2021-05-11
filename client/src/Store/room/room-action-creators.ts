@@ -12,3 +12,9 @@ export const updateRoom = (room: IRoom): IUpdateRoomAction => {
     room: room,
   };
 };
+
+export const deleteRoom = (): Action => {
+  return {
+    type: ActionType.DELETE_ROOM,
+  };
+};
