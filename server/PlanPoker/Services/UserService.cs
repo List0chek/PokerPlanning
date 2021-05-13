@@ -87,20 +87,8 @@ namespace PlanPoker.Services
         {
             if (token is null || token == string.Empty || this.userRepository.GetAll().Where(item => item.Token == token).Count() == 0)
             {
-                throw new ArgumentException("Wrong token");
+                throw new UnauthorizedAccessException("Wrong token");
             }
-            
-            //try
-            //{
-            //    if (token is null || token == string.Empty || this.userRepository.GetAll().Where(item => item.Token == token).Count() == 0)
-            //    {
-            //        throw new ArgumentException("Wrong token"); ;
-            //    }
-            //}
-            //catch (ArgumentException ex)
-            //{
-            //    System.Diagnostics.Debug.WriteLine(ex.Message);
-            //}
 
             var user = this.userRepository
                  .GetAll()

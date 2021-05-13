@@ -35,16 +35,13 @@ const ModalView: React.FunctionComponent<IProps> = (props) => {
           <tbody>
             {props.playersList.map((item) => {
               if (props.room) {
-                //const didMemberVote = discussionInModal && discussionInModal.votes.find((vote) => vote.user.id === item.id);
                 return (
-                  //didMemberVote && (
                   <PlayerRow
                     key={item.id}
                     user={item}
                     card={discussionInModal?.votes.find((vote) => vote.user.id === item.id)?.card}
                     isDiscussionClosed={true}
                   />
-                  // )
                 );
               }
             })}

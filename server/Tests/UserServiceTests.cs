@@ -72,8 +72,8 @@ namespace Tests
                 Assert.Throws<UnauthorizedAccessException>(() => this.userService.ChangeName(Guid.NewGuid(), this.token, string.Empty), "User not found");
                 Assert.Throws<ArgumentException>(() => this.userService.Create(null), "Wrong username");
                 Assert.Throws<UnauthorizedAccessException>(() => this.userService.ChangeName(Guid.NewGuid(), this.token, null), "User not found");
-                Assert.Throws<ArgumentException>(() => this.userService.Get(null), "Wrong token");
-                Assert.Throws<ArgumentException>(() => this.userService.Get(string.Empty), "Wrong token");
+                Assert.Throws<UnauthorizedAccessException>(() => this.userService.Get(null), "Wrong token");
+                Assert.Throws<UnauthorizedAccessException>(() => this.userService.Get(string.Empty), "Wrong token");
             });
         }
     }

@@ -4,8 +4,8 @@ import { IRootState } from '../../../store/Types';
 import { compose, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import InvitePageView from './InvitePageView';
-import { createUser } from '../../../store/User/UserOperations';
-import { addMemberToRoom } from '../../../store/Room/RoomOperations';
+import { createAndSaveUser } from '../../../store/User/UserOperations';
+import { addAndSaveMemberToRoom } from '../../../store/Room/RoomOperations';
 
 const mapStateToProps = (state: IRootState) => {
   return {
@@ -17,10 +17,10 @@ const mapStateToProps = (state: IRootState) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     createUser: async (userName: string) => {
-      return dispatch(await createUser(userName));
+      return dispatch(await createAndSaveUser(userName));
     },
     addMemberToRoom: async (roomId: string, userId: string) => {
-      return dispatch(await addMemberToRoom(roomId, userId));
+      return dispatch(await addAndSaveMemberToRoom(roomId, userId));
     },
   };
 };

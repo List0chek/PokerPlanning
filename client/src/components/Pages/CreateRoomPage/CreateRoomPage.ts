@@ -4,8 +4,8 @@ import { IRootState } from '../../../store/Types';
 import { compose, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import CreateRoomPageView from './CreateRoomPageView';
-import { createDiscussion, createRoom } from '../../../store/Room/RoomOperations';
-import { createUser } from '../../../store/User/UserOperations';
+import { createAndSaveDiscussion, createAndSaveRoom } from '../../../store/Room/RoomOperations';
+import { createAndSaveUser } from '../../../store/User/UserOperations';
 
 const mapStateToProps = (state: IRootState) => {
   return {
@@ -17,13 +17,13 @@ const mapStateToProps = (state: IRootState) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     createUser: async (userName: string) => {
-      return dispatch(await createUser(userName));
+      return dispatch(await createAndSaveUser(userName));
     },
     createRoom: async (roomName: string, userId: string) => {
-      return dispatch(await createRoom(roomName, userId));
+      return dispatch(await createAndSaveRoom(roomName, userId));
     },
     createDiscussion: async (roomId: string, topicName: string, userId: string) => {
-      return dispatch(await createDiscussion(roomId, topicName, userId));
+      return dispatch(await createAndSaveDiscussion(roomId, topicName, userId));
     },
   };
 };

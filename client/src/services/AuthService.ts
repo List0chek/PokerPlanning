@@ -1,11 +1,11 @@
 class AuthService {
   private key = 'token';
 
-  public get(): string {
+  public getToken(): string {
     return localStorage.getItem(this.key) || '';
   }
 
-  public set(value: string) {
+  public setToken(value: string) {
     localStorage.setItem(this.key, value);
   }
 }

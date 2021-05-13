@@ -20,11 +20,10 @@ export interface IRoomPageProps extends RouteComponentProps<IMatchParams> {
   user: IUser | null;
   error: IError | null;
   setVote(discussionId: string, userId: string, cardId: string): Promise<IRoom>;
-  getRoomInfo(roomId: string, userId: string): Promise<IRoom>;
+  loadRoomInfo(roomId: string, userId: string): Promise<IRoom>;
   closeDiscussion(roomId: string, discussionId: string, userId: string): Promise<IRoom>;
   createDiscussion(roomId: string, topicName: string, userId: string): Promise<IRoom>;
-  /*getUser(): Promise<{ user: IUser | null; error: IError | null }>;*/
-  getUser(roomId: string): Promise<IUser | null>;
+  loadUser(): Promise<IUser>;
   deleteDiscussion(roomId: string, discussionId: string, userId: string): Promise<IRoom>;
   addMemberToRoom(roomId: string, userId: string): Promise<IRoom>;
 }
@@ -51,21 +50,22 @@ class RoomPageView extends React.Component<IRoomPageProps, IState> {
   }
 
   public static timer: NodeJS.Timeout;
-  public async componentDidMount() {
-    await this.props.getUser(this.props.match.params.id);
 
-    /*if (this.props.error && this.props.error.message === 'Wrong token' && this.props.user == null) {
+  public async componentDidMount() {
+    try {
+      await this.props.loadUser();
+    } catch (error: any) {
       history.push(`${RoutePath.INVITE}/${this.props.match.params.id}`);
-    }*/
+    }
 
     if (this.props.room == null && this.props.user) {
       await this.props.addMemberToRoom(this.props.match.params.id, this.props.user.id);
-      await this.props.getRoomInfo(this.props.match.params.id, this.props.user.id);
+      await this.props.loadRoomInfo(this.props.match.params.id, this.props.user.id);
     }
 
     RoomPageView.timer = setInterval(async () => {
-      if (this.props.user) await this.props.getRoomInfo(this.props.room.id, this.props.user.id);
-    }, 5000);
+      if (this.props.user) await this.props.loadRoomInfo(this.props.room.id, this.props.user.id);
+    }, 3000);
   }
 
   public componentWillUnmount() {
@@ -80,7 +80,7 @@ class RoomPageView extends React.Component<IRoomPageProps, IState> {
     }
   }
 
-  public getStoryVoteResultInfoData(s: Array<IStoryVoteResultInfoRowProps>) {
+  public createStoryVoteResultInfoData(s: Array<IStoryVoteResultInfoRowProps>) {
     const currentDiscussion = this.props.room.discussions[this.props.room.discussions.length - 1];
     const votes = currentDiscussion ? currentDiscussion.votes : [];
     for (let i = 0; i < votes.length; i++) {
@@ -134,6 +134,9 @@ class RoomPageView extends React.Component<IRoomPageProps, IState> {
   }
 
   public render() {
+    if (this.props.room == null) {
+      return null;
+    }
     const currentDiscussionIndex = this.props.room && this.props.room.discussions.length - 1;
     const currentDiscussion =
       currentDiscussionIndex >= 0 && this.props.room ? this.props.room.discussions[currentDiscussionIndex] : null;
@@ -152,7 +155,7 @@ class RoomPageView extends React.Component<IRoomPageProps, IState> {
                 <StoryVoteResult
                   playersCount={currentDiscussion.votes.length.toString()}
                   avgVote={currentDiscussion.averageResult ? currentDiscussion.averageResult.toString() : '0'}
-                  storyVoteResultInfoValues={this.getStoryVoteResultInfoData([])}
+                  storyVoteResultInfoValues={this.createStoryVoteResultInfoData([])}
                 />
               )}
               <DiscussionController
