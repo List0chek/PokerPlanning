@@ -51,7 +51,6 @@ namespace PlanPoker.Controllers
         /// <param name="roomService">Экземпляр RoomService.</param>
         /// <param name="voteRepository">Экземпляр InMemoryVoteRepository.</param>
         /// <param name="discussionRepository">Экземпляр InMemoryDiscussionRepository.</param>
-        /// <param name="discussionRepository">Экземпляр InMemoryDiscussionRepository.</param>
         /// <param name="deckRepository">Экземпляр InMemoryDeckRepository.</param>
         /// <param name="cardRepository">Экземпляр InMemoryCardRepository.</param>
         /// <param name="userRepository">Экземпляр InMemoryUserRepository.</param>
@@ -76,7 +75,7 @@ namespace PlanPoker.Controllers
         /// </summary>
         /// <param name="name">Имя комнаты.</param>
         /// <param name="ownerId">Id создателя.</param>
-        /// <param name="ownerToken">Token создателя.</param>
+        /// <param name="token">Token создателя.</param>
         /// <returns>Возвращает экземпляр RoomDTO.</returns>
         [HttpPost]
         public RoomDTO Create(string name, Guid ownerId, [FromHeader]string token)
@@ -96,7 +95,6 @@ namespace PlanPoker.Controllers
         /// </summary>
         /// <param name="roomId">Id комнаты.</param>
         /// <param name="newUserId">Id пользователя, которого нужно добавить.</param>
-        /// <param name="ownerId">Id владельца комнаты.</param>
         /// <returns>Возвращает экземпляр RoomDTO.</returns>
         [HttpPost]
         public RoomDTO AddMember(Guid roomId, Guid newUserId)
@@ -137,7 +135,6 @@ namespace PlanPoker.Controllers
         /// <param name="roomId">Id комнаты.</param>
         /// <param name="newHostId">Id пользователя, который будет новым ведущим.</param>
         /// <param name="ownerId">Id пользователя, который является владельцем комнаты.</param>
-        /// <param name="ownerToken">Токен владельца комнаты.</param>
         /// <returns>Возвращает экземпляр RoomDTO.</returns>
         [HttpPost]
         public RoomDTO ChangeHost(Guid roomId, Guid newHostId, Guid ownerId)

@@ -59,7 +59,7 @@ namespace Tests
             this.userService.Delete(user.Token);
             var isUserDeleted = this.userRepository.Get(user.Id) == null;
             var isUserDeletedFromAllRooms = this.roomRepository.GetAll().Where(item => item.Members.Contains(user)).Count() == 0;
-            Assert.IsTrue(isUserDeleted);
+            Assert.IsFalse(isUserDeleted);
             Assert.IsTrue(isUserDeletedFromAllRooms);
         }
 

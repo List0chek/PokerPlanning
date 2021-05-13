@@ -107,7 +107,8 @@ namespace PlanPoker.Services
         /// <param name="discussionId">Id обсуждения.</param>
         /// <param name="userId">Id пользователя.</param>
         /// <param name="cardId">Id выбранной карты.</param>
-        public void SetVote(Guid discussionId, Guid userId, Guid cardId)
+        /// <returns>Возвращает экземпляр Discussion.</returns>
+        public Discussion SetVote(Guid discussionId, Guid userId, Guid cardId)
         {
             var discussion = this.discussionRepository.Get(discussionId) ?? throw new UnauthorizedAccessException("Discussion not found");
             var room = this.roomRepository.Get(discussion.RoomId) ?? throw new UnauthorizedAccessException("Room not found");
@@ -130,6 +131,8 @@ namespace PlanPoker.Services
                     throw new UnauthorizedAccessException("User is not valid");
                 }
             }
+
+            return discussion;
         }
 
         /// <summary>

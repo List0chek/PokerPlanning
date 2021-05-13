@@ -1,7 +1,7 @@
 import React from 'react';
-import Button from '../EnterButton/button';
-import ActionName from '../ActionName/actionName';
-import Input from '../InputAnyName/input';
+import Button from '../EnterButton/Button';
+import ActionName from '../ActionName/ActionName';
+import Input from '../InputAnyName/Input';
 import './Form.css';
 
 interface IProps {

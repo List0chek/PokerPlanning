@@ -24,6 +24,7 @@ namespace PlanPoker.Services
         /// Конструктор класса UserService.
         /// </summary>
         /// <param name="userRepository">Экземпляр InMemoryUserRepository.</param>
+        /// <param name="roomRepository">Экземпляр InMemoryRoomRepository.</param>
         public UserService(IRepository<User> userRepository, IRepository<Room> roomRepository)
         {
             this.userRepository = userRepository;
@@ -80,16 +81,30 @@ namespace PlanPoker.Services
         /// <summary>
         /// Возвращает пользователя.
         /// </summary>
-        /// <param token="token">Токен пользователя.</param>
-        /// <returns>Возвращает экземпляр User.</returns>
+        /// <param name="token">Токен пользователя.</param>
+        /// <returns>Возвращает экземпляр User.</returns>     
         public User Get(string token)
         {
-            if (token is null || token == string.Empty)
+            if (token is null || token == string.Empty || this.userRepository.GetAll().Where(item => item.Token == token).Count() == 0)
             {
                 throw new ArgumentException("Wrong token");
             }
+            
+            //try
+            //{
+            //    if (token is null || token == string.Empty || this.userRepository.GetAll().Where(item => item.Token == token).Count() == 0)
+            //    {
+            //        throw new ArgumentException("Wrong token"); ;
+            //    }
+            //}
+            //catch (ArgumentException ex)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(ex.Message);
+            //}
 
-            var user = this.userRepository.GetAll().First(item => item.Token == token) ?? throw new UnauthorizedAccessException("User not found");            
+            var user = this.userRepository
+                 .GetAll()
+                 .FirstOrDefault(item => item.Token == token) ?? throw new UnauthorizedAccessException("User not found");
 
             return user;
         }
@@ -97,28 +112,28 @@ namespace PlanPoker.Services
         /// <summary>
         /// Удаляет пользователя из InMemoryUserRepository и из всех комнат, членом которых он являлся.
         /// </summary>
-        /// <param token="token">Токен пользователя.</param>
+        /// <param name="token">Токен пользователя.</param>
         public void Delete(string token)
         {
             if (token is null || token == string.Empty)
             {
                 throw new ArgumentException("Wrong token");
             }
-            
+
             var user = this.userRepository
                 .GetAll()
                 .First(item => item.Token == token)
                 ?? throw new UnauthorizedAccessException("User not found");
             var roomsWithUser = this.roomRepository
                 .GetAll()
-                .Where(item => item.Members.Contains(user)) 
+                .Where(item => item.Members.Contains(user))
                 ?? throw new UnauthorizedAccessException("Room not found");
 
-            this.userRepository.Delete(user.Id);
+            // this.userRepository.Delete(user.Id); // если оставить, то будет лететь ошибка. Смотреть в сторону UserDTO и RoomDTO конвертеров.
             foreach (var room in roomsWithUser)
             {
                 room.Members.Remove(user);
-            }            
+            }
         }
     }
 }

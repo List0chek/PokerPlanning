@@ -57,7 +57,7 @@ namespace PlanPoker.Controllers
         /// <summary>
         /// Возвращает пользователя.
         /// </summary>
-        /// <param token="token">Токен пользователя.</param>
+        /// <param name="token">Токен пользователя.</param>
         /// <returns>Возвращает экземпляр User.</returns>
         [HttpGet]
         public UserDTO Get([FromHeader]string token)
@@ -69,7 +69,7 @@ namespace PlanPoker.Controllers
         /// <summary>
         /// Удаляет пользователя.
         /// </summary>
-        /// <param token="token">Токен пользователя.</param>
+        /// <param name="token">Токен пользователя.</param>
         [HttpGet]
         public void Delete([FromHeader]string token)
         {

@@ -71,7 +71,6 @@ namespace PlanPoker.Services
         /// </summary>
         /// <param name="roomId">Id комнаты.</param>
         /// <param name="newUserId">Id пользователя, которого нужно добавить в комнату.</param>
-        /// <param name="ownerId">Id пользователя, который является владельцем комнаты.</param>
         /// <returns>Возвращает экземпляр Room.</returns>
         public Room AddMember(Guid roomId, Guid newUserId)
         {
