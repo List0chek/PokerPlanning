@@ -54,7 +54,7 @@ class RoomPageView extends React.Component<IRoomPageProps, IState> {
   public async componentDidMount() {
     try {
       await this.props.loadUser();
-    } catch (error: any) {
+    } catch (error) {
       history.push(`${RoutePath.INVITE}/${this.props.match.params.id}`);
     }
 
@@ -108,7 +108,11 @@ class RoomPageView extends React.Component<IRoomPageProps, IState> {
   }
 
   public async handleGoButtonClick(value: string) {
-    if (this.props.user) await this.props.createDiscussion(this.props.room.id, value, this.props.user.id);
+    try {
+      if (this.props.user) await this.props.createDiscussion(this.props.room.id, value, this.props.user.id);
+    } catch (error) {
+      alert(error);
+    }
   }
 
   public handleCompletedStoryClick(discussionId: string) {
@@ -137,11 +141,10 @@ class RoomPageView extends React.Component<IRoomPageProps, IState> {
     if (this.props.room == null) {
       return null;
     }
-    const currentDiscussionIndex = this.props.room && this.props.room.discussions.length - 1;
-    const currentDiscussion =
-      currentDiscussionIndex >= 0 && this.props.room ? this.props.room.discussions[currentDiscussionIndex] : null;
+    const currentDiscussionIndex = this.props.room.discussions.length - 1;
+    const currentDiscussion = currentDiscussionIndex >= 0 ? this.props.room.discussions[currentDiscussionIndex] : null;
 
-    if (this.props.user && this.props.room && currentDiscussion) {
+    if (this.props.user && currentDiscussion) {
       const { isModalOpen, openedDiscussionId } = this.state;
       const { room } = this.props;
       return (

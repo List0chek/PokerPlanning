@@ -40,10 +40,14 @@ class CreateRoomPageView extends React.Component<IProps> {
   }
 
   public async handleSubmit(inputUsernameValue: string, inputRoomnameValue: string, inputDiscussionName: string) {
-    await this.props.createUser(inputUsernameValue);
-    await this.props.createRoom(inputRoomnameValue, this.props.user.id);
-    await this.props.createDiscussion(this.props.room.id, inputDiscussionName, this.props.user.id);
-    this.props.history.push(`${RoutePath.MAIN}/${this.props.room.id}`);
+    try {
+      await this.props.createUser(inputUsernameValue);
+      await this.props.createRoom(inputRoomnameValue, this.props.user.id);
+      await this.props.createDiscussion(this.props.room.id, inputDiscussionName, this.props.user.id);
+      this.props.history.push(`${RoutePath.MAIN}/${this.props.room.id}`);
+    } catch (error) {
+      alert(error);
+    }
   }
 
   render() {

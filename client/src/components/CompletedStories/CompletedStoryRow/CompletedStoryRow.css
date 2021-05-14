@@ -31,3 +31,19 @@
   background: transparent;
   border: none;
 }
+
+.completed_stories_delete_btn_notClickable {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 14px;
+  height: 18px;
+  margin-right: 21px;
+
+  background: transparent;
+  border: none;
+  cursor: not-allowed;
+  opacity: 0.5;
+
+  pointer-events: none;
+}

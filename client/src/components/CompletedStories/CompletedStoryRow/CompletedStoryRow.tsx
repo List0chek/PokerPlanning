@@ -36,16 +36,17 @@ const CompletedStoryRow: React.FunctionComponent<ICompletedStoryRowProps> = (pro
         {props.discussion.averageResult ? props.discussion.averageResult : '0'}
       </td>
       <td className='completed_stories_cell_delete_story_button'>
-        {props.user &&
-          props.room &&
-          props.user.id === props.room.hostId &&
-          currentDiscussion?.id !== props.discussion.id && (
-            <DefaultButton
-              className='completed_stories_delete_btn'
-              buttonText={<img src={deleteStoryIcon} alt='deleteStoryIcon' width='14' height='18' />}
-              onClick={handleDelete}
-            />
-          )}
+        {props.user && props.room && props.user.id === props.room.hostId && (
+          <DefaultButton
+            className={
+              currentDiscussion?.id !== props.discussion.id
+                ? 'completed_stories_delete_btn'
+                : 'completed_stories_delete_btn_notClickable'
+            }
+            buttonText={<img src={deleteStoryIcon} alt='deleteStoryIcon' width='14' height='18' />}
+            onClick={handleDelete}
+          />
+        )}
       </td>
     </tr>
   );

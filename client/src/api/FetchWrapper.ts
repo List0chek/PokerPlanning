@@ -6,16 +6,17 @@ async function http(method: string, url: string, headers?: HeadersInit): Promise
       ...headers,
     },
   });
-  try {
-    const responseJSON = await response.json();
-    if (response.status === 200) {
-      return responseJSON;
-    } else {
-      throw new Error(responseJSON);
-    }
-  } catch (error: any) {
-    console.log(error);
-    return;
+
+  let responseJSON;
+  const contentType = response.headers.get('Content-Type');
+  if (contentType && contentType.includes('application/json')) {
+    responseJSON = await response.json();
+  } else responseJSON = undefined;
+
+  if (response.status === 200) {
+    return responseJSON;
+  } else {
+    throw new Error(responseJSON?.message);
   }
 }
 

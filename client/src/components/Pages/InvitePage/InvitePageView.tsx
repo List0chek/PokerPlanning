@@ -31,9 +31,13 @@ class InvitePageView extends React.Component<IProps> {
   }
 
   public async handleSubmit(inputUsernameValue: string) {
-    await this.props.createUser(inputUsernameValue);
-    await this.props.addMemberToRoom(this.props.match.params.id, this.props.user.id);
-    this.props.history.push(`${RoutePath.MAIN}/${this.props.match.params.id}`);
+    try {
+      await this.props.createUser(inputUsernameValue);
+      await this.props.addMemberToRoom(this.props.match.params.id, this.props.user.id);
+      this.props.history.push(`${RoutePath.MAIN}/${this.props.match.params.id}`);
+    } catch (error) {
+      alert(error);
+    }
   }
 
   render() {

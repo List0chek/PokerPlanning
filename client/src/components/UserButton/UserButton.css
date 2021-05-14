@@ -51,8 +51,8 @@
   display: none;
 
   box-sizing: border-box;
-  max-width: 250px;
   width: 100%;
+  max-width: 250px;
   height: 39px;
 
   color: #4b9ae8;
