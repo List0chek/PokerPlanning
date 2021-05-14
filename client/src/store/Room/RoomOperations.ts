@@ -4,7 +4,7 @@ import { updateRoom } from './RoomActionCreators';
 import { Dispatch } from 'redux';
 import { IRoom, IRootState } from '../Types';
 
-export const createAndSaveRoom = (roomName: string, userId: string): any => {
+export const createRoomAndStoreOperation = (roomName: string, userId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
     dispatch(toggleLoadingIndicator(true));
     try {
@@ -20,7 +20,7 @@ export const createAndSaveRoom = (roomName: string, userId: string): any => {
   };
 };
 
-export const setAndSaveVote = (discussionId: string, userId: string, cardId: string): any => {
+export const setVoteAndStoreOperation = (discussionId: string, userId: string, cardId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
     dispatch(toggleLoadingIndicator(true));
     try {
@@ -36,7 +36,7 @@ export const setAndSaveVote = (discussionId: string, userId: string, cardId: str
   };
 };
 
-export const loadAndSaveRoomInfo = (roomId: string, userId: string): any => {
+export const loadRoomAndStoreOperation = (roomId: string, userId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
     try {
       const response = await api.getRoomInfoRequest(roomId, userId);
@@ -49,7 +49,7 @@ export const loadAndSaveRoomInfo = (roomId: string, userId: string): any => {
   };
 };
 
-export const closeAndSaveDiscussion = (roomId: string, discussionId: string, userId: string): any => {
+export const closeDiscussionAndStoreOperation = (roomId: string, discussionId: string, userId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
     dispatch(toggleLoadingIndicator(true));
     try {
@@ -65,7 +65,7 @@ export const closeAndSaveDiscussion = (roomId: string, discussionId: string, use
   };
 };
 
-export const createAndSaveDiscussion = (roomId: string, topicName: string, userId: string): any => {
+export const createDiscussionAndStoreOperation = (roomId: string, topicName: string, userId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
     dispatch(toggleLoadingIndicator(true));
     try {
@@ -81,7 +81,7 @@ export const createAndSaveDiscussion = (roomId: string, topicName: string, userI
   };
 };
 
-export const deleteAndSaveDiscussion = (roomId: string, discussionId: string, userId: string): any => {
+export const deleteDiscussionAndStoreOperation = (roomId: string, discussionId: string, userId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
     dispatch(toggleLoadingIndicator(true));
     try {
@@ -97,7 +97,7 @@ export const deleteAndSaveDiscussion = (roomId: string, discussionId: string, us
   };
 };
 
-export const addAndSaveMemberToRoom = (roomId: string, userId: string): any => {
+export const addMemberToRoomAndStoreOperation = (roomId: string, userId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
     dispatch(toggleLoadingIndicator(true));
     try {

@@ -5,7 +5,7 @@ import { updateUser, deleteUser as deleteUserFromStore } from './UserActionCreat
 import { toggleLoadingIndicator } from '../Loading/LoadingActionCreators';
 import { deleteRoom } from '../Room/RoomActionCreators';
 
-export const loadAndSaveUser = (): any => {
+export const loadUserAndStoreOperation = (): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IUser> => {
     dispatch(toggleLoadingIndicator(true));
     try {
@@ -21,7 +21,7 @@ export const loadAndSaveUser = (): any => {
   };
 };
 
-export const createAndSaveUser = (userName: string): any => {
+export const createUserAndStoreOperation = (userName: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IUser> => {
     dispatch(toggleLoadingIndicator(true));
     try {
@@ -37,7 +37,7 @@ export const createAndSaveUser = (userName: string): any => {
   };
 };
 
-export const deleteUserAndClearStore = (): any => {
+export const deleteUserAndClearStoreOperation = (): any => {
   return async (dispatch: Dispatch, getState: () => IRootState) => {
     dispatch(toggleLoadingIndicator(true));
     try {
