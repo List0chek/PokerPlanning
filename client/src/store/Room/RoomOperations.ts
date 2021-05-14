@@ -2,7 +2,8 @@ import { toggleLoadingIndicator } from '../Loading/LoadingActionCreators';
 import * as api from '../../api/Api';
 import { updateRoom } from './RoomActionCreators';
 import { Dispatch } from 'redux';
-import { IRoom, IRootState } from '../Types';
+import { IRoom, IRootState, IUser } from '../Types';
+import { updateUser } from '../User/UserActionCreators';
 
 export const createRoomAndStoreOperation = (roomName: string, userId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
@@ -103,6 +104,27 @@ export const addMemberToRoomAndStoreOperation = (roomId: string, userId: string)
     try {
       const response = await api.addMemberToRoomRequest(roomId, userId);
       dispatch(updateRoom(response));
+      return response;
+    } catch (error: any) {
+      console.log(error);
+      throw error;
+    } finally {
+      dispatch(toggleLoadingIndicator(false));
+    }
+  };
+};
+
+export const createUserAndRoomWithDiscussionOperation = (
+  userName: string,
+  roomName: string,
+  discussionName: string
+): any => {
+  return async (dispatch: Dispatch, getState: () => IRootState): Promise<{ user: IUser; room: IRoom }> => {
+    dispatch(toggleLoadingIndicator(true));
+    try {
+      const response = await api.createUserAndRoomWithDiscussionRequest(userName, roomName, discussionName);
+      dispatch(updateUser(response.user));
+      dispatch(updateRoom(response.room));
       return response;
     } catch (error: any) {
       console.log(error);

@@ -5,9 +5,9 @@ import { IDiscussion, IRoom, IUser } from '../../../store/Types';
 import './CompletedStoryRow.css';
 
 export interface ICompletedStoryRowProps {
-  user: IUser | null;
+  user: IUser;
   discussion: IDiscussion;
-  room: IRoom | null;
+  room: IRoom;
   onClick(storyName: string): void;
   onDelete(storyName: string): void;
 }
@@ -21,9 +21,9 @@ const CompletedStoryRow: React.FunctionComponent<ICompletedStoryRowProps> = (pro
     props.onDelete(props.discussion.id);
   };
 
-  const currentDiscussionIndex = props.room && props.room.discussions.length - 1;
+  const currentDiscussionIndex = props.room.discussions.length - 1;
   const currentDiscussion =
-    currentDiscussionIndex != undefined && props.room != undefined && currentDiscussionIndex >= 0
+    currentDiscussionIndex != undefined && currentDiscussionIndex >= 0
       ? props.room.discussions[currentDiscussionIndex]
       : null;
 
@@ -36,7 +36,7 @@ const CompletedStoryRow: React.FunctionComponent<ICompletedStoryRowProps> = (pro
         {props.discussion.averageResult ? props.discussion.averageResult : '0'}
       </td>
       <td className='completed_stories_cell_delete_story_button'>
-        {props.user && props.room && props.user.id === props.room.hostId && (
+        {props.user.id === props.room.hostId && (
           <DefaultButton
             className={
               currentDiscussion?.id !== props.discussion.id

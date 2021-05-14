@@ -47,3 +47,18 @@ export const closeDiscussionRequest = async (roomId: string, discussionId: strin
 export const deleteDiscussionRequest = async (roomId: string, discussionId: string, hostId: string): Promise<IRoom> => {
   return await post(`${baseUrl}/discussion/delete/?roomId=${roomId}&discussionId=${discussionId}&hostId=${hostId}`);
 };
+
+export const createUserAndRoomWithDiscussionRequest = async (
+  userName: string,
+  roomName: string,
+  discussionName: string
+): Promise<{ user: IUser; room: IRoom }> => {
+  const response = await post(
+    `${baseUrl}/room/CreateUserAndRoomWithDiscussion/?userName=${userName}&roomName=${roomName}&discussionName=${discussionName}`
+  );
+  authService.setToken(response.token);
+  return {
+    user: response.user,
+    room: response.room,
+  };
+};

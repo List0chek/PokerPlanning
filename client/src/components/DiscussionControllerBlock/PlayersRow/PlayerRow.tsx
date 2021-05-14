@@ -37,7 +37,7 @@ const PlayerRow: React.FunctionComponent<IPlayerRowProps> = (props) => {
       <td className='cell_user_icon'>
         <img src={cellUserIcon} alt='userIcon' width='42' height='42' />
       </td>
-      <td className='cell_username'>{props.user && props.user.name}</td>
+      <td className='cell_username'>{props.user.name}</td>
       <td className='cell_voted_icon'>
         {!props.isDiscussionClosed && props.isCardChecked === true && (
           <img src={checkCircle} alt='check_circle_icon' width='24' height='24' />

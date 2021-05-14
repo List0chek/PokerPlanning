@@ -2,7 +2,6 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import Board from '../../Board/Board';
 import DiscussionController from '../../DiscussionControllerBlock/DiscussionController';
-import CompletedStories from '../../CompletedStories/CompletedStories';
 import Modal from '../Modal/Modal';
 import StoryVoteResult from '../../StoryVoteResult/StoryVoteResult';
 import { IStoryVoteResultInfoRowProps } from '../../StoryVoteResult/VoteValueResultInfo/StoryVoteResultInfo';
@@ -10,6 +9,7 @@ import { ICard, IError, IRoom, IUser, IVote } from '../../../store/Types';
 import history from '../../../services/HistoryService';
 import { RoutePath } from '../../Routes';
 import '../Modal/Modal.css';
+import CompletedStories from '../../CompletedStories/CompletedStories';
 
 interface IMatchParams {
   id: string;
@@ -146,7 +146,7 @@ class RoomPageView extends React.Component<IRoomPageProps, IState> {
 
     if (this.props.user && currentDiscussion) {
       const { isModalOpen, openedDiscussionId } = this.state;
-      const { room } = this.props;
+      const { room, user } = this.props;
       return (
         <>
           <main className='main_main'>
@@ -162,6 +162,8 @@ class RoomPageView extends React.Component<IRoomPageProps, IState> {
                 />
               )}
               <DiscussionController
+                user={user}
+                room={room}
                 playersList={room.members}
                 url={window.location.href}
                 onEnterButtonClick={this.handleEnterButtonClick}
@@ -171,6 +173,8 @@ class RoomPageView extends React.Component<IRoomPageProps, IState> {
               />
             </div>
             <CompletedStories
+              user={user}
+              room={room}
               completedStoriesList={room.discussions.filter((item) => item.dateEnd != null)}
               onCompletedStoryClick={this.handleCompletedStoryClick}
               onDelete={this.handleStoryDetailsDeleteButtonClick}
@@ -179,6 +183,7 @@ class RoomPageView extends React.Component<IRoomPageProps, IState> {
           </main>
           {isModalOpen && (
             <Modal
+              room={room}
               playersList={room.members}
               openedDiscussionId={openedDiscussionId}
               onStoryDetailsCloseButtonClick={this.handleStoryDetailsCloseButtonClick}

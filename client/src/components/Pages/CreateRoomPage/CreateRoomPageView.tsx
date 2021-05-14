@@ -2,7 +2,7 @@ import React from 'react';
 import { RoutePath } from '../../Routes';
 import { RouteComponentProps } from 'react-router';
 import Form from '../../Form/Form';
-import { IDiscussion, IRoom, IUser } from '../../../store/Types';
+import { IRoom, IUser } from '../../../store/Types';
 
 const data = [
   {
@@ -26,9 +26,11 @@ const data = [
 ];
 
 interface IProps extends RouteComponentProps<any> {
-  createUser(userName: string): Promise<{ user: IUser; token: string }>;
-  createRoom(roomName: string, userId: string): Promise<IRoom>;
-  createDiscussion(roomId: string, topicName: string, userId: string): Promise<IDiscussion>;
+  createUserAndRoomWithDiscussion(
+    userName: string,
+    roomName: string,
+    discussionName: string
+  ): Promise<{ user: IUser; room: IRoom }>;
   room: IRoom;
   user: IUser;
 }
@@ -41,9 +43,7 @@ class CreateRoomPageView extends React.Component<IProps> {
 
   public async handleSubmit(inputUsernameValue: string, inputRoomnameValue: string, inputDiscussionName: string) {
     try {
-      await this.props.createUser(inputUsernameValue);
-      await this.props.createRoom(inputRoomnameValue, this.props.user.id);
-      await this.props.createDiscussion(this.props.room.id, inputDiscussionName, this.props.user.id);
+      await this.props.createUserAndRoomWithDiscussion(inputUsernameValue, inputRoomnameValue, inputDiscussionName);
       this.props.history.push(`${RoutePath.MAIN}/${this.props.room.id}`);
     } catch (error) {
       alert(error);

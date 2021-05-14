@@ -15,9 +15,9 @@ export interface ICompletedStory {
 interface IProps {
   completedStoriesList: Array<IDiscussion>;
 
-  user: IUser | null;
+  user: IUser;
 
-  room: IRoom | null;
+  room: IRoom;
 
   onCompletedStoryClick(storyName: string): void;
 
@@ -26,7 +26,7 @@ interface IProps {
   onDownload(): void;
 }
 
-const CompletedStoriesView: React.FunctionComponent<IProps> = (props) => {
+const CompletedStories: React.FunctionComponent<IProps> = (props) => {
   const handleCompletedStoryClick = (discussionId: string) => {
     props.onCompletedStoryClick(discussionId);
   };
@@ -67,20 +67,18 @@ const CompletedStoriesView: React.FunctionComponent<IProps> = (props) => {
       <div>
         <table className='players_table'>
           <tbody>
-            {props.user &&
-              props.room &&
-              props.completedStoriesList.map((item) => {
-                return (
-                  <CompletedStoryRow
-                    key={item.id}
-                    discussion={item}
-                    onClick={handleCompletedStoryClick}
-                    onDelete={handleDelete}
-                    user={props.user}
-                    room={props.room}
-                  />
-                );
-              })}
+            {props.completedStoriesList.map((item) => {
+              return (
+                <CompletedStoryRow
+                  key={item.id}
+                  discussion={item}
+                  onClick={handleCompletedStoryClick}
+                  onDelete={handleDelete}
+                  user={props.user}
+                  room={props.room}
+                />
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -88,4 +86,4 @@ const CompletedStoriesView: React.FunctionComponent<IProps> = (props) => {
   );
 };
 
-export default CompletedStoriesView;
+export default CompletedStories;

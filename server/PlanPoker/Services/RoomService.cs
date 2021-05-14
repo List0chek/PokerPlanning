@@ -20,14 +20,33 @@ namespace PlanPoker.Services
         private readonly IRepository<User> userRepository;
 
         /// <summary>
+        /// Экземпляр UserService.
+        /// </summary>
+        private readonly UserService userService;
+
+        /// <summary>
+        /// Экземпляр DiscussionService.
+        /// </summary>
+        private readonly DiscussionService discussionService;
+
+        /// <summary>
         /// Конструктор класса RoomService.
         /// </summary>
         /// <param name="roomRepository">Экземпляр InMemoryRoomRepository.</param>
         /// <param name="userRepository">Экземпляр InMemoryUserRepository.</param>
-        public RoomService(IRepository<Room> roomRepository, IRepository<User> userRepository)
+        /// <param name="userService">Экземпляр UserService.</param>
+        /// <param name="discussionService">Экземпляр DiscussionService.</param>
+        public RoomService(
+            IRepository<Room> roomRepository,
+            IRepository<User> userRepository,
+            UserService userService,
+            DiscussionService discussionService)
         {
+
             this.roomRepository = roomRepository;
             this.userRepository = userRepository;
+            this.userService = userService;
+            this.discussionService = discussionService;
         }
 
         /// <summary>
@@ -45,7 +64,7 @@ namespace PlanPoker.Services
             if (name is null || name == string.Empty)
             {
                 throw new UnauthorizedAccessException("Room name is not valid");
-            }     
+            }
 
             if (ownerToken is null || !owner.Token.Equals(ownerToken))
             {
@@ -128,6 +147,35 @@ namespace PlanPoker.Services
             {
                 throw new UnauthorizedAccessException("User does not belong to this room");
             }
+
+            return room;
+        }
+
+        /// <summary>
+        /// Позволяет создать пользователя, комнату и обсуждение.
+        /// </summary>
+        /// <param name="userName">Имя создателя комнаты.</param>
+        /// <param name="roomName">Имя комнаты.</param>
+        /// <param name="discussionName">Название обсуждения.</param>
+        /// <returns>Возвращает экземпляр Room.</returns>
+        public Room CreateUserAndRoomWithDiscussion(string userName, string roomName, string discussionName)
+        {
+            if (userName is null || userName == string.Empty)
+            {
+                throw new ArgumentException("Wrong username");
+            }
+            if (roomName is null || roomName == string.Empty)
+            {
+                throw new UnauthorizedAccessException("Room name is not valid");
+            }
+            if (discussionName is null || discussionName == string.Empty)
+            {
+                throw new UnauthorizedAccessException("Discussion topic name is not valid");
+            }
+
+            var user = this.userService.Create(userName);
+            var room = Create(roomName, user.Id, user.Token);
+            this.discussionService.Create(room.Id, discussionName, user.Id, user.Token);
 
             return room;
         }

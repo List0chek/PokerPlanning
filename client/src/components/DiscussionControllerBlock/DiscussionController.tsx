@@ -15,8 +15,8 @@ interface IProps {
 
   isDiscussionClosed: boolean;
   discussionName: string;
-  user: IUser | null;
-  room: IRoom | null;
+  user: IUser;
+  room: IRoom;
 }
 
 interface IState {
@@ -25,7 +25,7 @@ interface IState {
 
 const ButtonState: Array<string> = ['notClicked', 'FinishVotingIsClicked', 'NextIsClicked'];
 
-class DiscussionControllerView extends React.Component<IProps, IState> {
+class DiscussionController extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
@@ -53,9 +53,9 @@ class DiscussionControllerView extends React.Component<IProps, IState> {
   public render() {
     const { playersList, url, isDiscussionClosed, room, user } = this.props;
     const { buttonState } = this.state;
-    const currentDiscussionIndex = room && room.discussions.length - 1;
+    const currentDiscussionIndex = room.discussions.length - 1;
     const currentDiscussion =
-      currentDiscussionIndex != undefined && room != undefined && currentDiscussionIndex >= 0
+      currentDiscussionIndex != undefined && currentDiscussionIndex >= 0
         ? room.discussions[currentDiscussionIndex]
         : null;
     return (
@@ -67,9 +67,7 @@ class DiscussionControllerView extends React.Component<IProps, IState> {
         <div>
           <table className={'players_table'}>
             <tbody>
-              {room &&
-                user &&
-                currentDiscussion &&
+              {currentDiscussion &&
                 playersList.map((item) => {
                   const vote = currentDiscussion.votes.find((voteUser) => voteUser.user.id === item.id);
                   return (
@@ -85,9 +83,7 @@ class DiscussionControllerView extends React.Component<IProps, IState> {
             </tbody>
           </table>
           {/*Как вариант можно ставить условие так: buttonState == ButtonState[0] || buttonState == ButtonState[1], но тогда будет хуже читабельность кода*/}
-          {this.props.user &&
-            this.props.room &&
-            this.props.user.id === this.props.room.hostId &&
+          {this.props.user.id === this.props.room.hostId &&
             (buttonState == 'notClicked' || buttonState == 'FinishVotingIsClicked' ? (
               <DefaultButton
                 className='story_vote_button'
@@ -104,4 +100,4 @@ class DiscussionControllerView extends React.Component<IProps, IState> {
   }
 }
 
-export default DiscussionControllerView;
+export default DiscussionController;

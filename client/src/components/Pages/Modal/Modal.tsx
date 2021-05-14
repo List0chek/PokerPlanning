@@ -9,20 +9,17 @@ interface IProps {
 
   playersList: Array<IUser>;
 
-  room: IRoom | null;
+  room: IRoom;
 
   onStoryDetailsCloseButtonClick(): void;
 }
 
-const ModalView: React.FunctionComponent<IProps> = (props) => {
+const Modal: React.FunctionComponent<IProps> = (props) => {
   const handleStoryDetailsCloseButtonClick = () => {
     props.onStoryDetailsCloseButtonClick();
   };
 
-  let discussionInModal: IDiscussion | undefined;
-  if (props.room) {
-    discussionInModal = props.room.discussions.find((discussion) => discussion.id === props.openedDiscussionId);
-  }
+  const discussionInModal = props.room.discussions.find((discussion) => discussion.id === props.openedDiscussionId);
 
   return (
     <div className='modal_block_isOpened'>
@@ -34,16 +31,14 @@ const ModalView: React.FunctionComponent<IProps> = (props) => {
         <table className='players_table'>
           <tbody>
             {props.playersList.map((item) => {
-              if (props.room) {
-                return (
-                  <PlayerRow
-                    key={item.id}
-                    user={item}
-                    card={discussionInModal?.votes.find((vote) => vote.user.id === item.id)?.card}
-                    isDiscussionClosed={true}
-                  />
-                );
-              }
+              return (
+                <PlayerRow
+                  key={item.id}
+                  user={item}
+                  card={discussionInModal?.votes.find((vote) => vote.user.id === item.id)?.card}
+                  isDiscussionClosed={true}
+                />
+              );
             })}
           </tbody>
         </table>
@@ -55,4 +50,4 @@ const ModalView: React.FunctionComponent<IProps> = (props) => {
   );
 };
 
-export default ModalView;
+export default Modal;
