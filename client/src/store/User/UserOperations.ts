@@ -2,54 +2,36 @@ import * as api from '../../api/Api';
 import { Dispatch } from 'redux';
 import { IRootState, IUser } from '../Types';
 import { updateUser, deleteUser as deleteUserFromStore } from './UserActionCreators';
-import { toggleLoadingIndicator } from '../Loading/LoadingActionCreators';
 import { deleteRoom } from '../Room/RoomActionCreators';
+import { operationWithLoadingIndicatorWrapper } from '../Loading/OperationWrappers';
 
 export const loadUserAndStoreOperation = (): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IUser> => {
-    dispatch(toggleLoadingIndicator(true));
-    try {
+    return operationWithLoadingIndicatorWrapper(dispatch, async () => {
       const response = await api.getUserRequest();
       dispatch(updateUser(response));
       return response;
-    } catch (error: any) {
-      console.log(error);
-      throw error;
-    } finally {
-      dispatch(toggleLoadingIndicator(false));
-    }
+    });
   };
 };
 
 export const createUserAndStoreOperation = (userName: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IUser> => {
-    dispatch(toggleLoadingIndicator(true));
-    try {
+    return operationWithLoadingIndicatorWrapper(dispatch, async () => {
       const response = await api.createUserRequest(userName);
       dispatch(updateUser(response));
       return response;
-    } catch (error: any) {
-      console.log(error);
-      throw error;
-    } finally {
-      dispatch(toggleLoadingIndicator(false));
-    }
+    });
   };
 };
 
 export const deleteUserAndClearStoreOperation = (): any => {
   return async (dispatch: Dispatch, getState: () => IRootState) => {
-    dispatch(toggleLoadingIndicator(true));
-    try {
+    return operationWithLoadingIndicatorWrapper(dispatch, async () => {
       await api.deleteUserRequest();
       localStorage.clear();
       dispatch(deleteUserFromStore());
       dispatch(deleteRoom());
-    } catch (error: any) {
-      console.log(error);
-      throw error;
-    } finally {
-      dispatch(toggleLoadingIndicator(false));
-    }
+    });
   };
 };
