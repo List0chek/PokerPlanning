@@ -3,7 +3,7 @@ import { updateRoom } from './RoomActionCreators';
 import { Dispatch } from 'redux';
 import { IRoom, IRootState, IUser } from '../Types';
 import { updateUser } from '../User/UserActionCreators';
-import { operationWithLoadingIndicatorWrapper } from '../Loading/OperationWrappers';
+import { baseOperationWrapper, operationWithLoadingIndicatorWrapper } from '../Loading/OperationWrappers';
 
 export const createRoomAndStoreOperation = (roomName: string, userId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
@@ -27,14 +27,11 @@ export const setVoteAndStoreOperation = (discussionId: string, userId: string, c
 
 export const loadRoomAndStoreOperation = (roomId: string, userId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
-    try {
+    return baseOperationWrapper(dispatch, async () => {
       const response = await api.getRoomInfoRequest(roomId, userId);
       dispatch(updateRoom(response));
       return response;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+    });
   };
 };
 
