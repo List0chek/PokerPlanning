@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PlanPoker.DTO;
 using PlanPoker.DTO.Converters;
 using PlanPoker.Models;
 using PlanPoker.Services;
@@ -33,11 +34,14 @@ namespace PlanPoker.Controllers
         /// <param name="name">Имя пользователя.</param>
         /// <returns>Возвращает экземпляр UserDTO.</returns>
         [HttpPost]
-        public UserDTO Create(string name)
+        public UserWithTokenDTO Create(string name)
         {            
             var user = this.userService.Create(name);
-            Response.Headers.Add("token", user.Token);
-            return new UserDTOConverter().Convert(user);
+            return new UserWithTokenDTO()
+            {
+                User = new UserDTOConverter().Convert(user),
+                Token = user.Token
+            };
         }
 
         /// <summary>
@@ -52,6 +56,28 @@ namespace PlanPoker.Controllers
         {
             var user = this.userService.ChangeName(id, token, newName);
             return new UserDTOConverter().Convert(user);
+        }
+
+        /// <summary>
+        /// Возвращает пользователя.
+        /// </summary>
+        /// <param name="token">Токен пользователя.</param>
+        /// <returns>Возвращает экземпляр User.</returns>
+        [HttpGet]
+        public UserDTO Get([FromHeader]string token)
+        {
+            var user = this.userService.Get(token);
+            return new UserDTOConverter().Convert(user);
+        }
+
+        /// <summary>
+        /// Удаляет пользователя.
+        /// </summary>
+        /// <param name="token">Токен пользователя.</param>
+        [HttpGet]
+        public void Delete([FromHeader]string token)
+        {
+            this.userService.Delete(token);
         }
     }
 }

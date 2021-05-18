@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using PlanPoker.DTO;
+using System;
 
 namespace PlanPoker
 {
@@ -16,6 +16,7 @@ namespace PlanPoker
         /// <param name="context">Экземпляр ExceptionContext.</param>
         public void OnException(ExceptionContext context)
         {
+
             var dto = new ExceptionDTO()
             {
                 Message = context.Exception.Message
@@ -23,7 +24,7 @@ namespace PlanPoker
 
             context.Result = new JsonResult(dto)
             {
-                StatusCode = StatusCodes.Status500InternalServerError
+                StatusCode = (context.Exception is UnauthorizedAccessException) ? 401 : 500, 
             };
 
             context.ExceptionHandled = true;

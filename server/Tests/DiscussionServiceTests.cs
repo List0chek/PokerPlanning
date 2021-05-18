@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Tests
 {
-    class DiscussionServiceTests
+    public class DiscussionServiceTests
     {
         private InMemoryUserRepository userRepository;
         private InMemoryRoomRepository roomRepository;
@@ -102,27 +102,6 @@ namespace Tests
         }
 
         [Test]
-        public void ChangeVoteInDiscussionTest()
-        {
-            var discussion = this.discussionService.Create(this.room.Id, this.topicName, this.room.HostId, this.host.Token);
-            this.discussionService.SetVote(discussion.Id, this.room.HostId, this.card1.Id);
-
-            var votes = this.voteRepository.GetAll().Where(item => item.DiscussionId == discussion.Id).ToList();
-            var vote = votes.Find(item => item.UserId == this.room.HostId);
-
-            this.discussionService.ChangeVote(vote.Id, this.card2.Id, this.room.HostId);
-            var updatedVotes = this.voteRepository.GetAll().Where(item => item.DiscussionId == discussion.Id).ToList();
-            var updatedVote = updatedVotes.Find(item => item.UserId == this.room.HostId);
-
-            Assert.AreEqual(vote.Id, updatedVote.Id);
-            Assert.AreEqual(1, updatedVotes.Count());
-            Assert.AreEqual(this.card2, updatedVote.Card);
-            Assert.AreEqual(this.card2.Id, updatedVote.CardId);
-            Assert.AreEqual(this.room.Id, updatedVote.RoomId);
-            Assert.AreEqual(this.host.Id, updatedVote.UserId);
-        }
-
-        [Test]
         public void CloseDiscussionTest()
         {
             var discussion = this.discussionService.Create(this.room.Id, this.topicName, this.room.HostId, this.host.Token);
@@ -131,6 +110,15 @@ namespace Tests
             this.discussionService.Close(this.room.Id, discussion.Id, this.room.HostId);
 
             Assert.IsNotNull(discussion.DateEnd);
+        }
+
+        [Test]
+        public void DeleteDiscussionTest()
+        {
+            var discussion = this.discussionService.Create(this.room.Id, this.topicName, this.room.HostId, this.host.Token);
+            this.discussionService.Delete(this.room.Id, discussion.Id, this.room.HostId);
+            var isDiscussionDeleted = this.discussionRepository.Get(discussion.Id) == null;
+            Assert.IsTrue(isDiscussionDeleted);
         }
 
         [Test]

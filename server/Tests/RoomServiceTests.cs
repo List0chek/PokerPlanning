@@ -22,7 +22,7 @@ namespace Tests
         {
             this.roomRepository = new InMemoryRoomRepository();
             this.userRepository = new InMemoryUserRepository();
-            this.userService = new UserService(this.userRepository);
+            this.userService = new UserService(this.userRepository, this.roomRepository);
             this.ownerName = "ownerName";
             this.owner = this.userService.Create(this.ownerName);
 
@@ -47,7 +47,7 @@ namespace Tests
         {
             var room = this.roomService.Create(this.roomName, this.owner.Id, this.owner.Token);
             var newUser = this.userService.Create("newUserName");
-            this.roomService.AddMember(room.Id, newUser.Id, this.owner.Id);
+            this.roomService.AddMember(room.Id, newUser.Id);
 
             Assert.IsTrue(room.Members.Contains(this.owner));
             Assert.IsTrue(room.Members.Contains(newUser));

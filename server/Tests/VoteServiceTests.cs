@@ -37,7 +37,7 @@ namespace Tests
         [Test]
         public void CreateVoteTest()
         {
-            var vote = this.voteService.Create(this.card.Id, this.discussion.Id, this.user.Id);
+            var vote = this.voteService.SetVote(this.card.Id, this.discussion.Id, this.user.Id);
             Assert.IsNotNull(vote);
             Assert.AreEqual(this.card.Id, vote.Card.Id);
             Assert.AreEqual(this.card.Id, vote.CardId);
@@ -48,10 +48,10 @@ namespace Tests
         [Test]
         public void ChangeVoteTest()
         {
-            var vote = this.voteService.Create(this.card.Id, this.discussion.Id, this.user.Id);
+            var vote = this.voteService.SetVote(this.card.Id, this.discussion.Id, this.user.Id);
             var newCard = this.cardRepository.Create();
             this.cardRepository.Save(newCard);
-            var changedVote = this.voteService.Change(vote.Id, newCard.Id, this.user.Id);
+            var changedVote = this.voteService.SetVote(newCard.Id, this.discussion.Id, this.user.Id);
             Assert.IsNotNull(changedVote);
             Assert.AreEqual(vote.Id, changedVote.Id);
             Assert.AreEqual(newCard.Id, changedVote.Card.Id);
@@ -62,29 +62,13 @@ namespace Tests
         [Test]
         public void IsThrowExceptionOnInvalidValueTest()
         {
-            var vote = this.voteService.Create(this.card.Id, this.discussion.Id, this.user.Id);
+            var vote = this.voteService.SetVote(this.card.Id, this.discussion.Id, this.user.Id);
             var newCard = this.cardRepository.Create();
             this.cardRepository.Save(newCard);
-            Assert.Throws<ArgumentException>(() => this.voteService.Create(Guid.NewGuid(), this.discussion.Id, this.user.Id), "Card not found");
-            Assert.Throws<ArgumentException>(() => this.voteService.Create(this.card.Id, Guid.NewGuid(), this.user.Id), "Discussion not found");
-            Assert.Throws<ArgumentException>(() => this.voteService.Create(this.card.Id, this.discussion.Id, Guid.NewGuid()), "User not found");
-            Assert.Throws<ArgumentException>(
-                () =>
-                {
-                    var vote = this.voteService.Create(this.card.Id, this.discussion.Id, this.user.Id);
-                    this.voteService.Create(this.card.Id, this.discussion.Id, this.user.Id);
-                },
-                "User already did a vote");
-            Assert.Throws<ArgumentException>(() => this.voteService.Change(Guid.NewGuid(), newCard.Id, this.user.Id), "Vote not found");
-            Assert.Throws<ArgumentException>(() => this.voteService.Change(vote.Id, Guid.NewGuid(), this.user.Id), "Card not found");
-            Assert.Throws<ArgumentException>(() => this.voteService.Change(vote.Id, newCard.Id, Guid.NewGuid()), "User not found");
-            Assert.Throws<ArgumentException>(() =>
-            {
-                var fakeUser = this.userRepository.Create();
-                this.userRepository.Save(fakeUser);
-                this.voteService.Change(vote.Id, newCard.Id, fakeUser.Id);
-            },
-            "User is not valid");
+            Assert.Throws<ArgumentException>(() => this.voteService.SetVote(Guid.NewGuid(), this.discussion.Id, this.user.Id), "Card not found");
+            Assert.Throws<ArgumentException>(() => this.voteService.SetVote(this.card.Id, Guid.NewGuid(), this.user.Id), "Discussion not found");
+            Assert.Throws<ArgumentException>(() => this.voteService.SetVote(this.card.Id, this.discussion.Id, Guid.NewGuid()), "User not found");
+            Assert.Throws<ArgumentException>(() => this.voteService.SetVote(Guid.NewGuid(), newCard.Id, this.user.Id), "Vote not found");
         }
     }
 }

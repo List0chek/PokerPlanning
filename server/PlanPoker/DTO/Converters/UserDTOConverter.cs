@@ -1,5 +1,4 @@
 ﻿using PlanPoker.Models;
-using System.Net.Http.Headers;
 
 namespace PlanPoker.DTO.Converters
 {
@@ -15,11 +14,13 @@ namespace PlanPoker.DTO.Converters
         /// <returns>Экземпляр UserDTO.</returns>
         public UserDTO Convert(User user)
         {
-            return new UserDTO()
             {
-                Id = user.Id,
-                Name = user.Name
-            };
+                return new UserDTO()
+                {
+                    Id = user.Id,
+                    Name = user.Name
+                };
+            }
         }
     }
 }

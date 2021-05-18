@@ -48,6 +48,8 @@ namespace PlanPoker
             {
                 options.Filters.Add<CustomExceptionFilter>();
             });
+
+            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -58,6 +60,11 @@ namespace PlanPoker
             }
 
             app.UseRouting();
+
+            app.UseCors(builder => builder.AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin()
+            .WithExposedHeaders("token"));
 
             app.UseEndpoints(endpoints =>
             {
