@@ -5,7 +5,7 @@ import { updateUser, deleteUser as deleteUserFromStore } from './UserActionCreat
 import { deleteRoom } from '../Room/RoomActionCreators';
 import { operationWithLoadingIndicatorWrapper } from '../Loading/OperationWrappers';
 
-export const loadUserAndStoreOperation = (): any => {
+export const loadUserOperation = (): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IUser> => {
     return operationWithLoadingIndicatorWrapper(dispatch, async () => {
       const response = await api.getUserRequest();
@@ -15,7 +15,7 @@ export const loadUserAndStoreOperation = (): any => {
   };
 };
 
-export const createUserAndStoreOperation = (userName: string): any => {
+export const createUserOperation = (userName: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IUser> => {
     return operationWithLoadingIndicatorWrapper(dispatch, async () => {
       const response = await api.createUserRequest(userName);
@@ -25,7 +25,7 @@ export const createUserAndStoreOperation = (userName: string): any => {
   };
 };
 
-export const deleteUserAndClearStoreOperation = (): any => {
+export const deleteUserOperation = (): any => {
   return async (dispatch: Dispatch, getState: () => IRootState) => {
     return operationWithLoadingIndicatorWrapper(dispatch, async () => {
       await api.deleteUserRequest();

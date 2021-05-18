@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { IRootState } from '../../store/Types';
 import { Dispatch } from 'redux';
 import UserButtonView from './UserButtonView';
-import { deleteUserAndClearStoreOperation } from '../../store/User/UserOperations';
+import { deleteUserOperation } from '../../store/User/UserOperations';
 
 const mapStateToProps = (state: IRootState) => {
   return {
@@ -13,7 +13,7 @@ const mapStateToProps = (state: IRootState) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     deleteUser: async () => {
-      dispatch(await deleteUserAndClearStoreOperation());
+      dispatch(await deleteUserOperation());
     },
   };
 };

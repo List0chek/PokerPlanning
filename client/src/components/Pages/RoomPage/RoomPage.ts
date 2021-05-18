@@ -5,14 +5,14 @@ import { Dispatch, compose } from 'redux';
 import { IRootState } from '../../../store/Types';
 import RoomPageView from './RoomPageView';
 import {
-  addMemberToRoomAndStoreOperation,
-  closeDiscussionAndStoreOperation,
-  createDiscussionAndStoreOperation,
-  deleteDiscussionAndStoreOperation,
-  loadRoomAndStoreOperation,
-  setVoteAndStoreOperation,
+  addMemberToRoomOperation,
+  closeDiscussionOperation,
+  createDiscussionOperation,
+  deleteDiscussionOperation,
+  loadRoomOperation,
+  setVoteOperation,
 } from '../../../store/Room/RoomOperations';
-import { loadUserAndStoreOperation } from '../../../store/User/UserOperations';
+import { loadUserOperation } from '../../../store/User/UserOperations';
 
 const mapStateToProps = (state: IRootState) => {
   return {
@@ -25,25 +25,25 @@ const mapStateToProps = (state: IRootState) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     setVote: async (discussionId: string, userId: string, cardId: string) => {
-      return dispatch(await setVoteAndStoreOperation(discussionId, userId, cardId));
+      return dispatch(await setVoteOperation(discussionId, userId, cardId));
     },
     loadUser: async () => {
-      return dispatch(await loadUserAndStoreOperation());
+      return dispatch(await loadUserOperation());
     },
     loadRoomInfo: async (roomId: string, userId: string) => {
-      return dispatch(await loadRoomAndStoreOperation(roomId, userId));
+      return dispatch(await loadRoomOperation(roomId, userId));
     },
     closeDiscussion: async (roomId: string, discussionId: string, userId: string) => {
-      return dispatch(await closeDiscussionAndStoreOperation(roomId, discussionId, userId));
+      return dispatch(await closeDiscussionOperation(roomId, discussionId, userId));
     },
     createDiscussion: async (roomId: string, topicName: string, userId: string) => {
-      return dispatch(await createDiscussionAndStoreOperation(roomId, topicName, userId));
+      return dispatch(await createDiscussionOperation(roomId, topicName, userId));
     },
     deleteDiscussion: async (roomId: string, discussionId: string, userId: string) => {
-      return dispatch(await deleteDiscussionAndStoreOperation(roomId, discussionId, userId));
+      return dispatch(await deleteDiscussionOperation(roomId, discussionId, userId));
     },
     addMemberToRoom: async (roomId: string, userId: string) => {
-      return dispatch(await addMemberToRoomAndStoreOperation(roomId, userId));
+      return dispatch(await addMemberToRoomOperation(roomId, userId));
     },
   };
 };

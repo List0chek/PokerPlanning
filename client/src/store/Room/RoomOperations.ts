@@ -5,7 +5,7 @@ import { IRoom, IRootState, IUser } from '../Types';
 import { updateUser } from '../User/UserActionCreators';
 import { baseOperationWrapper, operationWithLoadingIndicatorWrapper } from '../Loading/OperationWrappers';
 
-export const createRoomAndStoreOperation = (roomName: string, userId: string): any => {
+export const createRoomOperation = (roomName: string, userId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
     return operationWithLoadingIndicatorWrapper(dispatch, async () => {
       const response = await api.createRoomRequest(roomName, userId);
@@ -15,7 +15,7 @@ export const createRoomAndStoreOperation = (roomName: string, userId: string): a
   };
 };
 
-export const setVoteAndStoreOperation = (discussionId: string, userId: string, cardId: string): any => {
+export const setVoteOperation = (discussionId: string, userId: string, cardId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
     return operationWithLoadingIndicatorWrapper(dispatch, async () => {
       const response = await api.setVoteRequest(discussionId, userId, cardId);
@@ -25,7 +25,7 @@ export const setVoteAndStoreOperation = (discussionId: string, userId: string, c
   };
 };
 
-export const loadRoomAndStoreOperation = (roomId: string, userId: string): any => {
+export const loadRoomOperation = (roomId: string, userId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
     return baseOperationWrapper(dispatch, async () => {
       const response = await api.getRoomInfoRequest(roomId, userId);
@@ -35,7 +35,7 @@ export const loadRoomAndStoreOperation = (roomId: string, userId: string): any =
   };
 };
 
-export const closeDiscussionAndStoreOperation = (roomId: string, discussionId: string, userId: string): any => {
+export const closeDiscussionOperation = (roomId: string, discussionId: string, userId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
     return operationWithLoadingIndicatorWrapper(dispatch, async () => {
       const response = await api.closeDiscussionRequest(roomId, discussionId, userId);
@@ -45,7 +45,7 @@ export const closeDiscussionAndStoreOperation = (roomId: string, discussionId: s
   };
 };
 
-export const createDiscussionAndStoreOperation = (roomId: string, topicName: string, userId: string): any => {
+export const createDiscussionOperation = (roomId: string, topicName: string, userId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
     return operationWithLoadingIndicatorWrapper(dispatch, async () => {
       const response = await api.createDiscussionRequest(roomId, topicName, userId);
@@ -55,7 +55,7 @@ export const createDiscussionAndStoreOperation = (roomId: string, topicName: str
   };
 };
 
-export const deleteDiscussionAndStoreOperation = (roomId: string, discussionId: string, userId: string): any => {
+export const deleteDiscussionOperation = (roomId: string, discussionId: string, userId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
     return operationWithLoadingIndicatorWrapper(dispatch, async () => {
       const response = await api.deleteDiscussionRequest(roomId, discussionId, userId);
@@ -65,7 +65,7 @@ export const deleteDiscussionAndStoreOperation = (roomId: string, discussionId: 
   };
 };
 
-export const addMemberToRoomAndStoreOperation = (roomId: string, userId: string): any => {
+export const addMemberToRoomOperation = (roomId: string, userId: string): any => {
   return async (dispatch: Dispatch, getState: () => IRootState): Promise<IRoom> => {
     return operationWithLoadingIndicatorWrapper(dispatch, async () => {
       const response = await api.addMemberToRoomRequest(roomId, userId);
