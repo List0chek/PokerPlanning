@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Task_4
 {
     public class Program
     {
         public static void Main(string[] args)
-        { 
+        {
             DataSetUtils.GetExampleDataSet();
-            
+
             ShowAccessCheckerExample();
             Console.WriteLine();
-            
-            DateAndRealNumbersFormatter.GetExampleOfDateFormatting(); 
+
+            DateAndRealNumbersFormatter.GetExampleOfDateFormatting();
             DateAndRealNumbersFormatter.GetExampleOfRealNumberFormatting();
 
             // Пример использования класса Logger.
@@ -25,7 +24,7 @@ namespace Task_4
             }
             Console.WriteLine();
 
-            StringConcatAnalyzer.StringConcatAnalyzeExmaple(); 
+            StringConcatAnalyzer.StringConcatAnalyzeExmaple();
         }
 
         public static void ShowAccessCheckerExample()
