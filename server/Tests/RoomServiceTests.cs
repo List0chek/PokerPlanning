@@ -10,9 +10,14 @@ namespace Tests
     {
         private InMemoryRoomRepository roomRepository;
         private InMemoryUserRepository userRepository;
+        private InMemoryDiscussionRepository discussionRepository;
+        private InMemoryVoteRepository voteRepository;
+        private InMemoryCardRepository cardRepository;
 
         private RoomService roomService;
+        private DiscussionService discussionService;
         private UserService userService;
+        private VoteService voteService;
         private User owner;
         private string ownerName;
         private string roomName;
@@ -22,12 +27,17 @@ namespace Tests
         {
             this.roomRepository = new InMemoryRoomRepository();
             this.userRepository = new InMemoryUserRepository();
+            this.discussionRepository = new InMemoryDiscussionRepository();
+            this.voteRepository = new InMemoryVoteRepository();
+            this.cardRepository = new InMemoryCardRepository();
+            this.voteService = new VoteService(this.voteRepository, this.cardRepository, this.discussionRepository, this.userRepository);
+            this.discussionService = new DiscussionService(this.discussionRepository, this.roomRepository, this.voteRepository, this.userRepository, this.voteService, this.cardRepository);
             this.userService = new UserService(this.userRepository, this.roomRepository);
             this.ownerName = "ownerName";
             this.owner = this.userService.Create(this.ownerName);
 
 
-            this.roomService = new RoomService(this.roomRepository, this.userRepository);
+            this.roomService = new RoomService(this.roomRepository, this.userRepository, this.userService, this.discussionService);
             this.roomName = "roomName";
         }
 
