@@ -1,6 +1,6 @@
-﻿using PlanPoker.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using PlanPoker.Models;
 
 namespace PlanPoker.DTO
 {

@@ -1,12 +1,12 @@
-﻿using DataService.Repositories;
+﻿using System;
+using DataService.Repositories;
 using NUnit.Framework;
 using PlanPoker.Models;
 using PlanPoker.Services;
-using System;
 
 namespace Tests
 {
-    public class VoteServiceTests
+    public sealed class VoteServiceTests
     {
         private InMemoryVoteRepository voteRepository;
         private InMemoryUserRepository userRepository;

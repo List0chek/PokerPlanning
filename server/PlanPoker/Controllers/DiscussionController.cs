@@ -1,10 +1,10 @@
-﻿using DataService;
+﻿using System;
+using DataService;
 using DataService.Models;
 using Microsoft.AspNetCore.Mvc;
 using PlanPoker.DTO.Converters;
 using PlanPoker.Models;
 using PlanPoker.Services;
-using System;
 
 namespace PlanPoker.Controllers
 {
@@ -87,7 +87,7 @@ namespace PlanPoker.Controllers
         /// <param name="token">Token ведущего.</param>
         /// <returns>Возвращает экземпляр RoomDTO.</returns>
         [HttpPost]
-        public RoomDTO Create(Guid roomId, string topic, Guid hostId, [FromHeader]string token)
+        public RoomDTO Create(Guid roomId, string topic, Guid hostId, [FromHeader] string token)
         {
             var discussion = this.discussionService.Create(roomId, topic, hostId, token);
             var room = this.roomService.GetRoomInfo(discussion.RoomId, hostId);

@@ -1,7 +1,7 @@
-﻿using DataService.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DataService.Models;
 
 namespace DataService.Repositories
 {

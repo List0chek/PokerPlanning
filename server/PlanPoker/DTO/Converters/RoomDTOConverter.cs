@@ -1,7 +1,7 @@
-﻿using DataService;
+﻿using System.Linq;
+using DataService;
 using DataService.Models;
 using PlanPoker.Models;
-using System.Linq;
 
 namespace PlanPoker.DTO.Converters
 {

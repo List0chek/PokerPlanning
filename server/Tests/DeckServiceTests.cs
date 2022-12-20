@@ -1,14 +1,14 @@
-﻿using DataService.Repositories;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using DataService.Repositories;
 using NUnit.Framework;
 using PlanPoker.Models;
 using PlanPoker.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Tests
 {
-    public class DeckServiceTests
+    public sealed class DeckServiceTests
     {
         private InMemoryDeckRepository deckRepository;
         private InMemoryCardRepository cardRepository;

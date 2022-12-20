@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using PlanPoker.DTO;
-using System;
 
 namespace PlanPoker
 {
@@ -24,7 +24,7 @@ namespace PlanPoker
 
             context.Result = new JsonResult(dto)
             {
-                StatusCode = (context.Exception is UnauthorizedAccessException) ? 401 : 500, 
+                StatusCode = (context.Exception is UnauthorizedAccessException) ? 401 : 500,
             };
 
             context.ExceptionHandled = true;

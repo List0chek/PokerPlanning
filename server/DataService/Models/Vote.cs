@@ -1,5 +1,5 @@
-﻿using DataService.Models;
-using System;
+﻿using System;
+using DataService.Models;
 
 namespace PlanPoker.Models
 {

@@ -1,9 +1,9 @@
-﻿using DataService;
-using DataService.Models;
-using PlanPoker.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DataService;
+using DataService.Models;
+using PlanPoker.Models;
 
 namespace PlanPoker.Services
 {
@@ -73,7 +73,7 @@ namespace PlanPoker.Services
             var deck = this.deckRepository
                 .GetAll()
                 .Where(item => item.Name.Contains("defaultDeck"))
-                .FirstOrDefault() ?? throw new ArgumentException("Something went wrong, so we can't find the default deck"); 
+                .FirstOrDefault() ?? throw new ArgumentException("Something went wrong, so we can't find the default deck");
             return deck;
         }
     }

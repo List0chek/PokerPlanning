@@ -1,11 +1,11 @@
-﻿using DataService;
+﻿using System;
+using System.Collections.Generic;
+using DataService;
 using Microsoft.AspNetCore.Mvc;
 using PlanPoker.DTO;
 using PlanPoker.DTO.Converters;
 using PlanPoker.Models;
 using PlanPoker.Services;
-using System;
-using System.Collections.Generic;
 
 namespace PlanPoker.Controllers
 {
